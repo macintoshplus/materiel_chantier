@@ -1,0 +1,307 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Doublage de mur{% endblock %}
+
+{% block body %}
+    <h1>Calcul d’un doublage de mur</h1>
+
+    {{ form_start(form, { attr: { 'data-turbo': 'false' } }) }}
+    <fieldset>
+        <a class="" data-bs-toggle="collapse" href="#collapseCatalogue" role="button" aria-expanded="false"
+           aria-controls="collapseCatalogue">
+            <legend>Catalogue</legend>
+        </a>
+        <div class="collapse" id="collapseCatalogue">
+            <div class="card card-body d-flex flex-row gap-2 bg-transparent">
+                <fieldset>
+                    <legend>Montant</legend>
+                    {{ form_row(form.catalogue.montant.longueur) }}
+                    {{ form_row(form.catalogue.montant.largeur) }}
+                    {{ form_row(form.catalogue.montant.entraxe) }}
+                    {{ form_row(form.catalogue.montant.prix) }}
+                    {{ form_row(form.catalogue.montant.uniteParLot) }}
+                </fieldset>
+                <fieldset>
+                    <legend>Rail</legend>
+                    {{ form_row(form.catalogue.rail.longueur) }}
+                    {{ form_row(form.catalogue.rail.largeur) }}
+                    {{ form_row(form.catalogue.rail.prix) }}
+                    {{ form_row(form.catalogue.rail.uniteParLot) }}
+                </fieldset>
+                <fieldset>
+                    <legend>AppuisIntermediaire</legend>
+                    {{ form_row(form.catalogue.appuisIntermediaire.prix) }}
+                    {{ form_row(form.catalogue.appuisIntermediaire.uniteParLot) }}
+                </fieldset>
+            </div>
+        </div>
+    </fieldset>
+    <fieldset>
+        <a class="" data-bs-toggle="collapse" href="#collapseMur" role="button" aria-expanded="false"
+           aria-controls="collapseMur">
+            <legend>Mur</legend>
+        </a>
+        <div class="collapse" id="collapseMur">
+            <div class="card card-body bg-transparent">
+            <div class="d-flex flex-row gap-2">
+                {{ form_row(form.largeur) }}
+                {{ form_row(form.hauteur) }}
+            </div>
+            <div class="d-flex flex-row gap-2">
+                {{ form_row(form.ecartement) }}
+                {{ form_row(form.ecartDebut) }}
+                {{ form_row(form.ecartFin) }}
+
+            </div>
+            <div class="d-flex flex-row gap-2">
+                {{ form_row(form.typeStructure) }}
+            </div></div>
+        </div>
+    </fieldset>
+
+    <fieldset
+        data-controller="ouvertures"
+        data-ouvertures-index-value="{{ form.ouvertures|length }}"
+    >
+
+        <a class="" data-bs-toggle="collapse" href="#collapseOuverture" role="button" aria-expanded="false"
+           aria-controls="collapseOuverture">
+            <legend>Ouvertures</legend>
+        </a>
+
+        <div class="collapse" id="collapseOuverture">
+
+            <div
+                data-ouvertures-target="container"
+                data-prototype="{{ form_widget(form.ouvertures.vars.prototype)|e('html_attr') }}"
+            >
+                {% for ouverture in form.ouvertures %}
+                    <div class="ouverture-item card card-body bg-transparent mt-3">
+                        {{ form_row(ouverture) }}
+                        <div class="text-end">
+
+                            <button type="button" class="btn btn-danger btn-sm" onclick="this.parentElement.remove()">
+                                Supprimer
+                            </button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <button
+                type="button"
+                class="btn btn-secondary mt-2"
+                data-action="ouvertures#add"
+            >
+                + Ajouter une ouverture
+            </button>
+    </fieldset>
+    </div>
+    <button class="btn btn-primary">Calculer</button>
+
+    {{ form_end(form) }}
+
+    {% if resultats %}
+        <hr>
+        <h2>Résultats</h2>
+        <ul>
+            <li>Surface mur brute : {{ resultats.surface_mur }} m²</li>
+            <li>Surface ouvertures : {{ resultats.surface_ouvertures }} m²</li>
+            <li>Surface nette à doubler : {{ resultats.surface_nette }} m²</li>
+        </ul>
+    {% endif %}
+
+    {% if svg %}
+        <hr>
+        <h2>Vue du mur (plan)</h2>
+
+        {% set scale = 100 %} {# 100 px = 1 m #}
+        {% set largeurPx = svg.mur.largeur * scale %}
+        {% set hauteurPx = svg.mur.hauteur * scale %}
+
+        <svg
+            width="{{ largeurPx }}"
+            height="{{ hauteurPx }}"
+            viewBox="0 0 {{ largeurPx }} {{ hauteurPx }}"
+            style="border:1px solid #333; background:#f8f9fa"
+        >
+            {# Mur #}
+            <rect
+                x="0"
+                y="0"
+                width="{{ largeurPx }}"
+                height="{{ hauteurPx }}"
+                fill="#e0e0e0"
+                stroke="#000"
+                stroke-width="2"
+            />
+
+            {# Rails #}
+            {% for rail in svg.ossature.rails %}
+                {% set y = (svg.mur.hauteur - rail.y) * scale %}
+                <line
+                    x1="{{ rail.x * scale }}"
+                    y1="{{ y }}"
+                    x2="{{ (rail.x + rail.longueur) * scale }}"
+                    y2="{{ y }}"
+                    stroke="#ad42f5"
+                    stroke-width="6"
+                />
+            {% endfor %}
+
+            {# Rails appuis #}
+            {% if svg.ossature.rail_appuis is defined %}
+                {% for k,m in svg.ossature.rail_appuis %}
+                    {% set x = m.x * scale %}
+                    <line
+                        x1="{{ x }}"
+                        y1="{{ 1.2 * scale }}"
+                        x2="{{ x + (m.hauteur * scale) }}"
+                        y2="{{ 1.2 * scale }}"
+                        stroke="#a87732"
+                        stroke-width="4"
+                    />
+                {% endfor %}
+            {% endif %}
+
+            {# Appuis #}
+            {% if svg.ossature.appuis is defined %}
+                {% for m in svg.ossature.appuis %}
+                    <circle cx="{{ m.x * scale }}" cy="{{ m.y * scale }}" r="6" fill="#3434eb" />
+                {% endfor %}
+            {% endif %}
+
+            {# Montants #}
+            {% for m in svg.ossature.montants %}
+                {% set x = m.x * scale %}
+                <line
+                    x1="{{ x }}"
+                    y1="0"
+                    x2="{{ x }}"
+                    y2="{{ hauteurPx }}"
+                    stroke="#2a9d8f"
+                    stroke-width="4"
+                />
+            {% endfor %}
+
+            {# Ouvertures #}
+            {% for o in svg.mur.ouvertures %}
+                {% set x = o.distance_gauche * scale %}
+                {% set y = (svg.mur.hauteur - o.elevation - o.hauteur) * scale %}
+                {% set w = o.largeur * scale %}
+                {% set h = o.hauteur * scale %}
+
+                <rect
+                    x="{{ x }}"
+                    y="{{ y }}"
+                    width="{{ w }}"
+                    height="{{ h }}"
+                    fill="{{ o.type == 'porte' ? '#8ecae6' : '#ffd166' }}"
+                    stroke="#000"
+                    stroke-width="2"
+                />
+
+                <text
+                    x="{{ x + w / 2 }}"
+                    y="{{ y + h / 2 }}"
+                    font-size="12"
+                    text-anchor="middle"
+                    dominant-baseline="middle"
+                    fill="#000"
+                >
+                    {{ o.type|capitalize }}
+                </text>
+            {% endfor %}
+        </svg>
+    {% endif %}
+
+    {% if bom is defined and bom|length > 0 %}
+        <hr>
+        <h2>Bordereau de matériaux (BOM)</h2>
+
+        <table class="table table-bordered table-striped table-sm align-middle">
+            <thead class="table-dark">
+            <tr>
+                <th>Profil</th>
+                <th>Type</th>
+                <th>Éléments</th>
+                <th>Longueur unitaire (m)</th>
+                <th>Longueur utile (m)</th>
+                <th>Nombre nécessaires</th>
+                <th>Longueur achetée (m)</th>
+                <th>Chutes (m)</th>
+                <th>Perte (%)</th>
+                <th>Nombre de lot à acheter</th>
+                <th>Prix</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for ligne in bom %}
+                <tr>
+                    <td><strong>{{ ligne.type }}</strong></td>
+                    <td>{{ ligne.categorie|capitalize }}</td>
+                    <td class="text-end">{{ ligne.elements }}</td>
+                    <td class="text-end">{{ ligne.longueur_unitaire|number_format(2, ',', ' ') }}</td>
+                    <td class="text-end">{{ ligne.longueur_totale|number_format(2, ',', ' ') }}</td>
+                    <td class="text-end">{{ ligne.barres_necessaires }}</td>
+                    <td class="text-end">{{ ligne.longueur_achetee|number_format(2, ',', ' ') }}</td>
+                    <td class="text-end">
+                        {% if ligne.chute > 0 %}
+                            {{ ligne.chute|number_format(2, ',', ' ') }}
+                        {% else %}
+                            0,00
+                        {% endif %}
+                    </td>
+                    <td class="text-end">
+                        <span class="
+                            {% if ligne.taux_perte < 5 %}
+                                text-success
+                            {% elseif ligne.taux_perte < 10 %}
+                                text-warning
+                            {% else %}
+                                text-danger
+                            {% endif %}
+                        ">
+                            {{ ligne.taux_perte|number_format(1, ',', ' ') }} %
+                        </span>
+                    </td>
+                    <td class="text-end">{{ ligne.nombre_lot }}</td>
+                    <td class="text-end">{{ ligne.prix_total|number_format(2, ',', ' ') }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot class="table-light">
+            <tr>
+                <th colspan="6" class="text-end">TOTAL</th>
+                <th class="text-end">
+                    {{ bom|reduce((carry, l) => carry + l.longueur_achetee, 0)|number_format(2, ',', ' ') }}
+                </th>
+                <th class="text-end">
+                    {{ bom|reduce((carry, l) => carry + l.chute, 0)|number_format(2, ',', ' ') }}
+                </th>
+                <th></th>
+                <th></th>
+                <th class="text-end">
+                    {{ bom|reduce((carry, l) => carry + l.prix_total, 0)|number_format(2, ',', ' ') }}
+                </th>
+            </tr>
+            </tfoot>
+        </table>
+    {% endif %}
+    <p>Reste à faire</p>
+    <ul>
+        <li>Ajouter calcul
+            <ul>
+                <li>Isolant</li>
+                <li>Placo</li>
+                <li>Vis</li>
+                <li>Longeur bande à joint (ajouter data sur type de joint haut et bas, ajouter
+                    type de joint contour des ouvrants)
+                </li>
+                <li>Longeur bande à joint armée</li>
+            </ul>
+        </li>
+        <li>Tenir compte des ouvrants qui touche un côté du mur dans les calculs des matériaux</li>
+        <li></li>
+    </ul>
+{% endblock %}
