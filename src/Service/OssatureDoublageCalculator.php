@@ -10,6 +10,7 @@ namespace App\Service;
 
 
 use App\Model\Catalogue\Montant;
+use App\Model\Catalogue\PlaquePlatre;
 use App\Model\Chantier\Appuis;
 use App\Model\Chantier\Montant as MontantChantier;
 use App\Model\Mur;
@@ -21,9 +22,9 @@ final class OssatureDoublageCalculator implements OssatureCalculatorInterface
     {
     }
 
-    public function calculer(Mur $mur, Montant $montant): array
+    public function calculer(Mur $mur, Montant $montant, PlaquePlatre $plaquePlatre): array
     {
-        $result = $this->calculator->calculer($mur, $montant);
+        $result = $this->calculator->calculer($mur, $montant, $plaquePlatre);
 
         $longeurMax = $mur->getLargeur() - $mur->getEcartDebutEnMetre() - $mur->getEcartFinEnMetre();
 

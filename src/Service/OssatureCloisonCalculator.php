@@ -4,6 +4,8 @@ namespace App\Service;
 
 use App\Model\Catalogue\Montant;
 use App\Model\Chantier\Montant as MontantChantier;
+use App\Model\Catalogue\PlaquePlatre;
+use App\Model\Chantier\PlaquePlatre as PlaquePlatreChantier;
 use App\Model\Chantier\Rail;
 use App\Model\Mur;
 
@@ -12,6 +14,7 @@ class OssatureCloisonCalculator implements OssatureCalculatorInterface
     public function calculer(
         Mur $mur,
         Montant $montant,
+        PlaquePlatre $plaquePlatre
     ): array {
 
         $largeurMur = $mur->getLargeur();
@@ -101,7 +104,7 @@ class OssatureCloisonCalculator implements OssatureCalculatorInterface
         }
 
         //Montant final
-        $montants[] =  new MontantChantier(
+        $montants[] = new MontantChantier(
             id: 'Montant final',
             x: $largeurMur - $ecartementDroite,
             y: 0,
@@ -112,7 +115,7 @@ class OssatureCloisonCalculator implements OssatureCalculatorInterface
         //Montant gauche et droite des ouvertures
         foreach ($ouvertures as $o) {
             if ($this->checkMontantExists($montants, $o['distance_gauche'], $montant) === false) {
-                $montants[] =  new MontantChantier(
+                $montants[] = new MontantChantier(
                     id: 'montant gauche ouverture',
                     x: $o['distance_gauche'],
                     y: 0,
@@ -121,7 +124,7 @@ class OssatureCloisonCalculator implements OssatureCalculatorInterface
                 );
             }
             if ($this->checkMontantExists($montants, $o['distance_gauche'] + $o['largeur'], $montant) === false) {
-                $montants[] =  new MontantChantier(
+                $montants[] = new MontantChantier(
                     id: 'montant droit ouverture',
                     x: $o['distance_gauche'] + $o['largeur'],
                     y: 0,
@@ -131,9 +134,105 @@ class OssatureCloisonCalculator implements OssatureCalculatorInterface
             }
         }
 
+        $contourOuvrant = [];
+        foreach ($ouvertures as $k => $o) {
+            if ($o['type_pose'] === 'applique') {
+                continue;
+            }
+            //Gauche
+            $contourOuvrant[] = new PlaquePlatreChantier(
+                id: 'countour ouvrant ' . $k . ' gauche',
+                x: $o['distance_gauche'],
+                y: $o['elevation'],
+                longeur: $o['hauteur'],
+                largeur: $o['refoncement_ouvrant'],
+                typeJointGauche: $o['type_contour'] === 'plaque-platre' ? PlaquePlatreChantier::TYPE_JOINT_SORTANT : PlaquePlatreChantier::TYPE_JOINT_AUCUN,
+                typeJointDroit: PlaquePlatreChantier::TYPE_JOINT_AUCUN,
+                typeJointHaut: $o['type_contour'] === 'plaque-platre' ? PlaquePlatreChantier::TYPE_JOINT_ENTRANT : PlaquePlatreChantier::TYPE_JOINT_AUCUN,
+                typeJointBas: $o['type_contour'] === 'plaque-platre' && $o['type'] === 'fenetre' ? PlaquePlatreChantier::TYPE_JOINT_ENTRANT : PlaquePlatreChantier::TYPE_JOINT_AUCUN,
+            );
+            //Droit
+            $contourOuvrant[] = new PlaquePlatreChantier(
+                id: 'countour ouvrant ' . $k . ' droit',
+                x: $o['distance_gauche'] + $o['largeur'],
+                y: $o['elevation'],
+                longeur: $o['hauteur'],
+                largeur: $o['refoncement_ouvrant'],
+                typeJointGauche: PlaquePlatreChantier::TYPE_JOINT_AUCUN,
+                typeJointDroit: $o['type_contour'] === 'plaque-platre' ? PlaquePlatreChantier::TYPE_JOINT_SORTANT : PlaquePlatreChantier::TYPE_JOINT_AUCUN,
+                typeJointHaut: $o['type_contour'] === 'plaque-platre' ? PlaquePlatreChantier::TYPE_JOINT_ENTRANT : PlaquePlatreChantier::TYPE_JOINT_AUCUN,
+                typeJointBas: $o['type_contour'] === 'plaque-platre' && $o['type'] === 'fenetre' ? PlaquePlatreChantier::TYPE_JOINT_ENTRANT : PlaquePlatreChantier::TYPE_JOINT_AUCUN,
+            );
+            //Haut
+            $contourOuvrant[] = new PlaquePlatreChantier(
+                id: 'countour ouvrant ' . $k . ' haut',
+                x: $o['distance_gauche'],
+                y: $o['elevation'] + $o['hauteur'],
+                longeur: $o['largeur'],
+                largeur: $o['refoncement_ouvrant'],
+                typeJointGauche: $o['type_contour'] === 'plaque-platre' ? PlaquePlatreChantier::TYPE_JOINT_SORTANT : PlaquePlatreChantier::TYPE_JOINT_AUCUN,
+                typeJointDroit: PlaquePlatreChantier::TYPE_JOINT_AUCUN,
+                typeJointHaut: $o['type_contour'] === 'plaque-platre' ? PlaquePlatreChantier::TYPE_JOINT_ENTRANT : PlaquePlatreChantier::TYPE_JOINT_AUCUN,
+                typeJointBas: $o['type_contour'] === 'plaque-platre' ? PlaquePlatreChantier::TYPE_JOINT_ENTRANT : PlaquePlatreChantier::TYPE_JOINT_AUCUN,
+            );
+            if ($o['type'] === 'porte') {
+                continue;
+            }
+            //Bas
+            $contourOuvrant[] = new PlaquePlatreChantier(
+                id: 'countour ouvrant ' . $k . ' bas',
+                x: $o['distance_gauche'],
+                y: $o['elevation'],
+                longeur: $o['largeur'],
+                largeur: $o['refoncement_ouvrant'],
+                typeJointGauche: PlaquePlatreChantier::TYPE_JOINT_AUCUN,
+                typeJointDroit: $o['type_contour'] === 'plaque-platre' ? PlaquePlatreChantier::TYPE_JOINT_SORTANT : PlaquePlatreChantier::TYPE_JOINT_AUCUN,
+                typeJointHaut: $o['type_contour'] === 'plaque-platre' ? PlaquePlatreChantier::TYPE_JOINT_ENTRANT : PlaquePlatreChantier::TYPE_JOINT_AUCUN,
+                typeJointBas: $o['type_contour'] === 'plaque-platre' ? PlaquePlatreChantier::TYPE_JOINT_ENTRANT : PlaquePlatreChantier::TYPE_JOINT_AUCUN,
+            );
+        }
+
+        $plaquePlatres = $contourOuvrant;
+
+        $cols = ceil($largeurMurADoubler / $plaquePlatre->getLargeur());
+        $rows = ceil($mur->getHauteur() / $plaquePlatre->getLongueur());
+
+        $id = 1;
+
+
+        for ($r = 0; $r < $rows; $r++) {
+            for ($c = 0; $c < $cols; $c++) {
+
+                // Position globale plaque
+                $x1 = $c * $plaquePlatre->getLargeur();
+                $y1 = $r * $plaquePlatre->getLongueur();
+
+                $x2 = min($x1 + $plaquePlatre->getLargeur(), $largeurMurADoubler);
+                $y2 = min($y1 + $plaquePlatre->getLongueur(), $mur->getHauteur());
+
+                $width = $x2 - $x1;
+                $height = $y2 - $y1;
+
+                $plaquePlatres[] = new PlaquePlatreChantier(
+                    id: 'plaque ' . $id++ . ' ligne ' . ($r + 1) . ' colonne ' . ($c + 1),
+                    x: round($x1, 3),
+                    y: round($y1, 3),
+                    longeur: round($height, 3),
+                    largeur: round($width, 3),
+                    typeJointGauche: $r > 0 ? PlaquePlatreChantier::TYPE_JOINT_ENTRANT : PlaquePlatreChantier::TYPE_JOINT_AUCUN,
+                    typeJointDroit: $width < $plaquePlatre->getLargeur() ? PlaquePlatreChantier::TYPE_JOINT_AUCUN : PlaquePlatreChantier::TYPE_JOINT_ENTRANT,
+                    typeJointHaut: $height < $plaquePlatre->getLongueur() ? PlaquePlatreChantier::TYPE_JOINT_AUCUN : PlaquePlatreChantier::TYPE_JOINT_ENTRANT,
+                    typeJointBas: $c > 0 ? PlaquePlatreChantier::TYPE_JOINT_ENTRANT : PlaquePlatreChantier::TYPE_JOINT_AUCUN,
+                );
+            }
+        }
+
+
         return [
             'rails' => $rails,
             'montants' => $montants,
+            'contour_ouvrant' => $contourOuvrant,
+            'plaque_platres' => $plaquePlatres,
         ];
     }
 

@@ -10,15 +10,19 @@ namespace App\Service;
 
 use App\Model\Catalogue\ContientPrixInterface;
 use App\Model\Catalogue\LongueurInterface;
+use App\Model\Chantier\Appuis;
 use App\Model\Chantier\Montant;
+use App\Model\Chantier\PlaquePlatre;
 use App\Model\Chantier\Rail;
 use App\Model\Mur;
 
 final class MateriauxCalculator
 {
     /**
+     * @param Appuis[] $appuis
      * @param Montant[] $montants
      * @param Rail[] $rails
+     * @param PlaquePlatre[] $plaquePlatres ,
      * @param array<string,ContientPrixInterface & LongueurInterface> $longueursStandard
      *        ex: ['M48' => 2.60, 'R48' => 3.00]
      */
@@ -26,6 +30,7 @@ final class MateriauxCalculator
         array $appuis,
         array $montants,
         array $rails,
+        array $plaquePlatres,
         array $longueursStandard
     ): array {
         $groupes = [];
@@ -70,6 +75,46 @@ final class MateriauxCalculator
                 'taux_perte' => $tauxPerte
             ];
         }
+
+        if (\count($plaquePlatres) > 0) {
+            foreach ($plaquePlatres as $plaquePlatre) {
+                $this->ajouterElement(
+                    $groupes,
+                    'plaque-platre',
+                    $plaquePlatre->longeur,
+                );
+                if ($plaquePlatre->typeJointDroit !== PlaquePlatre::TYPE_JOINT_AUCUN) {
+                    $this->ajouterElement(
+                        $groupes,
+                        'joint-' . ($plaquePlatre->typeJointDroit === PlaquePlatre::TYPE_JOINT_SORTANT ? 'armee' : 'plat'),
+                        $plaquePlatre->longeur,
+                    );
+                }
+                if ($plaquePlatre->typeJointGauche !== PlaquePlatre::TYPE_JOINT_AUCUN) {
+                    $this->ajouterElement(
+                        $groupes,
+                        'joint-' . ($plaquePlatre->typeJointGauche === PlaquePlatre::TYPE_JOINT_SORTANT ? 'armee' : 'plat'),
+                        $plaquePlatre->longeur,
+                    );
+                }
+                if ($plaquePlatre->typeJointHaut !== PlaquePlatre::TYPE_JOINT_AUCUN) {
+                    $this->ajouterElement(
+                        $groupes,
+                        'joint-' . ($plaquePlatre->typeJointHaut === PlaquePlatre::TYPE_JOINT_SORTANT ? 'armee' : 'plat'),
+                        $plaquePlatre->largeur,
+                    );
+                }
+                if ($plaquePlatre->typeJointBas !== PlaquePlatre::TYPE_JOINT_AUCUN) {
+                    $this->ajouterElement(
+                        $groupes,
+                        'joint-' . ($plaquePlatre->typeJointBas === PlaquePlatre::TYPE_JOINT_SORTANT ? 'armee' : 'plat'),
+                        $plaquePlatre->largeur,
+                    );
+                }
+
+            }
+        }
+
         foreach ($groupes as $type => $groupe) {
             $materiel = $longueursStandard[$type]
                 ?? throw new \LogicException("Longueur standard manquante pour $type");

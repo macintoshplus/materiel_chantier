@@ -9,9 +9,10 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Model\Catalogue\Montant;
+use App\Model\Catalogue\PlaquePlatre;
 use App\Model\Mur;
 
 interface OssatureCalculatorInterface
 {
-    public function calculer(Mur $mur, Montant $montant): array;
+    public function calculer(Mur $mur, Montant $montant, PlaquePlatre $plaquePlatre): array;
 }

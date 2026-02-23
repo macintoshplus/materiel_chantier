@@ -11,7 +11,10 @@ namespace App\Controller;
 
 use App\Form\DoublageType;
 use App\Model\Catalogue\AppuisIntermediaire;
+use App\Model\Catalogue\BandeAJointArmee;
+use App\Model\Catalogue\BandeAJointPlat;
 use App\Model\Catalogue\Montant;
+use App\Model\Catalogue\PlaquePlatre;
 use App\Model\Catalogue\Rail;
 use App\Model\Mur;
 use App\Service\MateriauxCalculator;
@@ -42,6 +45,9 @@ class DoublageController extends AbstractController
             'hauteur' => 1.2,
             'distance_gauche' => 1,
             'elevation' => 0.8,
+            'type_pose' => 'tunel',
+            'type_contour' => 'plaque-platre',
+            'refoncement_ouvrant' => 0.5,
         ]);
         $mur->addOuverture([
             'type' => 'porte',
@@ -49,6 +55,9 @@ class DoublageController extends AbstractController
             'hauteur' => 2.05,
             'distance_gauche' => 3,
             'elevation' => 0,
+            'type_pose' => 'tunel',
+            'type_contour' => 'plaque-platre',
+            'refoncement_ouvrant' => 0.5,
         ]);
 
         $montant = new Montant();
@@ -64,10 +73,30 @@ class DoublageController extends AbstractController
         $appuisIntermediaire->setPrix(58.20);
         $appuisIntermediaire->setUniteParLot(50);
 
+        $bandeJoinPlat = new BandeAJointPlat();
+        $bandeJoinPlat->setLongueur(75);
+        $bandeJoinPlat->setPrix(59.00);
+        $bandeJoinPlat->setUniteParLot(5);
+
+        $bandeJoinArmee = new BandeAJointArmee();
+        $bandeJoinArmee->setLongueur(30);
+        $bandeJoinArmee->setPrix(63.90);
+        $bandeJoinArmee->setUniteParLot(3);
+
+        $plaquePlatre = new PlaquePlatre();
+        $plaquePlatre->setLongueur(2.5);
+        $plaquePlatre->setLargeur(1.2);
+        $plaquePlatre->setType(PlaquePlatre::TYPE_STD);
+        $plaquePlatre->setPrix(7.95);
+        $plaquePlatre->setUniteParLot(1);
+
         $mur->setCatalogue([
             'montant' => $montant,
             'rail' => $rail,
-            'appuisIntermediaire'=>$appuisIntermediaire,
+            'appuisIntermediaire' => $appuisIntermediaire,
+            'bandeAJoinPlat' => $bandeJoinPlat,
+            'bandeAJoinArmee' => $bandeJoinArmee,
+            'plaquePlatre' => $plaquePlatre,
         ]);
 
         $form = $this->createForm(DoublageType::class, $mur);
@@ -88,21 +117,27 @@ class DoublageController extends AbstractController
             $ossature = match ($mur->getTypeStructure()) {
                 Mur::TYPE_CLOISON => $ossatureCloisonCalculator->calculer(
                     $mur,
-                    $montant
+                    $montant,
+                    $plaquePlatre
                 ),
                 Mur::TYPE_DOUBLAGE => $ossatureDoublageCalculator->calculer(
                     $mur,
-                    $montant
+                    $montant,
+                    $plaquePlatre
                 )
             };
             $optimisation = $materiauxCalculator->calculer(
-                $ossature['appuis'] ?? [],
-                array_merge($ossature['montants'], $ossature['rail_appuis'] ?? []),
-                $ossature['rails'],
-                [
+                appuis: $ossature['appuis'] ?? [],
+                montants: array_merge($ossature['montants'], $ossature['rail_appuis'] ?? []),
+                rails: $ossature['rails'],
+                plaquePlatres: $ossature['plaque_platres'] ?? [],
+                longueursStandard: [
                     'montant' => $montant,
                     'rail' => $rail,
-                    'appuis-intermediaire'=>$appuisIntermediaire,
+                    'appuis-intermediaire' => $appuisIntermediaire,
+                    'plaque-platre' => $plaquePlatre,
+                    'joint-armee' => $bandeJoinArmee,
+                    'joint-plat' => $bandeJoinPlat,
                 ]
             );
 

@@ -30,21 +30,21 @@ class OuvertureType extends AbstractType
             ->add('largeur', NumberType::class, [
                 'label' => 'Largeur (m)',
                 'scale' => 2,
-                'constraints'=>[
+                'constraints' => [
                     new Range(min: 0)
                 ]
             ])
             ->add('hauteur', NumberType::class, [
                 'label' => 'Hauteur (m)',
                 'scale' => 2,
-                'constraints'=>[
+                'constraints' => [
                     new Range(min: 0)
                 ]
             ])
             ->add('distance_gauche', NumberType::class, [
                 'label' => 'Distance depuis le bord gauche (m)',
                 'scale' => 2,
-                'constraints'=>[
+                'constraints' => [
                     new Range(min: 0)
                 ]
             ])
@@ -52,11 +52,35 @@ class OuvertureType extends AbstractType
                 'label' => 'Élévation (m)',
                 'scale' => 2,
                 'help' => 'Toujours 0 pour une porte',
-                'constraints'=>[
+                'constraints' => [
                     new Range(min: 0)
                 ]
-            ]);
+            ])
+            ->add('type_pose', ChoiceType::class, [
+                'choices' => [
+                    'Applique' => 'applique',
+                    'Tunel' => 'tunel',
+                ],
+                'help' => 'La pose en applique ne demande aucun retour pour le type de contour. un ouvrant posé sur le bord extérieur du mur est considéré en "tunel".'
+            ])
+            ->add('type_contour', ChoiceType::class, [
+                'choices' => [
+                    'Aucun retour' => 'aucun',
+                    'Retour en plaque de platre' => 'plaque-platre',
+                    'Retour en autre matière sans joint' => 'autre',
+                ]
+            ])
+            ->add('refoncement_ouvrant', NumberType::class, [
+                'label' => 'Renfoncement (m)',
+                'scale' => 2,
+                'help' => 'Pour une pose en applique, mettre 0. Sinon, c\'est la distance entre la fenêtre et le bord du mur.',
+                'constraints' => [
+                    new Range(min: 0)
+                ]
+            ])
+        ;
     }
+
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

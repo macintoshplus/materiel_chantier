@@ -29,9 +29,28 @@
                     {{ form_row(form.catalogue.rail.uniteParLot) }}
                 </fieldset>
                 <fieldset>
-                    <legend>AppuisIntermediaire</legend>
+                    <legend>Appuis Intermediaire</legend>
                     {{ form_row(form.catalogue.appuisIntermediaire.prix) }}
                     {{ form_row(form.catalogue.appuisIntermediaire.uniteParLot) }}
+                </fieldset>
+                <fieldset>
+                    <legend>Bande à joint plat (et join entrant)</legend>
+                    {{ form_row(form.catalogue.bandeAJoinPlat.longueur) }}
+                    {{ form_row(form.catalogue.bandeAJoinPlat.prix) }}
+                    {{ form_row(form.catalogue.bandeAJoinPlat.uniteParLot) }}
+                </fieldset>
+                <fieldset>
+                    <legend>Bande à join armée (join sortant)</legend>
+                    {{ form_row(form.catalogue.bandeAJoinArmee.longueur) }}
+                    {{ form_row(form.catalogue.bandeAJoinArmee.prix) }}
+                    {{ form_row(form.catalogue.bandeAJoinArmee.uniteParLot) }}
+                </fieldset>
+                <fieldset>
+                    <legend>Plaque de Platre standard</legend>
+                    {{ form_row(form.catalogue.plaquePlatre.longueur) }}
+                    {{ form_row(form.catalogue.plaquePlatre.largeur) }}
+                    {{ form_row(form.catalogue.plaquePlatre.prix) }}
+                    {{ form_row(form.catalogue.plaquePlatre.uniteParLot) }}
                 </fieldset>
             </div>
         </div>

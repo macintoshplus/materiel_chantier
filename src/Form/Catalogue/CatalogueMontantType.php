@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Form;
+namespace App\Form\Catalogue;
 
 use App\Model\Catalogue\Montant;
 use Symfony\Component\Form\AbstractType;
