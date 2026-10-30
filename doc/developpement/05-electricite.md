@@ -5,10 +5,10 @@ systèmes.
 
 ## Modèle
 
-- `ElementElectrique` : pièce, surface porteuse, position `(u, v)` dans la surface, hauteur de pose,
-  type, circuit. Types extensibles via un catalogue de **types d'éléments** (code, libellé, famille,
+- `Equipement` (famille `electrique`, socle commun décrit dans `09-plomberie-ventilation.md`) : pièce,
+  surface porteuse, position `(u, v)` dans la surface, hauteur de pose, type, réseau. Types extensibles via un catalogue de **types d'éléments** (code, libellé, famille,
   conducteurs requis, matériaux associés : boîte, mécanisme, plaque).
-- `Circuit` : projet, nom, type (éclairage, prises, chauffage, cuisson, spécialisé), section, protection.
+- `Reseau` (famille `electrique` = circuit) : projet, nom, type (éclairage, prises, chauffage, cuisson, spécialisé), section, protection.
 - `PointDepart` : tableau ou boîte de dérivation (position dans une pièce).
 - Liaisons : un circuit est un **arbre ou une chaîne** d'éléments ; pour les va-et-vient, la liaison
   entre commandes est un tronçon à 3 conducteurs + terre (`TronconNavette`).

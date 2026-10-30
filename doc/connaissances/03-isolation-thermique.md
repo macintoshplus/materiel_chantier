@@ -55,6 +55,12 @@ surface par rouleau, **recouvrement** (≈ 10 cm), adhésif de jonction (mètres
 Quantité : `surface / surface utile du rouleau`, la surface utile tenant compte du recouvrement.
 Une membrane a `R ≈ 0` pour le calcul thermique.
 
+## Paroi existante
+
+Le support à rénover compte dans le R total. On le décrit par des couches (matériau existant + épaisseur,
+λ pris dans le catalogue `paroi_existante`) ou par un **R forfaitaire** quand la composition est
+inconnue (ex. mur ancien en pierre : valeur saisie par l'utilisateur, avec mention « estimé »).
+
 ## Données à afficher par surface
 
 R de chaque couche, RT, U, comparaison à l'objectif, épaisseur totale du complexe (utile pour les

@@ -13,8 +13,7 @@
 
 Polygone simple (non auto-sécant), sommets dans l'ordre anti-horaire. Cas à gérer :
 
-- rectangle (cas de base), forme en L ou en T (angles rentrants), pans coupés, murs courbes
-  (approximés par segments, hors périmètre initial) ;
+- rectangle (cas de base), forme en L ou en T (angles rentrants), pans coupés. **Les murs courbes ne sont pas pris en charge** (pas d'approximation par segments) ;
 - chaque arête du polygone génère un mur : sa largeur est la longueur de l'arête.
 
 Calculs utiles : aire (formule du lacet), périmètre, orientation, validation de simplicité.
@@ -40,9 +39,11 @@ Modèle conceptuel : `Arete { surface, indexSommetDebut, indexSommetFin }` et
 ## Murs non rectangulaires
 
 Un mur est un polygone 2D quelconque : rectangle, trapèze (mur sous rampant), pentagone (pignon).
-Pour les calculs d'ossature, on découpe en **bandes verticales** : à chaque position `u` de montant, la
-hauteur utile est `vHaut(u) − vBas(u)` (intersection de la verticale avec le polygone). Les montants ont
-donc des longueurs différentes sur un pignon ou un rampant.
+Pour les calculs d'ossature, on travaille **dans le repère `(u, v)` de la surface**, pas en projection
+horizontale : à chaque position d'élément (montant, fourrure, latte) on coupe le polygone par une droite
+dans la direction de l'ossature ; la longueur de l'élément est celle de l'intersection, ouvertures
+retranchées. Les montants ont donc des longueurs différentes sur un pignon, et les fourrures d'un pan de
+plafond incliné ont leur **longueur réelle** (suivant la pente), sans cas particulier pour les plafonds.
 
 ## Plafonds composés
 
