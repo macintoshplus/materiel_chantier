@@ -14,8 +14,8 @@ use Symfony\Component\Validator\Constraint;
 #[\Attribute()]
 final class PositionsIsValid extends Constraint
 {
-public function getTargets(): string|array
-{
-    return self::CLASS_CONSTRAINT;
-}
+    public function getTargets(): string
+    {
+        return self::CLASS_CONSTRAINT;
+    }
 }

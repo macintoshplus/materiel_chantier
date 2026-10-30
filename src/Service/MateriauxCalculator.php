@@ -19,19 +19,22 @@ use App\Model\Mur;
 final class MateriauxCalculator
 {
     /**
-     * @param Appuis[] $appuis
-     * @param Montant[] $montants
-     * @param Rail[] $rails
-     * @param PlaquePlatre[] $plaquePlatres ,
-     * @param array<string,ContientPrixInterface & LongueurInterface> $longueursStandard
-     *        ex: ['M48' => 2.60, 'R48' => 3.00]
+     * @param list<Appuis> $appuis
+     * @param list<Montant> $montants
+     * @param list<Rail> $rails
+     * @param list<PlaquePlatre> $plaquePlatres
+     * @param ContientPrixInterface $appuisIntermediaire
+     * @param array<string, ContientPrixInterface&LongueurInterface> $longueursStandard
+     *        ex: ['montant' => $montantCatalogue, 'rail' => $railCatalogue]
+     * @return array<int|string, array{type: string, categorie: string, longueur_unitaire: float|int, elements: int, longueur_totale: float|int, barres_necessaires: int, longueur_achetee: float|int, nombre_lot: float|int, prix_total: float|int, chute: float|int, taux_perte: float|int}>
      */
     public function calculer(
         array $appuis,
         array $montants,
         array $rails,
         array $plaquePlatres,
-        array $longueursStandard
+        array $longueursStandard,
+        ContientPrixInterface $appuisIntermediaire,
     ): array {
         $groupes = [];
 
@@ -58,9 +61,9 @@ final class MateriauxCalculator
 
         if (\count($appuis) > 0) {
             $nbAppuis = count($appuis);
-            $nblots = ceil($nbAppuis / $longueursStandard['appuis-intermediaire']->getUniteParLot());
-            $chute = ($longueursStandard['appuis-intermediaire']->getUniteParLot() * $nblots) - $nbAppuis;
-            $tauxPerte = $chute > 0 ? ($chute / ($longueursStandard['appuis-intermediaire']->getUniteParLot() * $nblots)) * 100 : 0;
+            $nblots = ceil($nbAppuis / $appuisIntermediaire->getUniteParLot());
+            $chute = ($appuisIntermediaire->getUniteParLot() * $nblots) - $nbAppuis;
+            $tauxPerte = $chute > 0 ? ($chute / ($appuisIntermediaire->getUniteParLot() * $nblots)) * 100 : 0;
             $resultats[] = [
                 'type' => 'appuis-intermediaire',
                 'categorie' => 'appui intermédiaire',
@@ -70,7 +73,7 @@ final class MateriauxCalculator
                 'barres_necessaires' => $nbAppuis,
                 'longueur_achetee' => 0,
                 'nombre_lot' => $nblots,
-                'prix_total' => $nblots * $longueursStandard['appuis-intermediaire']->getPrix(),
+                'prix_total' => $nblots * $appuisIntermediaire->getPrix(),
                 'chute' => $chute,
                 'taux_perte' => $tauxPerte
             ];
@@ -155,6 +158,9 @@ final class MateriauxCalculator
 
     // ------------------------------------------------------------------
 
+    /**
+     * @param array<string, array{longueurs: list<float>}> $groupes
+     */
     private function ajouterElement(
         array &$groupes,
         string $categorie,
@@ -168,6 +174,9 @@ final class MateriauxCalculator
      * Algorithme simple :
      * - on trie par longueur décroissante
      * - on remplit chaque barre séquentiellement
+     */
+    /**
+     * @param list<float> $longueurs
      */
     private function optimiserBarres(array $longueurs, float $barreStandard): int
     {

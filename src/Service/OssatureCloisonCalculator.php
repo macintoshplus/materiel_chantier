@@ -11,6 +11,9 @@ use App\Model\Mur;
 
 class OssatureCloisonCalculator implements OssatureCalculatorInterface
 {
+    /**
+     * @inheritDoc
+     */
     public function calculer(
         Mur $mur,
         Montant $montant,
@@ -70,7 +73,8 @@ class OssatureCloisonCalculator implements OssatureCalculatorInterface
         $x = $ecartementGauche;
 
         while ($x <= ($largeurMurADoubler) + 0.001) {
-            if ($this->dansOuverture($x, $ouvertures)) {
+            $o = $this->ouvertureA($x, $ouvertures);
+            if ($o !== null) {
                 $montants[] = new MontantChantier(
                     id: 'Au dessus d\'une ouverture',
                     x: $x,
@@ -236,20 +240,27 @@ class OssatureCloisonCalculator implements OssatureCalculatorInterface
         ];
     }
 
-    private function dansOuverture(float $x, array $ouvertures): bool
+    /**
+     * @param list<array{type: string, largeur: float, hauteur: float, distance_gauche: float, elevation: float, type_pose: string, type_contour: string, refoncement_ouvrant: float}> $ouvertures
+     * @return array{type: string, largeur: float, hauteur: float, distance_gauche: float, elevation: float, type_pose: string, type_contour: string, refoncement_ouvrant: float}|null
+     */
+    private function ouvertureA(float $x, array $ouvertures): ?array
     {
         foreach ($ouvertures as $o) {
             $xMin = $o['distance_gauche'];
             $xMax = $xMin + $o['largeur'];
 
             if ($x > $xMin && $x < $xMax) {
-                return true;
+                return $o;
             }
         }
 
-        return false;
+        return null;
     }
 
+    /**
+     * @param list<MontantChantier> $montants
+     */
     private function checkMontantExists(array $montants, float $x, Montant $montant): bool
     {
         foreach ($montants as $m) {

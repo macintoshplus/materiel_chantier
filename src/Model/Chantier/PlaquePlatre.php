@@ -23,6 +23,7 @@ final class PlaquePlatre
         //Si null = toute la surface est utilisé
         private readonly ?float $surfaceUtilisee = null,
         //liste des points représentant la plaque, origine en bas à gauche
+        /** @var list<array{x: float, y: float}> */
         private readonly array $polygonePoints = [],
     ) {
     }
@@ -37,6 +38,7 @@ final class PlaquePlatre
         return $this->surfaceUtilisee ?? $this->getSurface();
     }
 
+    /** @return list<array{x: float, y: float}> */
     public function getPolygonePoints(): array
     {
         if (\count($this->polygonePoints) === 0) {

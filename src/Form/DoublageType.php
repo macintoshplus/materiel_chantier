@@ -18,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/** @extends AbstractType<Mur> */
 class DoublageType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void

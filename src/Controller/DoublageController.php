@@ -120,7 +120,7 @@ class DoublageController extends AbstractController
                     $montant,
                     $plaquePlatre
                 ),
-                Mur::TYPE_DOUBLAGE => $ossatureDoublageCalculator->calculer(
+                default => $ossatureDoublageCalculator->calculer(
                     $mur,
                     $montant,
                     $plaquePlatre
@@ -130,15 +130,15 @@ class DoublageController extends AbstractController
                 appuis: $ossature['appuis'] ?? [],
                 montants: array_merge($ossature['montants'], $ossature['rail_appuis'] ?? []),
                 rails: $ossature['rails'],
-                plaquePlatres: $ossature['plaque_platres'] ?? [],
+                plaquePlatres: $ossature['plaque_platres'],
                 longueursStandard: [
                     'montant' => $montant,
                     'rail' => $rail,
-                    'appuis-intermediaire' => $appuisIntermediaire,
                     'plaque-platre' => $plaquePlatre,
                     'joint-armee' => $bandeJoinArmee,
                     'joint-plat' => $bandeJoinPlat,
-                ]
+                ],
+                appuisIntermediaire: $appuisIntermediaire,
             );
 
             $svg = [

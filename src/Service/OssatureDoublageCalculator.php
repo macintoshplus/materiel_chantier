@@ -22,6 +22,9 @@ final class OssatureDoublageCalculator implements OssatureCalculatorInterface
     {
     }
 
+    /**
+     * @inheritDoc
+     */
     public function calculer(Mur $mur, Montant $montant, PlaquePlatre $plaquePlatre): array
     {
         $result = $this->calculator->calculer($mur, $montant, $plaquePlatre);
@@ -63,7 +66,6 @@ final class OssatureDoublageCalculator implements OssatureCalculatorInterface
 
         $result['appuis'] = [];
         foreach ($result['montants'] as $montant) {
-            /** @var $montant MontantChantier */
             if ($montant->appuis === false) {
                 continue;
             }

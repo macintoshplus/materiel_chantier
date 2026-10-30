@@ -10,7 +10,17 @@ declare(strict_types=1);
 namespace App\Model;
 
 use App\Constraints\PositionsIsValid;
+use App\Model\Catalogue\AppuisIntermediaire;
+use App\Model\Catalogue\BandeAJointArmee;
+use App\Model\Catalogue\BandeAJointPlat;
+use App\Model\Catalogue\Montant;
+use App\Model\Catalogue\PlaquePlatre;
+use App\Model\Catalogue\Rail;
 
+/**
+ * @phpstan-type Ouverture array{type: string, largeur: float, hauteur: float, distance_gauche: float, elevation: float, type_pose: string, type_contour: string, refoncement_ouvrant: float}
+ * @phpstan-type Catalogue array{montant: Montant, rail: Rail, appuisIntermediaire: AppuisIntermediaire, bandeAJoinPlat: BandeAJointPlat, bandeAJoinArmee: BandeAJointArmee, plaquePlatre: PlaquePlatre}
+ */
 #[PositionsIsValid]
 class Mur
 {
@@ -26,8 +36,10 @@ class Mur
 
     private string $typeStructure = self::TYPE_DOUBLAGE;
 
+    /** @var list<Ouverture> */
     private array $ouvertures = [];
 
+    /** @var Catalogue|array{} */
     private array $catalogue = [];
 
     public function getLargeur(): float
@@ -99,26 +111,31 @@ class Mur
         $this->typeStructure = $typeStructure;
     }
 
+    /** @return list<Ouverture> */
     public function getOuvertures(): array
     {
         return $this->ouvertures;
     }
 
+    /** @param Ouverture $ouverture */
     public function addOuverture(array $ouverture): void
     {
         $this->ouvertures[] = $ouverture;
     }
 
+    /** @param list<Ouverture> $ouvertures */
     public function setOuvertures(array $ouvertures): void
     {
         $this->ouvertures = $ouvertures;
     }
 
+    /** @return Catalogue|array{} */
     public function getCatalogue(): array
     {
         return $this->catalogue;
     }
 
+    /** @param Catalogue $catalogue */
     public function setCatalogue(array $catalogue): void
     {
         $this->catalogue = $catalogue;

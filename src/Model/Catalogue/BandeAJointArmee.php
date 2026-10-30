@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace App\Model\Catalogue;
 
 
-final class BandeAJointArmee implements ContientPrixInterface
+final class BandeAJointArmee implements ContientPrixInterface, LongueurInterface
 {
     // en metre
     private float $longueur;

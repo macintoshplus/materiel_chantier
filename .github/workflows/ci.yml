@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  phpstan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: ctype, iconv, intl, pdo_mysql
+      - name: Install Symfony CLI
+        run: |
+          curl -sS https://get.symfony.com/cli/installer | bash
+          echo "$HOME/.symfony5/bin" >> "$GITHUB_PATH"
+      - run: symfony composer install --no-interaction --no-progress --prefer-dist
+      - run: symfony console cache:warmup --env=dev
+      - run: symfony php vendor/bin/phpstan analyse --no-progress
+
+  phpunit:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: mysql://app:ChangeMe@127.0.0.1:3306/app?serverVersion=11.4.0-MariaDB&charset=utf8mb4
+    services:
+      database:
+        image: mariadb:11.4
+        env:
+          MARIADB_DATABASE: app
+          MARIADB_USER: app
+          MARIADB_PASSWORD: ChangeMe
+          MARIADB_ROOT_PASSWORD: ChangeMeRoot
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: ctype, iconv, intl, pdo_mysql
+      - name: Install Symfony CLI
+        run: |
+          curl -sS https://get.symfony.com/cli/installer | bash
+          echo "$HOME/.symfony5/bin" >> "$GITHUB_PATH"
+      - run: symfony composer install --no-interaction --no-progress --prefer-dist
+      - run: symfony console importmap:install
+      - run: symfony php vendor/bin/phpunit
