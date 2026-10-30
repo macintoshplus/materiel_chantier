@@ -21,9 +21,11 @@ du fournisseur.
 
 | Catégorie | Exemples de clés JSON |
 |---|---|
-| `plaque_platre` | `type` (std, hydro, feu…), `bord` (BA, AB…), `densite` |
-| `profil_ossature` | `famille` (rail, montant, fourrure, cornière), `serie` (48, 70), `entraxe_defaut` |
-| `appui_fixation` | `usage`, `pas_defaut`, `hauteur_defaut` |
+| `plaque_platre` | `type` (std, hydro, feu…), `bord` (BA, AB…), `densite`, `pose.entraxe_max`, `pose.pas_vis_*` |
+| `profil_ossature` | `famille` (rail, montant, fourrure, cornière), `serie` (48, 70), `pose.entraxe_defaut`, `pose.portees` (table fabricant : renfort, orientation, entraxe, longueur max, décalage des joints, accessoires) |
+| `appui_fixation` | `usage`, `pose.pas_defaut`, `pose.hauteur_defaut` |
+| `visserie` | `longueur`, `usage` (plaque sur métal/bois…), `pose.epaisseur_fixable_min/max`, `pose.consommation_par_m2` |
+| `accessoire_ossature` | `usage` (liaison de montants décalés ou accolés), `renfort_compatible` |
 | `bande_joint` | `type` (papier, armee, plat), `longueur_rouleau` |
 | `isolant` | `lambda`, `r_certifie`, `famille` (verre, roche, bois…), `mise_en_oeuvre` (entre/sous ossature), `reaction_feu` |
 | `membrane` | `sd`, `usage` (pare-vapeur, frein-vapeur, pare-pluie), `recouvrement_mm` |
@@ -35,6 +37,19 @@ du fournisseur.
 
 Les clés sont décrites par un **schéma** par catégorie (liste des champs, type, obligatoire) : sert à
 valider l'import, générer le formulaire d'ajout et documenter ce que lit chaque calculateur.
+
+## Données de pose (groupe `pose`)
+
+Les entraxes maximaux, pas de fixation, portées limites et plages d'épaisseur fixable viennent des fiches
+fabricants (DTU, Avis Techniques) et varient d'une marque à l'autre : elles sont stockées **sur
+l'article** sous la clé `pose`. Le choix effectif de la mise en œuvre (entraxe retenu, renfort) se fait au
+niveau du système, avec des bornes issues de ces données (voir `developpement/04-systemes-et-calcul.md`).
+
+La table de portées d'un montant liste, par renfort (`simple`, `double_accole`, `double_decale`) et par
+entraxe **et par orientation de pose** (verticale ou horizontale), la longueur maximale admissible du
+montant final ; pour un renfort décalé elle donne aussi l'écart minimal entre les joints des deux lignes,
+le pas des vis d'assemblage et les accessoires (éclisses de liaison à chaque joint) avec leur règle de
+quantité.
 
 ## Règles
 

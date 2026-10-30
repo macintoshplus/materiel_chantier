@@ -33,7 +33,9 @@ Ossature de fourrures suspendues par suspentes ; primaires et secondaires selon 
 
 ### Plafond autoportant
 Pas de suspentes, rails et montants/fourrures rattachés aux murs, portée limitée (≈ 3–4 m selon profil
-et charge). **Hors périmètre v1 de calcul**, mais modélisé dans le catalogue de systèmes.
+et charge). Sa portée maximale suit la table du fabricant en orientation **horizontale**, avec les mêmes
+renforts (montants doublés, doublés en décalé avec éclisses) que les cloisons. Le système de calcul est à
+écrire (voir `developpement/04-systemes-et-calcul.md`).
 
 ### Lambris sur lattes
 Lattes entraxe ≈ 0,40–0,50 m, lames posées perpendiculairement ; calcul en m² de lames avec chute de
@@ -41,7 +43,44 @@ Lattes entraxe ≈ 0,40–0,50 m, lames posées perpendiculairement ; calcul en 
 
 ### Autres
 La liste des systèmes est **extensible** : un système n'est pas du code figé, c'est une définition
-(couches + règles) rattachée à un calculateur (voir `developpement/04-systemes-et-calcul.md`).
+(assemblage de couches + règles, chaque couche ayant son calculateur ; voir `developpement/04-systemes-et-calcul.md`).
+
+## Renforcer une ossature de cloison
+
+Quand une cloison est plus haute que la portée d'un montant simple, ou doit mieux résister aux charges,
+le fabricant autorise :
+
+- **réduire l'entraxe** (600 → 400 mm) : plus de montants ;
+- **doubler les montants accolés** (vissés ensemble, dos à dos ou côte à côte selon le système) : 2 montants
+  par position renforcée ;
+- **doubler les montants en décalé** : le montant final est doublé **sur toute sa longueur**, avec deux
+  lignes de profilés vissées ensemble, chacune aboutée avec des **joints décalés** d'une ligne à l'autre ;
+  des **éclisses de liaison** renforcent chaque joint. Cela permet de **dépasser la longueur maximale**
+  du montant simple. Écart minimal entre joints, pas de vis d'assemblage et nombre d'éclisses sont donnés
+  par le fabricant ;
+- la **longueur maximale diffère selon l'orientation de pose** : verticale (cloison, doublage : hauteur) ou
+  horizontale (plafond autoportant : portée entre appuis) ;
+- **localiser** le renfort : seulement aux abords d'une ouverture ou d'une charge, plutôt que sur toute la
+  cloison.
+
+Ces règles dépendent du profilé et de la marque : elles ne sont pas déductibles d'une formule. Elles sont
+stockées comme données de l'article (voir `06-catalogue-materiaux.md`) et validées avec la fiche fabricant.
+
+## Systèmes multicouches
+
+- **Plusieurs peaux de plaques** : 2 peaux améliorent l'acoustique, le feu et la résistance. Les joints
+  de la 2ᵉ peau sont **décalés** de ceux de la 1ʳᵉ (au moins ≈ 40 cm en vertical, rangées décalées) ; vis
+  plus longues (épaisseur des peaux + pénétration dans l'ossature) ; la 1ʳᵉ peau est fixée à un pas plus
+  large, la dernière à un pas serré (valeurs fabricant).
+- **Types de plaques** : standard, hydro (pièces humides), feu, phonique, haute dureté, etc. Ils sont des
+  caractéristiques de l'article ; les noms commerciaux sont des références fabricant.
+- **Isolant en deux couches** : posées côte à côte (non croisées) ou **croisées** (2ᵉ couche perpendiculaire à
+  la 1ʳᵉ, pour traiter les ponts thermiques de l'ossature et limiter les joints alignés). Avec des attaches
+  d'isolant (appuis ou pattes), la longueur d'attache dépend de l'épaisseur isolée totale.
+- **Isolant entre ossature ou continu** : entre ossature, la profondeur du profilé doit au moins égaler
+  l'épaisseur d'isolant ; en continu (devant l'ossature), l'ossature est dimensionnée par ailleurs.
+- L'épaisseur totale du complexe est la somme de tout ce qui est empilé ; elle commande les retours
+  d'ouverture et les longueurs de visserie.
 
 ## Règles de calcul de base
 

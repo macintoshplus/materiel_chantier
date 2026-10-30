@@ -46,7 +46,7 @@ Les phases 1 et 2 sont indépendantes et peuvent avancer en parallèle. L'interf
 
 ## Hors périmètre initial
 
-Comptes utilisateurs, murs courbes, DXF 3D, plafonds autoportants calculés (modélisés, non calculés),
+Comptes utilisateurs, murs courbes, DXF 3D, plafonds autoportants calculés en v1 (la table de portées et les renforts horizontaux sont prévus ; le système reste « à écrire »),
 chiffrage de main d'œuvre, TVA détaillée / prix HT (le modèle prévoit un champ pour plus tard),
 logistique (poids, voyages), import SVG/IFC.
 
