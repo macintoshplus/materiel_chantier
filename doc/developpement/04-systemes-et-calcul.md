@@ -111,13 +111,68 @@ calculateur de la couche « ossature » (et « attache » pour les appuis).
 
 | Code | Surfaces | Réutilise |
 |---|---|---|
-| `cloison_ossature` | mur | `OssatureCloisonCalculator` (couche ossature) |
+| `cloison_ossature` | cloison (deux faces) | `OssatureCloisonCalculator` (couche ossature) |
 | `doublage_ossature` | mur | `OssatureDoublageCalculator` (couche ossature + attaches) |
 | `doublage_colle` | mur | à écrire (complexe collé / plots de colle) |
 | `plafond_suspendu_placo` | plafond_pan | à écrire (fourrures, suspentes, plaques) |
 | `plafond_autoportant_placo` | plafond_pan | à écrire : ossature **horizontale**, portée = distance entre appuis ; utilise la table de portées en orientation `horizontale` et les renforts |
 | `lambris_sur_lattes` | mur, plafond_pan | à écrire |
 | `isolation_seule` | mur, plafond_pan | à écrire (isolant + membrane) |
+
+## Cloison à deux faces
+
+La cloison est un objet avec **un seul `SystemeApplique`**, des couches **communes** et des couches **par
+face** :
+
+| Emplacement | Portée | Remarques |
+|---|---|---|
+| ossature | commune (`face = null`) | une seule ossature pour les deux côtés ; profil, entraxe, renforts |
+| isolant | commun | entre ossature (profondeur de cavité) ou continu |
+| attache | commune | si le système en comporte |
+| parement | **par face** (`A`, `B`) | 1 à 2 peaux, type et épaisseur propres à chaque côté ; calepinage, joints et visserie par face |
+
+### Pipeline à deux faces
+`PipelineCouches` pour une cloison parcourt la pile **de la face A vers la face B** : parement(s) A →
+isolant/ossature → parement(s) B. L'épaisseur cumulée est la somme des deux parements et de l'ossature
+(épaisseur de la cloison). Les calculs :
+1. **Planification** : entraxe, renfort, profondeur de cavité (isolant), choix des vis **par face** (critère
+   calculé sur l'épaisseur de parement de la face).
+2. **Ossature** : calculée **une fois** pour la cloison (rails, montants, renforts, linteaux d'ouverture),
+   dans le repère du tracé ; hauteur variable si plafond rampant.
+3. **Parements** : calculés **une fois par face**, dans le repère de la face (ouvertures projetées, joints
+   décalés de la 2ᵉ peau propres à la face).
+4. **Agrégation** : les besoins de l'ossature ne sont comptés **qu'une fois** ; ceux des parements sont comptés
+   par face puis agrégés par matériau pour le chiffrage de la pièce.
+
+### Rails périphériques et montants d'extrémité
+- **Rails** : bas (sol) et haut (plafond ou pans) sur toute la longueur ; pour un plafond rampant, la longueur
+  du rail haut est la longueur réelle de la ligne de jonction avec le(s) pan(s).
+- **Extrémité contre un mur existant** : montant de rive fixé au mur.
+- **Extrémité contre une autre cloison ou un doublage de mur** : en plus du montant d'extrémité, un
+  **montant supplémentaire de raccordement** est ajouté à la jonction (`montants_raccordement`, défaut 1,
+  paramètre du système donné par le fabricant), rattaché à la structure qui reçoit, **hors de la grille
+  d'entraxe**. Il est compté dans les besoins de montants de la cloison ou du doublage correspondant.
+- Extrémité `libre` : montant d'extrémité seul, avertissement.
+
+### Ouvertures d'une cloison
+Une porte ou baie de cloison est portée par la cloison : linteau et montants d'encadrement sont communs
+(l'ossature n'est comptée qu'une fois) ; la découpe des plaques est faite sur chaque face. Le **retour de
+parement en tunnel** couvre l'épaisseur totale de la cloison (voir « Retour de parement ») ; la matière du
+retour est celle du parement d'une face choisie (par défaut la face A, modifiable).
+
+## Doublage : rails ou lisses
+
+Un doublage de mur a toujours un profilé périphérique **haut et bas**. La famille dépend du système
+(`type_profil_peripherique`) :
+- `rail` : système de type cloison (rails + montants) ;
+- `lisse` : système doublage (lisses haute et basse + fourrures).
+
+Le calculateur de la couche ossature d'un doublage lit ce paramètre et sélectionne le profilé dans le
+catalogue (`profil_ossature`, famille `rail` ou `lisse`). Les appuis intermédiaires et rails porteurs d'appuis
+restent propres au système.
+
+Un doublage peut recevoir une cloison (ancrage `doublage`) : le montant supplémentaire de raccordement est
+alors ajouté à l'ossature du doublage à la position de la jonction.
 
 ## Paramètres de mise en œuvre (entraxe, pas, portée, vis)
 
@@ -229,6 +284,24 @@ La **comparaison automatique** des configurations (entraxe plus serré, doublage
 réutilise les variantes : chaque configuration candidate est évaluable sans modifier le système actif,
 avec son coût pour comparaison.
 
+## Marge de sécurité et arrondi aux lots
+
+Chaque matériau a une **marge de sécurité en pourcentage** (casse, erreur de découpe, imprévus), distincte
+des chutes déjà calculées par l'optimisation de coupes. Elle s'applique **une fois**, sur la quantité
+agrégée du matériau (après optimisation et agrégation de toutes les surfaces/faces du chiffrage) :
+
+1. `quantiteBesoin` : quantité nécessaire dans l'**unité d'achat** (barres pour les profilés après
+   optimisation, plaques, m² d'isolant, rouleaux, pièces, boîtes de vis…) ;
+2. `quantiteAvecMarge = quantiteBesoin × (1 + marge/100)` ;
+3. `nombreLots = ceil(quantiteAvecMarge / unitesParLot)` : **arrondi au supérieur selon la quantité par
+   lot** ; un seul arrondi, pas un par étape ;
+4. `quantiteAchetee = nombreLots × unitesParLot` ; chute totale = `quantiteAchetee − quantiteBesoin`.
+
+La marge est lue par matériau selon la priorité de `02-catalogue.md` (chiffrage > projet > matériau >
+catégorie > défaut global). Elle est copiée dans la ligne de chiffrage pour traçabilité
+(`margePct`, `quantiteAvecMarge`). Les profilés optimisés en barres : la marge s'applique au nombre de barres
+(`barres × (1 + marge)`), pas aux longueurs unitaires.
+
 ## Retour de parement (ouvertures en tunnel)
 
 Une ouverture en pose `tunnel` impose un **retour de parement** ; en pose `applique`, rien.
@@ -279,7 +352,8 @@ Projet
           └─ ResultatSurface
      └─ ResultatPiece
  └─ BesoinsProjet : agrégation par matériau
-        └─ MateriauxCalculator : optimisation de coupes 1D, lots entiers, chute, taux de perte
+        └─ MateriauxCalculator : optimisation de coupes 1D, chute, taux de perte,
+              marge de sécurité par matériau, arrondi au lot supérieur
               └─ (les prix sont appliqués au chiffrage, voir 08-…)
 ```
 
@@ -343,4 +417,14 @@ adhésif en ml selon jonctions de lés et périphérie ; R = 0.
   max du renfort décalé conservée.
 - Renfort localisé (bords d'ouverture) : seuls les montants concernés sont doublés.
 - Remplacement par un équivalent chez le fournisseur choisi, puis ligne « prix manquant » en dernier recours.
+- Cloison à deux faces : l'ossature et l'isolant sont comptés une seule fois ; les parements sont comptés
+  par face ; deux types de plaques différents sur les deux côtés produisent deux lignes.
+- Extrémité de cloison contre une autre cloison ou un doublage : un montant supplémentaire de raccordement est
+  compté (1 par défaut, selon le fabricant) ; contre un mur existant : seulement le montant de rive.
+- Cloison sous un plafond rampant : hauteur de la face variable, longueur de rail haut = longueur réelle.
+- Une ouverture de cloison apparaît sur les deux faces ; son retour en tunnel couvre l'épaisseur totale.
+- Doublage avec un système cloison : rails haut et bas ; avec un système doublage : lisses haute et basse.
+- Marge 10 % sur 11 plaques avec 1 plaque par lot : `ceil(12,1) = 13` ; avec 5 plaques par lot : 3 lots
+  (15 plaques achetées).
+- La marge d'un matériau suit la priorité chiffrage > projet > matériau > catégorie > défaut global.
 - Un projet de 2 pièces produit des besoins agrégés avec lots entiers et chutes.

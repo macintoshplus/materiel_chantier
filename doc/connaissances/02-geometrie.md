@@ -59,10 +59,31 @@ Un plafond est un **ensemble de pans**, chacun étant une surface plane :
 L'angle de pente se déduit des coordonnées 3D. La longueur réelle d'un montant/fourrure sur un rampant
 est la longueur suivant la pente, pas la projection horizontale.
 
+## Cloisons
+
+Une cloison est une paroi plane verticale posée **dans** une pièce (la pièce reste le volume physique).
+
+- **Tracé** : un segment au sol `(début, fin)` en mm, qui représente l'**axe** de la cloison ; son épaisseur
+  (ossature + parements de chaque côté) la déporte de part et d'autre. Le tracé est **modifiable** : déplacer
+  une extrémité, changer la longueur, l'angle, ou la distance à un mur de référence.
+- **Faces** : le côté **A** est à gauche du tracé en allant du début à la fin, le côté **B** à droite. Chaque
+  face est une surface plane qui a son repère `(u, v)` : `u` croît de gauche à droite **vue du côté de la
+  face** (le repère de la face B est donc inversé par rapport au tracé), `v` vertical depuis le sol.
+- **Hauteur** : déduite du plafond de la pièce à chaque position du tracé. Sous un plafond plat, c'est la
+  hauteur sous plafond ; sous un rampant, la face est un trapèze ou un polygone dont le bord haut suit la
+  pente (voir « Murs non rectangulaires »).
+- **Ancrages** : chaque extrémité est ancrée sur un **mur existant**, une **autre cloison**, un **doublage
+  de mur**, ou **libre** (extrémité sans appui, rare). L'ancrage détermine les rails/montants de rive et les
+  montants supplémentaires de raccordement (voir `04-platrerie.md`).
+- **Jonctions** de la cloison : avec le sol, le plafond (ou les pans), et l'ancrage de chaque extrémité.
+  Ces jonctions donnent les longueurs de rails périphériques et la position des montants de raccordement.
+- Les extrémités doivent rester dans le volume de la pièce : une extrémité hors du volume est une erreur.
+
 ## Ouvertures
 
 Une ouverture est un polygone 2D (le plus souvent un rectangle ; ou cintrée/triangulaire) **défini dans le
-repère de sa surface** : `position (u, v)` du coin bas-gauche + `largeur`, `hauteur` (ou polygone).
+repère de sa surface** (pour une cloison : le repère du tracé, partagé par les deux faces ; elle traverse
+la cloison et apparaît sur les deux faces) : `position (u, v)` du coin bas-gauche + `largeur`, `hauteur` (ou polygone).
 Paramètres complémentaires : type (porte, fenêtre, baie, trappe, velux), **mode de pose**, contour,
 refoncement. Règles de validité :
 

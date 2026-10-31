@@ -27,7 +27,8 @@ natives, hydratation Doctrine basique, getters/setters triviaux).
 
 ### À tester en priorité (obligatoire)
 - **Calculateurs** : ossature (cloison, doublage, plafond), isolant, membrane, parement (calepinage, joints,
-  vis), retour de parement en tunnel, thermique (R, U), optimisation de coupes, renforts et joints décalés.
+  vis), retour de parement en tunnel, thermique (R, U), optimisation de coupes, renforts et joints décalés, marge de sécurité et arrondi aux lots,
+  montants de raccordement, cloison à deux faces (ossature une seule fois, parement par face).
 - **Stratégies et résolveurs** : `StrategieFournisseur` (unique, meilleur prix, plus proche, manuelle),
   chaîne de substitution (`ResolveurOffre`), `ResolveurMateriau`, `ConfigurationOssatureResolveur`,
   `StrategieConfiguration`, priorité des paramètres de pose, `PrixService` (historique).

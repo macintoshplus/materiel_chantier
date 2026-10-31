@@ -8,13 +8,16 @@ Dépend de [02-catalogue.md](02-catalogue.md) (fournisseurs, prix) et de
 Un **chiffrage** est un instantané immuable des besoins d'un projet, valorisés à une date donnée.
 
 ### `Chiffrage`
-id, projet, libelle, dateCreation, strategieFournisseur, parametres JSON (marge de chute, fournisseur
+id, projet, libelle, dateCreation, strategieFournisseur, parametres JSON (surcharges de marge de sécurité, fournisseur
 imposé, adresse de référence), totalTtc.
 
 ### `LigneChiffrage`
 chiffrage, piece (nullable : ligne agrégée), surface (nullable), materiau (identité figée : référence,
-libellé, dimensions copiés), fournisseur, referenceFournisseur, quantiteBesoin, unitesParLot, nombreLots,
+libellé, dimensions copiés), fournisseur, referenceFournisseur, quantiteBesoin, margePct, quantiteAvecMarge, unitesParLot, nombreLots, quantiteAchetee,
 prixLotTtc, totalTtc, chute, tauxPerte, prixMateriauId (traçabilité).
+
+Quantités : `nombreLots = ceil(quantiteBesoin × (1 + margePct/100) / unitesParLot)` ; voir
+`04-systemes-et-calcul.md`, « Marge de sécurité et arrondi aux lots ». La marge utilisée est copiée dans la ligne.
 
 Les lignes **copient** les libellés, dimensions et prix : renommer ou supprimer un article ensuite ne
 modifie pas un chiffrage existant.

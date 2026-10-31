@@ -9,6 +9,9 @@ prix sont détaillés dans [02-catalogue.md](02-catalogue.md) ; chiffrage et exp
 
 ```
 Projet 1──n Piece 1──n Surface 1──n Ouverture
+               │
+               ├─ Cloison 1──n Face (Surface type cloison_face)
+               │      └─ Ouverture (partagées par les 2 faces), SystemeApplique, Ancrages
   │            │          │
   │            │          ├─ ParoiExistante 1──n CoucheExistante ──> Materiau (catégorie paroi_existante)
   │            │          ├─ SystemeApplique (variantes, une active) 1──n CoucheAppliquee ──> Materiau
@@ -20,15 +23,17 @@ Projet 1──n Piece 1──n Surface 1──n Ouverture
 
 | Entité | Champs principaux |
 |---|---|
-| `Projet` | id, nom, description, dateCreation, adresseChantier + latitude/longitude (optionnels), parametres JSON (marge de chute %, options) |
+| `Projet` | id, nom, description, dateCreation, adresseChantier + latitude/longitude (optionnels), parametres JSON (marges de sécurité par catégorie ou matériau, options) |
 | `Piece` | id, projet, nom, hauteurSousPlafond (mm), formeSol JSON `[{x,y}]` mm anti-horaire, sourceMesures (saisie, dxf, csv) |
 | `Surface` | id, piece, type (`mur`, `plafond_pan`, `sol`), nom, origine3D, vecteurU, vecteurV (JSON), polygone JSON `[{u,v}]` |
 | `Arete` | surface, indexDebut, indexFin (dérivable du polygone) |
-| `Jonction` | areteA, areteB, type (`angle_saillant`, `angle_rentrant`, `faitage`, `noue`, `plat`…) |
-| `Ouverture` | id, surface, nom (optionnel), type, polygone JSON `[{u,v}]` (ou rectangle u,v,largeur,hauteur), typePose (`applique` \| `tunnel`), typeContour, refoncement (mm, profondeur du dormant en retrait du nu du mur ; ≥ 0), parametres JSON |
+| `Jonction` | areteA, areteB, type (`angle_saillant`, `angle_rentrant`, `faitage`, `noue`, `plat`, `cloison_sur_mur`, `cloison_sur_cloison`, `cloison_sur_doublage`, `cloison_sur_sol`, `cloison_sous_plafond`…) |
+| `Cloison` | id, piece, nom, debut `{x,y}` mm, fin `{x,y}` mm (axe, modifiables), ancrageDebut, ancrageFin (type `mur` \| `cloison` \| `doublage` \| `libre`, cible, position le long de la cible), parametres JSON |
+| `Face` | id, cloison, cote (`A` \| `B`), nom, polygone JSON `[{u,v}]` (repère de la face, dérivé du tracé et du plafond) ; est une `Surface` de type `cloison_face` |
+| `Ouverture` | id, surface **ou** cloison, nom (optionnel), type, polygone JSON `[{u,v}]` (ou rectangle u,v,largeur,hauteur), typePose (`applique` \| `tunnel`), typeContour, refoncement (mm, profondeur du dormant en retrait du nu du mur ; ≥ 0), parametres JSON |
 | `ParoiExistante` | surface (1–1), couches (matériau existant + épaisseur, ou R forfaitaire) |
 | `SystemeApplique` | id, surface, variante (libellé), actif (bool), definitionSysteme (code), parametres JSON ; plusieurs par surface, **un seul actif** |
-| `CoucheAppliquee` | systemeApplique, ordre, role (`attache`, `isolant`, `ossature`, `membrane`, `parement`…), emplacement (code dans la définition), specification JSON (catégorie + critères), materiau (nullable : article épinglé), orientation (degrés, nullable), position (`entre_ossature`, `continue`, `sur_ossature`), decalage JSON (calepinage), epaisseurOverride |
+| `CoucheAppliquee` | systemeApplique, ordre, face (`null` = couche commune ; `A` \| `B` pour le parement d'une face de cloison), role (`attache`, `isolant`, `ossature`, `membrane`, `parement`…), emplacement (code dans la définition), specification JSON (catégorie + critères), materiau (nullable : article épinglé), orientation (degrés, nullable), position (`entre_ossature`, `continue`, `sur_ossature`), decalage JSON (calepinage), epaisseurOverride |
 | `Materiau`, `Fournisseur`, `PrixMateriau` | voir `02-catalogue.md` |
 | `Equipement` | id, piece, surface, famille (`electrique`, `plomberie`, `ventilation`), type, u, v, hauteurPose, reseau, parametres JSON |
 | `Reseau` | id, projet, nom, famille, type, parametres JSON (section, protection, diamètre…) |
@@ -37,6 +42,22 @@ Projet 1──n Piece 1──n Surface 1──n Ouverture
 Choix : les polygones sont stockés en **JSON** (petits, jamais interrogés en SQL), manipulés dans le code
 par des objets valeur (`Polygone`, `Point2D`). Surface plane : un mur courbe n'est pas représentable
 (décision : non pris en charge).
+
+## Pièce, cloison et face
+
+- Une **pièce** est un volume entouré de **murs physiques** ; ses murs viennent du polygone au sol. Ajouter une
+  cloison **ne modifie pas** la pièce (pas de scission).
+- Une **cloison** appartient à une pièce. Son système est un `SystemeApplique` rattaché à la cloison (pas à une
+  face) ; les couches communes (ossature, isolant, attaches) ont `face = null`, les parements ont `face = A`
+  ou `B`.
+- Les **faces** sont créées et mises à jour à partir du tracé et du plafond : jamais saisies à la main ; leurs
+  noms sont modifiables.
+- Les **ouvertures** d'une cloison sont portées par la cloison (repère du tracé) et projetées sur les deux
+  faces ; supprimer l'ouverture la retire des deux.
+- Un **ancrage** désigne la structure qui reçoit l'extrémité : un mur (identifiant de `Surface` mur), une autre
+  `Cloison`, un doublage (`Surface` portant un système de doublage) ou rien (`libre`).
+- Supprimer une cloison supprime ses faces, ses ouvertures et son système ; les cloisons ancrées sur elle
+  deviennent `libre` avec avertissement.
 
 ## Objets valeur (hors Doctrine)
 

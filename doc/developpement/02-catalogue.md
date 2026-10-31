@@ -14,10 +14,20 @@ Connaissance : [06-catalogue-materiaux.md](../connaissances/06-catalogue-materia
 | unite_vente | string | `piece`, `ml`, `m2`, `rouleau`… |
 | unites_par_lot | int ≥ 1 | valeur par défaut ; un prix peut la surcharger |
 | poids | decimal(8,3) nullable | kg par unité |
+| marge_securite_pct | decimal(5,2) nullable | marge de sécurité en % ; `null` = défaut de catégorie, puis défaut global |
 | caracteristiques | JSON | validé contre le schéma de la catégorie |
 | actif | bool | |
 
 Le **prix n'est plus porté par `Materiau`** : il dépend du fournisseur.
+
+### Marge de sécurité
+
+Priorité de la marge appliquée à un matériau : **chiffrage** (surcharge ponctuelle) > **projet**
+(`Projet.parametres.marges`, par matériau ou par catégorie) > **matériau** (`marge_securite_pct`) >
+**catégorie** (défaut déclaré dans le schéma de la catégorie) > **défaut global** (0 % tant qu'il n'est pas
+configuré). Les catégories fixent des défauts raisonnables (ex. plaques et isolant plus élevés que la visserie
+en boîte) ; ce sont des **données**, modifiables sans migration. Voir le calcul dans
+`04-systemes-et-calcul.md`, « Marge de sécurité et arrondi aux lots ».
 
 ## Entité `Fournisseur`
 

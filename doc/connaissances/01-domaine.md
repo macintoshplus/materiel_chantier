@@ -13,13 +13,23 @@ Projet
      │        ├─ Ouvertures (0..n par surface)
      │        ├─ Paroi existante (composition du support actuel)
      │        └─ Systèmes de rénovation (variantes, une active)
+     ├─ Cloisons (0..n) : tracé, 2 faces, ouvertures, système
      └─ Équipements (électricité, plomberie, ventilation)
 ```
 
 - **Projet** : un chantier. Plusieurs projets coexistent. Il porte les chiffrages et ses paramètres par
-  défaut (marge de chute). Il pourra porter une adresse de chantier (utile pour trouver le fournisseur le
+  défaut (marges de sécurité). Il pourra porter une adresse de chantier (utile pour trouver le fournisseur le
   plus proche).
-- **Pièce** : espace délimité. Son sol est un polygone ; ses murs en découlent.
+- **Pièce** : un **volume entouré de murs physiques** (existants). Son sol est un polygone ; ses murs en
+  découlent. Ce volume ne change pas quand on y ajoute un ouvrage : doublages, cloisons et équipements sont
+  des ouvrages **dans** la pièce.
+- **Cloison** : paroi **neuve** construite dans une pièce, sur ossature autonome. Elle n'est pas un mur
+  physique de la pièce : elle a un **tracé** modifiable (segment au sol), une hauteur déduite du plafond,
+  des **ouvertures** comme un mur, et **deux faces** (côté A et côté B) qui reçoivent chacune leur parement.
+  L'ossature et l'isolant sont **communs** aux deux faces ; le parement est géré **par face**.
+- **Face** : une des deux surfaces d'une cloison (parement, calepinage, joints propres à la face).
+- **Jonction** : liaison d'une arête avec une autre ; pour une cloison, ses extrémités sont ancrées sur un
+  mur, une autre cloison ou un doublage de mur (ou libres).
 - **Surface** : face **plane** à traiter (mur, pan de plafond, sol). Les murs courbes ne sont pas pris en
   charge. Chaque surface a un repère 2D `(u, v)` et des **arêtes** reliées aux arêtes d'autres surfaces.
 - **Ouverture** : porte, fenêtre, baie, trappe, conduit… Forme 2D positionnée dans le repère de la surface

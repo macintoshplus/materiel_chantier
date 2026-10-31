@@ -45,6 +45,29 @@ Lattes entraxe ≈ 0,40–0,50 m, lames posées perpendiculairement ; calcul en 
 La liste des systèmes est **extensible** : un système n'est pas du code figé, c'est une définition
 (assemblage de couches + règles, chaque couche ayant son calculateur ; voir `developpement/04-systemes-et-calcul.md`).
 
+## Cloison à deux faces
+
+- **Ossature et isolant communs** : une seule ossature (rails, montants, renforts) et un seul isolant entre
+  les montants servent les deux côtés.
+- **Parement par face** : chaque côté a sa propre composition (1 ou 2 peaux, type de plaque : hydro d'un côté,
+  standard de l'autre, phonique, feu…), son calepinage et ses joints. Les quantités sont calculées par face.
+- **Épaisseur** = parement A + ossature + parement B (les peaux comptent des deux côtés).
+- **Ouvertures** : une porte ou une baie traverse la cloison ; linteau et montants d'encadrement sont
+  communs ; le retour de parement en tunnel (voir plus bas) couvre l'épaisseur totale de la cloison.
+- **Extrémités** : contre un mur existant, un montant de rive est fixé au mur ; contre une autre cloison ou un
+  doublage de mur, on ajoute un **montant supplémentaire de raccordement** pour fixer et raidir la jonction
+  (nombre par jonction donné par la règle du fabricant, 1 par défaut).
+
+## Doublage : rails ou lisses
+
+L'ossature périphérique d'un doublage dépend du système :
+- **système cloison** (ossature à rails et montants) : **rails haut et bas**, comme une cloison ;
+- **système doublage** (lisses et fourrures) : **lisses haute et basse** à la place des rails.
+
+Dans les deux cas le doublage a un profilé haut et un profilé bas ; seule la famille de profilés change
+(`rail` ou `lisse` dans le catalogue). Les appuis intermédiaires et les rails porteurs d'appuis s'ajoutent
+selon le système.
+
 ## Ouvertures : applique ou tunnel
 
 - **Applique** : le parement vient buter sur le contour de l'ouverture ; le tour est fini par un joint ou une

@@ -37,6 +37,35 @@ chaque élément** est la longueur de l'intersection de la droite avec le polygo
 ouvertures. Fonction : `Surface::coupes(Direction $direction, int $pas): list<Segment>`.
 Elle remplace l'idée d'une hauteur constante et couvre les plafonds sans cas particulier.
 
+## Cloisons (code)
+
+Une cloison est un objet **dans** une pièce (la pièce reste un volume physique). Classes pures dans
+`src/Geometry` :
+
+| Classe | Rôle |
+|---|---|
+| `TraceCloison` | Segment `(début, fin)` en mm (axe) ; longueur, angle, normale ; `deplacerExtremite()`, `definirLongueur()`, `decalerParRapportA(Mur\|Cloison, distance)` |
+| `GenerateurFacesCloison` | Trace + épaisseur + plafond de la pièce → deux `Face` (polygone `(u, v)` ; hauteur à chaque position via `Piece::hauteurA(Point2D)` qui lit les pans de plafond) |
+| `DetecteurAncrages` | Propose l'ancrage de chaque extrémité : mur, autre cloison, doublage (tolérance configurable, ex. 20 mm) sinon `libre` ; calcule la position le long de la cible |
+| `JonctionsCloison` | Crée les jonctions sol / plafond / ancrages et le type correspondant (`cloison_sur_mur`, `cloison_sur_cloison`, `cloison_sur_doublage`) |
+| `OuvertureCloison` | Place l'ouverture dans le repère du tracé et la projette sur chaque face (repère de B inversé) |
+
+### Tracé modifiable
+`CloisonEditionService` applique les modifications du tracé à tout moment (déplacement d'extrémité, longueur,
+angle, décalage par rapport à un mur) :
+
+| Modification | Effet |
+|---|---|
+| Déplacer une extrémité / changer la longueur | Faces régénérées ; ouvertures conservées à leur position `u` depuis le début, revalidées (hors cloison = erreur signalée, pas supprimée) ; ancrages recalculés par `DetecteurAncrages` (l'utilisateur peut les forcer) |
+| Décaler la cloison (parallèlement) | Nouvelle position ; mêmes règles ; montants et rails recalculés au prochain calcul |
+| Une extrémité sort du volume de la pièce | Erreur de validation sur le tracé |
+| Une autre cloison est ancrée sur celle-ci | Son ancrage suit ; si la cible n'existe plus à cet endroit, `libre` avec avertissement |
+| Renommer la cloison ou une face | Aucun impact géométrique |
+
+Un `PlanModification` affiche les impacts avant validation quand des données (ouvertures, ancrages) sont
+touchées. Tests prioritaires : génération des faces (hauteur sous plafond plat et rampant), détection
+d'ancrage, conservation des ouvertures, projection sur la face B.
+
 ## Édition d'une pièce existante
 
 Une pièce est modifiable à tout moment, qu'elle vienne d'une source de mesures ou d'une saisie manuelle.

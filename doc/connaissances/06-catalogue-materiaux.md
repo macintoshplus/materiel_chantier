@@ -15,6 +15,7 @@ du fournisseur.
 | `unite_vente` | `piece`, `ml`, `m2`, `kg`, `rouleau`… |
 | `unites_par_lot` | Nombre d'éléments dans un lot par défaut (on achète des lots entiers) |
 | `poids` | kg par élément (pour la logistique : charge, nombre de voyages) |
+| `marge_securite_pct` | Marge de sécurité en pourcentage ajoutée au besoin avant arrondi au lot (nullable : défaut de catégorie, puis défaut global) |
 | `caracteristiques` | **JSON extensible**, propre à la catégorie |
 
 ## Catégories et caractéristiques JSON
@@ -22,7 +23,7 @@ du fournisseur.
 | Catégorie | Exemples de clés JSON |
 |---|---|
 | `plaque_platre` | `type` (std, hydro, feu…), `bord` (BA, AB…), `densite`, `pose.entraxe_max`, `pose.pas_vis_*` |
-| `profil_ossature` | `famille` (rail, montant, fourrure, cornière), `serie` (48, 70), `pose.entraxe_defaut`, `pose.portees` (table fabricant : renfort, orientation, entraxe, longueur max, décalage des joints, accessoires) |
+| `profil_ossature` | `famille` (rail, lisse, montant, fourrure, cornière), `serie` (48, 70), `pose.entraxe_defaut`, `pose.portees` (table fabricant : renfort, orientation, entraxe, longueur max, décalage des joints, accessoires) |
 | `appui_fixation` | `usage`, `pose.pas_defaut`, `pose.hauteur_defaut` |
 | `visserie` | `longueur`, `usage` (plaque sur métal/bois…), `pose.epaisseur_fixable_min/max`, `pose.consommation_par_m2` |
 | `accessoire_ossature` | `usage` (liaison de montants décalés ou accolés), `renfort_compatible` |

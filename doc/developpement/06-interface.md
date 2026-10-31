@@ -28,8 +28,9 @@ Les groupes affichés dépendent de l'objet édité :
 
 | Objet édité | Groupes de la colonne de droite |
 |---|---|
-| Pièce | Room (nom, hauteur sous plafond), Floor shape (sommets), Walls (liste nommée), Ceiling (type de toit) |
+| Pièce | Room (nom, hauteur sous plafond), Floor shape (sommets), Walls (liste nommée), Partitions (liste nommée), Ceiling (type de toit) |
 | Mur / pan | Wall (nom), Dimensions, Existing wall, Openings, Materials, Layers, Thermal result |
+| Cloison | Partition (nom), Layout (tracé, ancrages), Dimensions, Openings, Materials, Common layers (ossature, isolant), Side A layers (parement), Side B layers (parement), Thermal result |
 | Ouverture | Opening (nom, type, dimensions, position, pose) – affiché dans « Openings » du mur |
 
 ## Navigation : pièce → mur
@@ -49,6 +50,26 @@ Une pièce et un mur sont **deux pages distinctes** :
   navigateur fonctionnel, navigation par Turbo Drive (sans rechargement complet).
 - Si des modifications du formulaire en cours ne sont pas enregistrées, la navigation demande
   confirmation (ou enregistre automatiquement, selon la règle choisie pour tout l'écran : voir « Principes »).
+
+## Cloisons
+
+- Une cloison est un ouvrage dans une pièce (la pièce reste un volume physique). Elle apparaît sur le plan
+  de la pièce (trait épais, nommé) et dans le groupe **« Partitions »** de la colonne de droite.
+- **Création** : bouton « Add partition » sur la page de la pièce, puis deux points sur le plan ou saisie
+  numérique (début, fin, ou longueur + angle + distance à un mur de référence). Les ancrages sont proposés
+  automatiquement et modifiables.
+- **Sélection** : comme pour un mur, cliquer la cloison **sur le plan ou dans la liste « Partitions »** ouvre
+  **la page de la cloison**.
+- **Page de la cloison** : aperçu 2D au centre avec un sélecteur **« Side A / Side B »** pour afficher l'une
+  ou l'autre face (ouvertures, ossature, plaques) ; propriétés à droite :
+  - *Layout* : début, fin, longueur, angle, décalage, ancrage de chaque extrémité (mur, cloison, doublage,
+    libre) ;
+  - *Openings* : liste de la cloison (visibles sur les deux faces) avec mode de pose ;
+  - *Common layers* : ossature, isolant ;
+  - *Side A layers*, *Side B layers* : parements propres à chaque face.
+- Le **tracé est modifiable à tout moment** (voir `03-geometrie.md`). Comme partout, l'aperçu est mis à jour
+  **après enregistrement** ; le bouton « Save » est toujours visible.
+- Un doublage de mur se règle dans la page du mur (système, type de profilé périphérique rail ou lisse).
 
 ## Création d'une pièce
 
@@ -154,6 +175,8 @@ version figée).
 - Création d'une pièce possible par import DXF **ou** à partir de zéro, avec le même éditeur ensuite.
 - Après un import, nom, hauteur, sommets, noms de murs sont modifiables ; les murs conservent leur nom et leurs
   ouvertures quand un sommet bouge.
+- Une cloison se crée sur le plan, son tracé se modifie, ses deux faces ont leur parement propre, ses
+  ouvertures apparaissent sur les deux faces ; on y accède depuis le plan ou la liste « Partitions ».
 - Un mur peut être renommé ; une ouverture peut être ajoutée, modifiée, supprimée ; son mode de pose
   applique/tunnel change l'aperçu et les quantités.
 - Le bouton « Save » est visible en permanence ; rien n'est enregistré sans lui ; l'aperçu est mis à jour

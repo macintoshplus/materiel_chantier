@@ -20,7 +20,7 @@ calculateur multi-projets, persistant, géométrique, extensible, avec chiffrage
 | 0 | Filet de sécurité | Tests de caractérisation du calcul actuel (cloison, doublage, matériaux) ; passage en mm | — |
 | 1 | Catalogue et fournisseurs | `Materiau` + JSON + schémas par catégorie, `Fournisseur` (nom, adresse, GPS), prix TTC par fournisseur avec historique, écrans d'administration, import des articles actuels | 0 |
 | 2 | Modèle de domaine | Projet / Pièce / Surface / Ouverture persistés, plusieurs projets, CRUD | 0 |
-| 3 | Géométrie | Polygone au sol, murs générés, jonctions, murs non rectangulaires, **plafonds composés de pans**, repère propre à chaque surface, ouvertures positionnées ; aperçu 2D d'un mur, aperçu 2D vu du dessus d'une pièce | 2 |
+| 3 | Géométrie | Polygone au sol, murs générés, **cloisons (tracé, faces, ancrages)**, jonctions, murs non rectangulaires, **plafonds composés de pans**, repère propre à chaque surface, ouvertures positionnées ; aperçu 2D d'un mur, aperçu 2D vu du dessus d'une pièce | 2 |
 | 4 | Sources de mesures | Saisie par côtés et angles, import DXF, import CSV de relevé laser → pièce créée | 3 |
 | 5 | Systèmes et calcul | Paroi existante, systèmes de revêtement par surface (doublage, cloison, plafonds, lambris, isolation seule), couches, thermique R/U, variantes, quantités par surface et par pièce | 1, 3 |
 | 6 | Chiffrage et exports | Chiffrage figé et versionné, choix du fournisseur, liste de courses PDF par pièce et par fournisseur, avec ou sans prix | 1, 5 |
@@ -43,6 +43,10 @@ Les phases 1 et 2 sont indépendantes et peuvent avancer en parallèle. L'interf
 | Exports | Liste de courses PDF par pièce et par fournisseur, avec ou sans prix |
 | Aperçu | Mur : 2D. Pièce : 2D vue de dessus d'abord, 3D en phase 9 |
 | Interface | Aperçu au centre, propriétés en groupes repliables à droite ; un mur = une page (sélection sur le plan ou dans la liste de droite) ; création d'une pièce par import DXF ou saisie manuelle, modifiable à tout moment ; textes en anglais traduits en français |
+| Pièce | Volume entouré de murs physiques ; les cloisons, doublages et équipements sont des ouvrages dans la pièce |
+| Cloison | Objet distinct d'un mur : tracé modifiable, deux faces avec parement par face, ossature et isolant communs, ouvertures comme un mur, ancrages (mur, cloison, doublage) avec montant de raccordement supplémentaire |
+| Doublage | Profilé périphérique haut et bas : rails (système cloison) ou lisses (système doublage) |
+| Marges | Marge de sécurité en % par matériau (priorité chiffrage > projet > matériau > catégorie > global), quantités arrondies au lot supérieur |
 | Tests | Uniquement le code du projet, en priorité calculateurs, stratégies, résolveurs, géométrie, imports ; pas de test du framework |
 | Plafonds | Gérés dès la phase 3 (pans), l'ossature d'un pan se calcule dans le repère du pan, pas en bandes verticales |
 
