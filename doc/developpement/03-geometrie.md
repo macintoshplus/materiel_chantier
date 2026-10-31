@@ -37,6 +37,24 @@ chaque élément** est la longueur de l'intersection de la droite avec le polygo
 ouvertures. Fonction : `Surface::coupes(Direction $direction, int $pas): list<Segment>`.
 Elle remplace l'idée d'une hauteur constante et couvre les plafonds sans cas particulier.
 
+## Édition d'une pièce existante
+
+Une pièce est modifiable à tout moment, qu'elle vienne d'une source de mesures ou d'une saisie manuelle.
+`PieceEditionService` applique les modifications du sol en conservant l'identité des murs :
+
+| Modification | Effet |
+|---|---|
+| Renommer la pièce ou un mur | Aucun impact géométrique |
+| Déplacer un sommet | Les deux murs adjacents changent de largeur ; nom, système, couches et ouvertures sont conservés ; les ouvertures hors du mur deviennent des erreurs signalées (jamais supprimées) |
+| Ajouter un sommet sur une arête | Le mur est **scindé** en deux ; les ouvertures sont réparties selon leur position `u` (celle à cheval est signalée) ; les deux nouveaux murs héritent du nom (suffixe), du système et de la paroi existante |
+| Supprimer un sommet | Les deux murs sont **fusionnés** ; si leurs noms ou systèmes diffèrent, demande de confirmation ; les ouvertures sont recalées |
+| Changer la hauteur sous plafond | Les murs rectangulaires suivent ; les murs à pignon gardent leur forme tant qu'une hauteur n'est pas ressaisie |
+
+Identité d'un mur : identifiant stable (`id` de l'entité), indépendant de l'index du sommet. Chaque
+modification passe par un **plan de changements** (`PlanModification`) que l'on peut afficher avant
+validation quand des données sont impactées. Tests prioritaires : conservation des murs et des
+ouvertures, scission, fusion.
+
 ## Sources de mesures `src/Import`
 
 Toutes les sources produisent la **même structure neutre** `PlanImporte` (contours en mm, blocs
@@ -73,7 +91,8 @@ invalides avec numéro de ligne.
 ### Saisie par côtés et angles
 
 Formulaire dynamique (Stimulus) : tableau de côtés (mm) et d'angles (degrés, par défaut 90°). L'aperçu
-SVG se met à jour ; l'écart de fermeture est affiché (et un bouton « fermer automatiquement » répartit
+SVG et l'écart de fermeture sont rafraîchis à l'enregistrement du brouillon (bouton « Save » toujours
+visible, voir `06-interface.md`) ; l'écart de fermeture est affiché (et un bouton « fermer automatiquement » répartit
 l'écart en dessous d'un seuil).
 
 ### Parcours utilisateur commun

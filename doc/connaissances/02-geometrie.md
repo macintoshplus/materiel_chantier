@@ -63,12 +63,23 @@ est la longueur suivant la pente, pas la projection horizontale.
 
 Une ouverture est un polygone 2D (le plus souvent un rectangle ; ou cintrée/triangulaire) **défini dans le
 repère de sa surface** : `position (u, v)` du coin bas-gauche + `largeur`, `hauteur` (ou polygone).
-Paramètres complémentaires : type (porte, fenêtre, baie, trappe, velux), type de pose (tunnel, applique…),
-contour (plaque, retour d'isolant…), refoncement. Règles de validité :
+Paramètres complémentaires : type (porte, fenêtre, baie, trappe, velux), **mode de pose**, contour,
+refoncement. Règles de validité :
 
 - entièrement incluse dans le polygone de la surface ;
 - sans chevauchement avec une autre ouverture de la même surface ;
 - distance minimale à une arête (ex. ≥ 1 épaisseur de montant) pour pouvoir poser l'ossature.
+
+## Mode de pose d'une ouverture
+
+| Mode | Définition | Conséquence sur le revêtement |
+|---|---|---|
+| **Applique** (surface-mounted) | Le dormant est posé contre le nu du mur existant | Le parement s'arrête au contour de l'ouverture : pas de retour |
+| **Tunnel** | Le dormant est en retrait dans l'épaisseur du mur (embrasure) | Le parement fait un **retour vers l'ouverture** : bandes de parement sur le tour de l'ouverture |
+
+En tunnel, la profondeur du retour dépend de l'épaisseur du complexe posé devant le support (isolant,
+ossature, peaux de parement) et du refoncement du dormant. Les côtés concernés : linteau et deux
+montants pour une porte, plus l'appui (tablette) pour une fenêtre. Voir `04-platrerie.md`.
 
 ## Précision
 

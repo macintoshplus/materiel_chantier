@@ -229,6 +229,26 @@ La **comparaison automatique** des configurations (entraxe plus serré, doublage
 réutilise les variantes : chaque configuration candidate est évaluable sans modifier le système actif,
 avec son coût pour comparaison.
 
+## Retour de parement (ouvertures en tunnel)
+
+Une ouverture en pose `tunnel` impose un **retour de parement** ; en pose `applique`, rien.
+
+Calcul (calculateur de la couche parement, avec accès au `ContexteCouches`) :
+- `profondeurRetour = épaisseur cumulée du complexe devant le support + refoncement` de l'ouverture
+  (règle validée ; surcharge manuelle possible) ;
+- côtés : linteau + côtés (et appui pour une fenêtre) ; chaque côté est une **bande** de largeur
+  `profondeurRetour` et de longueur celle du côté de l'ouverture (+ chevauchement éventuel) ;
+- les bandes entrent dans le **calepinage des plaques** comme pièces supplémentaires (même type de plaque
+  que le parement, peau visible) et dans l'optimisation de coupes ;
+- joints : angles sortants (retour/parement) en bande armée ou cornière, angles rentrants (retour/appui) en
+  bande à joint plat ; ils sont ajoutés aux besoins en joints ;
+- ossature d'encadrement : rails/montants d'ouverture (déjà présents pour les linteaux) suffisent à porter
+  le retour tant que la profondeur ne dépasse pas la capacité du système (sinon avertissement) ;
+- visserie : les bandes de retour comptent dans la surface de peau pour le calcul des vis.
+
+L'aperçu 2D du mur affiche ces retours ; le mode de pose est modifiable à tout moment par ouverture
+(voir `06-interface.md`).
+
 ## Paroi existante
 
 - Liste de couches du support actuel : matériau existant (catégorie catalogue `paroi_existante` :
@@ -303,6 +323,9 @@ adhésif en ml selon jonctions de lés et périphérie ; R = 0.
   cumulée pilote profondeur d'ossature, attaches et vis ; le R total additionne les deux isolants.
 - Une 2ᵉ couche d'isolant à 90° est coupée perpendiculairement à la 1ʳᵉ ; à 0° elle est parallèle.
 - Les joints de la 2ᵉ peau de plaques sont décalés de ≥ 0,40 m de ceux de la 1ʳᵉ.
+- Ouverture en tunnel : des bandes de retour (linteau, côtés, appui pour une fenêtre) de largeur
+  `profondeurRetour` s'ajoutent aux plaques, joints et vis ; en applique, rien n'est ajouté.
+- Changer le mode de pose d'une ouverture (applique ↔ tunnel) change les quantités sans autre modification.
 - Une couche non épinglée est résolue par spécification ; un article épinglé qui ne la satisfait pas
   déclenche un avertissement.
 - Priorité des paramètres de pose : valeur utilisateur > minimum des limites des articles > défaut du système ;

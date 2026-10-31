@@ -42,6 +42,8 @@ Les phases 1 et 2 sont indépendantes et peuvent avancer en parallèle. L'interf
 | Murs courbes | Non pris en charge pour le moment (DXF : un arc/cercle ouvre un avertissement, pas d'approximation) |
 | Exports | Liste de courses PDF par pièce et par fournisseur, avec ou sans prix |
 | Aperçu | Mur : 2D. Pièce : 2D vue de dessus d'abord, 3D en phase 9 |
+| Interface | Aperçu au centre, propriétés en groupes repliables à droite ; un mur = une page (sélection sur le plan ou dans la liste de droite) ; création d'une pièce par import DXF ou saisie manuelle, modifiable à tout moment ; textes en anglais traduits en français |
+| Tests | Uniquement le code du projet, en priorité calculateurs, stratégies, résolveurs, géométrie, imports ; pas de test du framework |
 | Plafonds | Gérés dès la phase 3 (pans), l'ossature d'un pan se calcule dans le repère du pan, pas en bandes verticales |
 
 ## Hors périmètre initial

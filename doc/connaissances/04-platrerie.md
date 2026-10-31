@@ -45,6 +45,19 @@ Lattes entraxe ≈ 0,40–0,50 m, lames posées perpendiculairement ; calcul en 
 La liste des systèmes est **extensible** : un système n'est pas du code figé, c'est une définition
 (assemblage de couches + règles, chaque couche ayant son calculateur ; voir `developpement/04-systemes-et-calcul.md`).
 
+## Ouvertures : applique ou tunnel
+
+- **Applique** : le parement vient buter sur le contour de l'ouverture ; le tour est fini par un joint ou une
+  baguette de finition.
+- **Tunnel** : on fait un **retour de parement** : bandes de plaque (ou de lambris, d'enduit) qui
+  habillent le tour de l'ouverture, de la face visible du parement jusqu'au dormant. Elles sont portées par
+  l'ossature de l'ouverture (rails et montants d'encadrement) et reçoivent des joints aux angles
+  (cornières ou bandes armées sur les angles sortants).
+- Profondeur du retour : épaisseur totale du complexe + refoncement éventuel ; si le complexe est épais,
+  une fenêtre déjà posée peut nécessiter un retour plus profond ou un doublage d'ébrasement.
+- Côtés : porte → linteau + 2 côtés ; fenêtre → linteau + 2 côtés + appui. Les retours augmentent les
+  besoins en plaque (bandes), en joints, en visserie et en ossature d'encadrement.
+
 ## Renforcer une ossature de cloison
 
 Quand une cloison est plus haute que la portée d'un montant simple, ou doit mieux résister aux charges,

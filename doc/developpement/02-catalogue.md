@@ -119,4 +119,4 @@ portant leurs prix. Le contrôleur lit ensuite le catalogue au lieu de construir
 - Changer un prix conserve l'ancien dans l'historique ; `prixA` retourne le bon prix à une date passée.
 - Un article peut avoir des prix différents chez deux fournisseurs, avec des tailles de lot différentes.
 - Les calculateurs ne reçoivent plus d'objets construits en dur.
-- Tests : validation de schéma, historique de prix, haversine (cas connu), CRUD fonctionnel.
+- Tests : validation de schéma, historique de prix, haversine (cas connu), `candidats()` (pas de test de CRUD : code framework).

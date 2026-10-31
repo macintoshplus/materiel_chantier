@@ -25,7 +25,7 @@ Projet 1──n Piece 1──n Surface 1──n Ouverture
 | `Surface` | id, piece, type (`mur`, `plafond_pan`, `sol`), nom, origine3D, vecteurU, vecteurV (JSON), polygone JSON `[{u,v}]` |
 | `Arete` | surface, indexDebut, indexFin (dérivable du polygone) |
 | `Jonction` | areteA, areteB, type (`angle_saillant`, `angle_rentrant`, `faitage`, `noue`, `plat`…) |
-| `Ouverture` | id, surface, type, polygone JSON `[{u,v}]` (ou rectangle u,v,largeur,hauteur), typePose, typeContour, refoncement, parametres JSON |
+| `Ouverture` | id, surface, nom (optionnel), type, polygone JSON `[{u,v}]` (ou rectangle u,v,largeur,hauteur), typePose (`applique` \| `tunnel`), typeContour, refoncement (mm, profondeur du dormant en retrait du nu du mur ; ≥ 0), parametres JSON |
 | `ParoiExistante` | surface (1–1), couches (matériau existant + épaisseur, ou R forfaitaire) |
 | `SystemeApplique` | id, surface, variante (libellé), actif (bool), definitionSysteme (code), parametres JSON ; plusieurs par surface, **un seul actif** |
 | `CoucheAppliquee` | systemeApplique, ordre, role (`attache`, `isolant`, `ossature`, `membrane`, `parement`…), emplacement (code dans la définition), specification JSON (catégorie + critères), materiau (nullable : article épinglé), orientation (degrés, nullable), position (`entre_ossature`, `continue`, `sur_ossature`), decalage JSON (calepinage), epaisseurOverride |
@@ -76,5 +76,6 @@ rattaché par cascade. Aucune préparation dans les phases actuelles.
 
 ## Tests
 
-Tests unitaires des objets valeur ; test d'intégration Doctrine (MariaDB de la CI) pour
-l'enregistrement/relecture d'un projet complet avec variantes et chiffrage.
+Tests unitaires des objets valeur du domaine (conformément à `07-conventions-qualite.md`, pas de test du
+mapping Doctrine trivial). Un test d'intégration n'est écrit que pour une requête ou une logique propre au
+projet (par exemple l'historique de prix ou la recherche de candidats du catalogue).

@@ -66,5 +66,5 @@ l'aperçu HTML.
 - Article absent du fournisseur choisi : ligne « prix manquant » visible, total partiel signalé.
 - PDF par pièce avec et sans prix : mêmes articles, colonnes de prix présentes ou non.
 - PDF par fournisseur : un document par fournisseur (ou une section par fournisseur) avec son adresse.
-- Tests : stratégies (unitaire), service de chiffrage (intégration), génération PDF (fichier non vide,
+- Tests : stratégies (unitaire, prioritaire), service de chiffrage, rendu intermédiaire du PDF (gabarit, pas la bibliothèque PDF ; fichier non vide,
   texte attendu extrait ou rendu HTML intermédiaire vérifié).
