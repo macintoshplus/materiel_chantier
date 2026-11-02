@@ -15,8 +15,9 @@ Classes pures, sans Doctrine, entièrement testées.
 | `Point2D(int $x, int $y)` / `Point3D` | mm |
 | `Polygone` | liste de `Point2D` ; `aire()`, `perimetre()`, `estSimple()`, `sensAntiHoraire()`, `contient(Point2D)`, `contientPolygone()`, `intersecte()`, `boiteEnglobante()` |
 | `Plan` | origine 3D + vecteurs `u`, `v` ; `versPiece(Point2D): Point3D`, longueur réelle d'un segment 3D, angle de pente |
-| `GenerateurMurs` | `Polygone` au sol + hauteur → liste de `Surface` murs (une par arête), jonctions angulaires |
-| `GenerateurPlafond` | pièce + description du toit (plat, double pente, comble aménagé) → liste de pans `plafond_pan` et jonctions (faîtage, noue, sablière) |
+| `ConstructeurSurface` | contraintes de sommets (distance depuis un sommet, angle) → polygone `(u, v)` en mm ; voir « Surfaces construites par contraintes » |
+| `GenerateurMurs` | **raccourci de création** : `Polygone` au sol + hauteur → surfaces murs rectangulaires (une par arête) avec leurs contraintes, jonctions angulaires |
+| `GenerateurPlafond` | **raccourci de création** : plat ou double pente → pans (surfaces avec contraintes) et jonctions (faîtage, noue, sablière) |
 | `ServiceJonctions` | relie deux arêtes, vérifie la longueur égale, calcule le type d'angle |
 | `PlacementSurSurface` | positionne un rectangle/polygone dans une surface et vérifie l'inclusion/chevauchement (remplace `OuvertureOverlapChecker` et `PositionsIsValid`) |
 
@@ -37,6 +38,20 @@ chaque élément** est la longueur de l'intersection de la droite avec le polygo
 ouvertures. Fonction : `Surface::coupes(Direction $direction, int $pas): list<Segment>`.
 Elle remplace l'idée d'une hauteur constante et couvre les plafonds sans cas particulier.
 
+## Surfaces construites par contraintes
+
+Une `Surface` (mur, pan incliné, plafond horizontal : même classe, mêmes systèmes, seuls les matériaux
+changent) est un polygone plan dont chaque sommet est défini par une **contrainte** : `distance` depuis un
+sommet de référence (dans une direction) ou `angle` entre deux arêtes (ou avec l'horizontale). 
+`ConstructeurSurface` résout les contraintes en mm entiers et produit le polygone ; les contraintes sont
+conservées (`Surface.contraintes`) pour recalculer la forme quand une valeur change. Aucune hauteur unique
+n'est imposée : trapèze sous rampant, pignon et plafond sont des polygones comme les autres.
+
+`GenerateurMurs` et `GenerateurPlafond` ne sont que des raccourcis de création. **Source de vérité** : le
+polygone et les contraintes de chaque surface, pas la hauteur de la pièce. Un pan est positionné par la
+jonction de l'une de ses arêtes avec l'arête d'un mur et par son angle de pente. Contraintes sur-définies
+ou incohérentes : erreur de validation sur le champ.
+
 ## Cloisons (code)
 
 Une cloison est un objet **dans** une pièce (la pièce reste un volume physique). Classes pures dans
@@ -45,10 +60,10 @@ Une cloison est un objet **dans** une pièce (la pièce reste un volume physique
 | Classe | Rôle |
 |---|---|
 | `TraceCloison` | Segment `(début, fin)` en mm (axe) ; longueur, angle, normale ; `deplacerExtremite()`, `definirLongueur()`, `decalerParRapportA(Mur\|Cloison, distance)` |
-| `GenerateurFacesCloison` | Trace + épaisseur + plafond de la pièce → deux `Face` (polygone `(u, v)` ; hauteur à chaque position via `Piece::hauteurA(Point2D)` qui lit les pans de plafond) |
+| `GenerateurFacesCloison` | Trace + `Cloison.epaisseur` (dérivée du système, voir « Épaisseur d'une cloison ») + plafond de la pièce → deux `Face` (polygone `(u, v)` ; hauteur à chaque position via `Piece::hauteurA(Point2D)` qui lit les pans de plafond) |
 | `DetecteurAncrages` | Propose l'ancrage de chaque extrémité : mur, autre cloison, doublage (tolérance configurable, ex. 20 mm) sinon `libre` ; calcule la position le long de la cible |
 | `JonctionsCloison` | Crée les jonctions sol / plafond / ancrages et le type correspondant (`cloison_sur_mur`, `cloison_sur_cloison`, `cloison_sur_doublage`) |
-| `OuvertureCloison` | Place l'ouverture dans le repère du tracé et la projette sur chaque face (repère de B inversé) |
+| `OuvertureCloison` | Place l'ouverture dans le repère du tracé et la projette sur chaque face (repère de A inversé par rapport au tracé, repère de B dans le sens du tracé) |
 
 ### Tracé modifiable
 `CloisonEditionService` applique les modifications du tracé à tout moment (déplacement d'extrémité, longueur,
@@ -64,7 +79,17 @@ angle, décalage par rapport à un mur) :
 
 Un `PlanModification` affiche les impacts avant validation quand des données (ouvertures, ancrages) sont
 touchées. Tests prioritaires : génération des faces (hauteur sous plafond plat et rampant), détection
-d'ancrage, conservation des ouvertures, projection sur la face B.
+d'ancrage, conservation des ouvertures, projection sur les faces A (inversée) et B.
+
+### Épaisseur d'une cloison
+`Cloison.epaisseur` est **dérivée** du système actif, jamais saisie : parement A + ossature + parement B,
+calculée en phase de planification **sans polygone** (voir `04-systemes-et-calcul.md`). Le profilé est choisi
+sur la **hauteur maximale** de la cloison à l'axe. L'épaisseur est stockée, puis `GenerateurFacesCloison`
+génère les faces. Changer de système, de variante active ou de profilé recalcule l'épaisseur et régénère les
+faces, avec `PlanModification` quand des ouvertures ou des ancrages sont touchés.
+Même règle pour une cloison ancrée sur un doublage : l'épaisseur du doublage de la **variante active** décale
+l'extrémité de la cloison ; activer une autre variante du doublage régénère les cloisons ancrées (impact
+affiché avant validation).
 
 ## Édition d'une pièce existante
 
@@ -77,7 +102,7 @@ Une pièce est modifiable à tout moment, qu'elle vienne d'une source de mesures
 | Déplacer un sommet | Les deux murs adjacents changent de largeur ; nom, système, couches et ouvertures sont conservés ; les ouvertures hors du mur deviennent des erreurs signalées (jamais supprimées) |
 | Ajouter un sommet sur une arête | Le mur est **scindé** en deux ; les ouvertures sont réparties selon leur position `u` (celle à cheval est signalée) ; les deux nouveaux murs héritent du nom (suffixe), du système et de la paroi existante |
 | Supprimer un sommet | Les deux murs sont **fusionnés** ; si leurs noms ou systèmes diffèrent, demande de confirmation ; les ouvertures sont recalées |
-| Changer la hauteur sous plafond | Les murs rectangulaires suivent ; les murs à pignon gardent leur forme tant qu'une hauteur n'est pas ressaisie |
+| Changer la hauteur sous plafond | Valeur par défaut des raccourcis de création uniquement : les surfaces existantes ne changent pas ; pour modifier un mur, on modifie la contrainte du sommet concerné (distance ou angle) |
 
 Identité d'un mur : identifiant stable (`id` de l'entité), indépendant de l'index du sommet. Chaque
 modification passe par un **plan de changements** (`PlanModification`) que l'on peut afficher avant

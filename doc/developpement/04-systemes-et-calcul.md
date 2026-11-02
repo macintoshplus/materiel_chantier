@@ -6,7 +6,7 @@ Connaissances : [03-isolation-thermique.md](../connaissances/03-isolation-thermi
 ## Concepts
 
 - **`ParoiExistante`** : composition de la paroi à rénover (voir plus bas). Optionnelle.
-- **`DefinitionSysteme`** : code, libellé, types de surface compatibles (`mur`, `plafond_pan`, `sol`),
+- **`DefinitionSysteme`** : code, libellé, types de surface compatibles (`mur`, `plafond_pan`, `sol`, `cloison`) : un mur, un pan incliné et un plafond horizontal sont la même géométrie, un système s'applique aux trois et seuls les matériaux changent,
   **emplacements de couches** (voir plus bas), paramètres (schéma). Un système est un **assemblage
   ordonné de couches**, pas un calculateur monolithique.
 - **`EmplacementCouche`** : rôle, cardinalité (`min`..`max`, ex. 1 à 2 parements), catégorie de matériau
@@ -39,9 +39,17 @@ Une `CoucheAppliquee` porte la spécification et, éventuellement, un **matéria
   (ou celui choisi par l'utilisateur) est retenu avant le calcul.
 
 Au chiffrage, un article indisponible chez le fournisseur choisi est remplacé par un **équivalent**
-(autre article satisfaisant la même spécification) si l'utilisateur l'a autorisé. Chaîne de résolution
-(`ResolveurOffre`) : article épinglé chez le fournisseur → équivalent chez ce fournisseur → épinglé ou
-équivalent chez un autre fournisseur → ligne « prix manquant ». Chaque maillon est testable seul.
+(autre article satisfaisant la même spécification) **uniquement si la correspondance exacte n'est pas
+disponible** et si l'utilisateur l'a autorisé. Chaîne de résolution (`ResolveurOffre`) : article épinglé
+chez le fournisseur → équivalent chez ce fournisseur → épinglé ou équivalent chez un autre fournisseur
+(sauf stratégie `FournisseurUnique`) → ligne « prix manquant ». Chaque maillon est testable seul.
+
+**Un équivalent a d'autres caractéristiques** (longueur de barre, dimensions de plaque, rouleau, lot) : la
+substitution **déclenche le recalcul de l'optimisation de coupes** (et du calepinage) de cette ligne avec
+les caractéristiques de l'article retenu. Le moteur conserve donc, pour chaque matériau, les **besoins
+bruts** (pièces à découper, surfaces, longueurs, nombres de pièces) et non seulement le nombre de barres.
+L'optimisation et l'arrondi aux lots sont toujours exécutés **pour un article précis** ; l'ordre est :
+besoins bruts → résolution de l'article (fournisseur, équivalent) → optimisation → marge → lots.
 
 ## Couches multiples, orientation et position
 
@@ -135,7 +143,9 @@ face** :
 `PipelineCouches` pour une cloison parcourt la pile **de la face A vers la face B** : parement(s) A →
 isolant/ossature → parement(s) B. L'épaisseur cumulée est la somme des deux parements et de l'ossature
 (épaisseur de la cloison). Les calculs :
-1. **Planification** : entraxe, renfort, profondeur de cavité (isolant), choix des vis **par face** (critère
+1. **Planification** (sans polygone) : **profilé choisi sur la hauteur maximale** de la cloison à l'axe,
+   **épaisseur de la cloison** (publiée vers `Cloison.epaisseur`, voir `03-geometrie.md`), entraxe, renfort,
+   profondeur de cavité (isolant), choix des vis **par face** (critère
    calculé sur l'épaisseur de parement de la face).
 2. **Ossature** : calculée **une fois** pour la cloison (rails, montants, renforts, linteaux d'ouverture),
    dans le repère du tracé ; hauteur variable si plafond rampant.
@@ -172,7 +182,8 @@ catalogue (`profil_ossature`, famille `rail` ou `lisse`). Les appuis intermédia
 restent propres au système.
 
 Un doublage peut recevoir une cloison (ancrage `doublage`) : le montant supplémentaire de raccordement est
-alors ajouté à l'ossature du doublage à la position de la jonction.
+alors ajouté à l'ossature du doublage à la position de la jonction. L'épaisseur du doublage (variante
+active) décale l'extrémité de la cloison ancrée ; activer une autre variante régénère les faces de la cloison.
 
 ## Paramètres de mise en œuvre (entraxe, pas, portée, vis)
 
@@ -186,9 +197,10 @@ répartis sur trois niveaux (détail du stockage dans `02-catalogue.md`, groupe 
 | `SystemeApplique` | Surcharge par l'utilisateur | Entraxe imposé à 400 mm |
 
 **Priorité** (phase de planification du pipeline) :
-1. valeur de l'utilisateur, acceptée avec un avertissement si elle dépasse une limite d'un article ;
-2. sinon le **minimum des limites** de tous les articles du système (l'article le plus contraignant gagne) ;
-3. sinon la valeur par défaut du système.
+1. **surcharge de l'utilisateur**, acceptée avec un avertissement si elle dépasse une limite d'un article ;
+2. sinon `min(défaut du système, limites de tous les articles du système)` (l'article le plus contraignant
+   gagne, mais une limite plus large que le défaut ne le remplace jamais) ;
+3. sans défaut de système : le minimum des limites ; sans aucune donnée : erreur explicite.
 
 Les valeurs retenues sont écrites dans `ContexteCouches` (`entraxe`, `pasVisParPeau`, `renfort`,
 `penetrationVis`), puis copiées dans le résultat de la surface et le chiffrage, pour expliquer les
@@ -381,7 +393,9 @@ adhésif en ml selon jonctions de lés et périphérie ; R = 0.
    au lieu de `Mur`.
 2. Supprimer le catalogue passé en paramètre : lire les `Materiau` choisis dans le système appliqué.
 3. Remplacer les tableaux associatifs de résultat par des objets typés (`LigneBesoin`, `ResultatCouche`, `ContexteCouches`).
-4. `MateriauxCalculator` renvoie des `LigneBesoinOptimise` (barres, lots, chutes) sans prix.
+4. `MateriauxCalculator` prend des **besoins bruts** et un `Materiau` précis (ses dimensions, son lot) et
+   renvoie des `LigneBesoinOptimise` (barres, lots, chutes) sans prix ; il est rappelé quand l'article change
+   (substitution par équivalent).
 5. Le calepinage des plaques (déjà ébauché) devient un composant partagé `CalepinagePlaques`.
 6. Le défaut actuel du contrôleur (catalogue codé en dur ignorant la saisie) disparaît avec le point 2.
 
@@ -402,8 +416,9 @@ adhésif en ml selon jonctions de lés et périphérie ; R = 0.
 - Changer le mode de pose d'une ouverture (applique ↔ tunnel) change les quantités sans autre modification.
 - Une couche non épinglée est résolue par spécification ; un article épinglé qui ne la satisfait pas
   déclenche un avertissement.
-- Priorité des paramètres de pose : valeur utilisateur > minimum des limites des articles > défaut du système ;
-  un entraxe utilisateur hors limite est accepté avec avertissement.
+- Priorité des paramètres de pose : surcharge utilisateur > `min(défaut du système, limites des articles)` ;
+  un entraxe utilisateur hors limite est accepté avec avertissement ; une limite supérieure au défaut ne
+  remplace pas le défaut.
 - Vis choisie par critère calculé : plus petite longueur ≥ épaisseur des peaux + pénétration mini ; quantité
   = longueur d'ossature de la peau ÷ pas de la peau (boîtes entières).
 - Mur plus haut que la portée du montant simple : le résolveur propose entraxe réduit, profilé plus fort,
@@ -416,7 +431,10 @@ adhésif en ml selon jonctions de lés et périphérie ; R = 0.
 - Montant plus court qu'une barre en `double_decale` : pas de joint, pas d'éclisse de joint, mais longueur
   max du renfort décalé conservée.
 - Renfort localisé (bords d'ouverture) : seuls les montants concernés sont doublés.
-- Remplacement par un équivalent chez le fournisseur choisi, puis ligne « prix manquant » en dernier recours.
+- Remplacement par un équivalent chez le fournisseur choisi, **seulement en l'absence de correspondance
+  exacte**, puis ligne « prix manquant » en dernier recours.
+- Un équivalent de longueur différente (rail 2,6 m au lieu de 3 m) produit une optimisation de coupes
+  recalculée avec sa longueur, donc un nombre de barres et des chutes différents.
 - Cloison à deux faces : l'ossature et l'isolant sont comptés une seule fois ; les parements sont comptés
   par face ; deux types de plaques différents sur les deux côtés produisent deux lignes.
 - Extrémité de cloison contre une autre cloison ou un doublage : un montant supplémentaire de raccordement est

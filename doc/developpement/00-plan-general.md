@@ -49,6 +49,10 @@ Les phases 1 et 2 sont indépendantes et peuvent avancer en parallèle. L'interf
 | Marges | Marge de sécurité en % par matériau (priorité chiffrage > projet > matériau > catégorie > global), quantités arrondies au lot supérieur |
 | Tests | Uniquement le code du projet, en priorité calculateurs, stratégies, résolveurs, géométrie, imports ; pas de test du framework |
 | Plafonds | Gérés dès la phase 3 (pans), l'ossature d'un pan se calcule dans le repère du pan, pas en bandes verticales |
+| Surfaces | Mur, pan incliné et plafond horizontal sont la même chose : une forme plane dont les sommets sont placés par distance ou par angle ; même système de revêtement, seuls les matériaux changent ; pas de description de toit paramétrique |
+| Sens de `u` | Vue du côté où l'on regarde la surface ; mur de pièce : de `fin` vers `début` de l'arête ; cloison : face A inversée par rapport au tracé, face B dans le sens du tracé |
+| Épaisseur de cloison | Dérivée du système actif (planification sans polygone), profilé choisi sur la hauteur maximale ; changer de variante régénère les faces |
+| Aperçu et calcul | L'enregistrement relance le pipeline de la surface (aperçu complet, avertissements) ; « Calculate » agrège le projet |
 
 ## Hors périmètre initial
 

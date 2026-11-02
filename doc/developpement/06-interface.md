@@ -28,7 +28,7 @@ Les groupes affichés dépendent de l'objet édité :
 
 | Objet édité | Groupes de la colonne de droite |
 |---|---|
-| Pièce | Room (nom, hauteur sous plafond), Floor shape (sommets), Walls (liste nommée), Partitions (liste nommée), Ceiling (type de toit) |
+| Pièce | Room (nom, hauteur sous plafond), Floor shape (sommets), Walls (liste nommée), Partitions (liste nommée), Ceiling (liste des pans nommés, chacun une page de surface) |
 | Mur / pan | Wall (nom), Dimensions, Existing wall, Openings, Materials, Layers, Thermal result |
 | Cloison | Partition (nom), Layout (tracé, ancrages), Dimensions, Openings, Materials, Common layers (ossature, isolant), Side A layers (parement), Side B layers (parement), Thermal result |
 | Ouverture | Opening (nom, type, dimensions, position, pose) – affiché dans « Openings » du mur |
@@ -164,8 +164,11 @@ version figée).
   demande confirmation : « Save and continue », « Discard », « Cancel ».
 - Après un enregistrement réussi, la page est rendue de nouveau : **l'aperçu est recalculé**
   (ouvertures, retours en tunnel, ossature, plaques) et les avertissements sont affichés.
-- Le recalcul des quantités n'est pas fait à chaque enregistrement d'un mur : il se fait à la demande
-  (bouton « Calculate ») ou au chiffrage ; l'aperçu, lui, reflète la géométrie et les couches enregistrées.
+- Chaque enregistrement relance le **pipeline de la surface** (ossature, calepinage des plaques, R/U,
+  avertissements) : l'aperçu complet et les avertissements (dont « R insuffisant ») sont donc à jour juste
+  après « Save ». Le bouton « Calculate » ne sert qu'à l'**agrégation du projet** : optimisation de coupes
+  entre surfaces, marge, lots. L'aperçu utilise l'article épinglé ou par défaut ; seule la création d'un
+  chiffrage substitue des équivalents.
 - Accessibilité de base (labels, contrastes, navigation clavier) et usage tablette sur chantier ; la colonne
   de droite passe sous l'aperçu sur écran étroit.
 - Prix affichés TTC avec mention explicite.
@@ -187,3 +190,7 @@ version figée).
   et passage au mur précédent/suivant possibles depuis cette page ; chaque page a son URL propre.
 - Aucun texte visible n'est en dur en français ; chaque message anglais a sa traduction française.
 - L'écran actuel `/doublage/mur` reste accessible jusqu'à ce que l'écran de mur le remplace.
+- Après « Save », l'aperçu montre ossature et plaques et les avertissements de calcul apparaissent, sans
+  cliquer sur « Calculate » ; « Calculate » agrège le projet (coupes, marge, lots).
+- Un pan incliné et un plafond plat s'éditent avec la même page, les mêmes groupes et les mêmes systèmes
+  qu'un mur ; les sommets se règlent par distance ou par angle.

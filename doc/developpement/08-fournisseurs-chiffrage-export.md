@@ -23,12 +23,14 @@ Les lignes **copient** les libellés, dimensions et prix : renommer ou supprimer
 modifie pas un chiffrage existant.
 
 ### Stratégie de fournisseur
-Interface `StrategieFournisseur::choisir(Materiau, DateTimeImmutable, Contexte): ?PrixMateriau` :
+Interface `StrategieFournisseur::choisir(Materiau, QuantiteBrute, DateTimeImmutable, Contexte): ?PrixMateriau`.
+La **quantité brute** (besoin avant marge et lots, dans l'unité de l'article) est toujours fournie : les lots
+n'ayant pas la même taille d'un fournisseur à l'autre, comparer des prix de lot n'a pas de sens.
 
 | Stratégie | Règle |
 |---|---|
-| `FournisseurUnique` | Tous les articles chez le même fournisseur ; les articles absents sont signalés |
-| `MeilleurPrix` | Prix de lot le moins cher par article (peut mélanger les fournisseurs) |
+| `FournisseurUnique` | Tous les articles chez le même fournisseur ; équivalent chez lui si pas de correspondance exacte, sinon article signalé ; jamais de repli sur un autre fournisseur |
+| `MeilleurPrix` | Coût **total** pour la quantité brute : `ceil(quantiteBrute × (1 + marge) / unitesParLot) × prixLotTtc`, pour chaque fournisseur, le plus bas gagne (peut mélanger les fournisseurs) ; l'optimisation de coupes est refaite par candidat si ses dimensions diffèrent |
 | `PlusProche` | Fournisseur le plus proche de l'adresse du chantier qui vend l'article, repli sur le suivant |
 | `Manuelle` | Choix par ligne dans l'écran |
 
@@ -64,7 +66,9 @@ l'aperçu HTML.
 ## Critères d'acceptation
 
 - Un chiffrage créé aujourd'hui ne change pas si un prix est modifié demain.
-- Stratégie `MeilleurPrix` : si A vend 12 € et B 10 €, la ligne est chez B.
+- Stratégie `MeilleurPrix` : comparaison sur le coût total de la quantité brute ; si A vend un lot de 5 à
+  12 € et B un lot de 1 à 3 €, pour un besoin de 5 unités A gagne (12 € contre 15 €) alors que le lot de B
+  est le moins cher ; pour un besoin de 2 unités, B gagne (6 € contre 12 €).
 - Stratégie `PlusProche` : classement correct à partir de coordonnées de test (distance connue).
 - Article absent du fournisseur choisi : ligne « prix manquant » visible, total partiel signalé.
 - PDF par pièce avec et sans prix : mêmes articles, colonnes de prix présentes ou non.

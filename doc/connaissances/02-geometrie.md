@@ -8,6 +8,9 @@
   Pour un pan de plafond, `u` est le long de l'égout (ligne basse), `v` suit la pente.
 - Une surface a donc : un **polygone 2D** (sommets dans son repère) et une **transformation** vers le repère
   pièce (origine 3D + vecteurs `u`, `v`). La normale pointe vers l'intérieur de la pièce.
+- **Sens de `u` (décision)** : `u` croît de gauche à droite **vue du côté d'où l'on regarde la surface**.
+  Pour un mur de pièce (sol anti-horaire, intérieur à gauche du parcours), `u` va donc du sommet `fin` vers
+  le sommet `début` de l'arête. Règle unique, testée ; l'aperçu n'applique aucun miroir.
 
 ## Forme au sol
 
@@ -39,6 +42,12 @@ Modèle conceptuel : `Arete { surface, indexSommetDebut, indexSommetFin }` et
 ## Murs non rectangulaires
 
 Un mur est un polygone 2D quelconque : rectangle, trapèze (mur sous rampant), pentagone (pignon).
+Une surface est une **forme plane dont les sommets sont construits** : chaque sommet est placé par une
+**distance** depuis un autre sommet ou par un **angle**, dans le repère de la surface ; il n'y a pas de
+hauteur unique imposée. Un mur, un pan de plafond incliné (un **mur incliné**) et un plafond plat (un **mur
+horizontal**) sont donc la même chose : une surface plane. Un même système de revêtement s'applique aux
+trois, **seuls les matériaux changent**. Il n'y a pas de description de toit paramétrique : le toit est un
+ensemble de surfaces reliées par des jonctions.
 Pour les calculs d'ossature, on travaille **dans le repère `(u, v)` de la surface**, pas en projection
 horizontale : à chaque position d'élément (montant, fourrure, latte) on coupe le polygone par une droite
 dans la direction de l'ossature ; la longueur de l'élément est celle de l'intersection, ouvertures
@@ -47,7 +56,8 @@ plafond incliné ont leur **longueur réelle** (suivant la pente), sans cas part
 
 ## Plafonds composés
 
-Un plafond est un **ensemble de pans**, chacun étant une surface plane :
+Un plafond est un **ensemble de pans**, chacun étant une surface plane (un pan incliné est un mur incliné,
+un plafond plat un mur horizontal : même modèle, mêmes systèmes) :
 
 | Cas | Pans |
 |---|---|
@@ -68,7 +78,7 @@ Une cloison est une paroi plane verticale posée **dans** une pièce (la pièce 
   une extrémité, changer la longueur, l'angle, ou la distance à un mur de référence.
 - **Faces** : le côté **A** est à gauche du tracé en allant du début à la fin, le côté **B** à droite. Chaque
   face est une surface plane qui a son repère `(u, v)` : `u` croît de gauche à droite **vue du côté de la
-  face** (le repère de la face B est donc inversé par rapport au tracé), `v` vertical depuis le sol.
+  face** (le repère de la face A est donc inversé par rapport au tracé, celui de la face B est dans le sens du tracé), `v` vertical depuis le sol.
 - **Hauteur** : déduite du plafond de la pièce à chaque position du tracé. Sous un plafond plat, c'est la
   hauteur sous plafond ; sous un rampant, la face est un trapèze ou un polygone dont le bord haut suit la
   pente (voir « Murs non rectangulaires »).

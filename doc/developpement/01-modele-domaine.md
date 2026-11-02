@@ -24,11 +24,11 @@ Projet 1──n Piece 1──n Surface 1──n Ouverture
 | Entité | Champs principaux |
 |---|---|
 | `Projet` | id, nom, description, dateCreation, adresseChantier + latitude/longitude (optionnels), parametres JSON (marges de sécurité par catégorie ou matériau, options) |
-| `Piece` | id, projet, nom, hauteurSousPlafond (mm), formeSol JSON `[{x,y}]` mm anti-horaire, sourceMesures (saisie, dxf, csv) |
-| `Surface` | id, piece, type (`mur`, `plafond_pan`, `sol`), nom, origine3D, vecteurU, vecteurV (JSON), polygone JSON `[{u,v}]` |
+| `Piece` | id, projet, nom, hauteurSousPlafond (mm, valeur par défaut pour créer des murs rectangulaires, pas une source de vérité), formeSol JSON `[{x,y}]` mm anti-horaire, sourceMesures (saisie, dxf, csv) |
+| `Surface` | id, piece, type (`mur`, `plafond_pan`, `sol`, `cloison_face`), nom, origine3D, vecteurU, vecteurV (JSON), polygone JSON `[{u,v}]` résolu, contraintes JSON (sommets placés par distance depuis un sommet ou par angle) ; mur, pan incliné et plafond horizontal sont le même objet, `type` est indicatif |
 | `Arete` | surface, indexDebut, indexFin (dérivable du polygone) |
 | `Jonction` | areteA, areteB, type (`angle_saillant`, `angle_rentrant`, `faitage`, `noue`, `plat`, `cloison_sur_mur`, `cloison_sur_cloison`, `cloison_sur_doublage`, `cloison_sur_sol`, `cloison_sous_plafond`…) |
-| `Cloison` | id, piece, nom, debut `{x,y}` mm, fin `{x,y}` mm (axe, modifiables), ancrageDebut, ancrageFin (type `mur` \| `cloison` \| `doublage` \| `libre`, cible, position le long de la cible), parametres JSON |
+| `Cloison` | id, piece, nom, debut `{x,y}` mm, fin `{x,y}` mm (axe, modifiables), epaisseur mm (**dérivée** du système actif, jamais saisie), ancrageDebut, ancrageFin (type `mur` \| `cloison` \| `doublage` \| `libre`, cible, position le long de la cible), parametres JSON |
 | `Face` | id, cloison, cote (`A` \| `B`), nom, polygone JSON `[{u,v}]` (repère de la face, dérivé du tracé et du plafond) ; est une `Surface` de type `cloison_face` |
 | `Ouverture` | id, surface **ou** cloison, nom (optionnel), type, polygone JSON `[{u,v}]` (ou rectangle u,v,largeur,hauteur), typePose (`applique` \| `tunnel`), typeContour, refoncement (mm, profondeur du dormant en retrait du nu du mur ; ≥ 0), parametres JSON |
 | `ParoiExistante` | surface (1–1), couches (matériau existant + épaisseur, ou R forfaitaire) |
@@ -82,7 +82,7 @@ enregistrés par tag (voir `04-systemes-et-calcul.md`).
 - Supprimer un projet supprime ses pièces, surfaces, ouvertures, équipements, chiffrages (cascade).
 - Une ouverture reste dans sa surface (validation Symfony, voir `03-geometrie.md`).
 - Une jonction relie exactement deux arêtes de longueur égale (± 1 mm).
-- Une surface a au plus un `SystemeApplique` actif.
+- Une surface (ou une cloison, qui porte son propre système) a au plus un `SystemeApplique` actif.
 - Le nombre de couches d'un emplacement respecte la cardinalité de la définition (`min`..`max`).
 - `SystemeApplique.parametres` conserve les choix utilisateur de pose (entraxe imposé, renfort, zone) ;
   la configuration retenue par le calcul est copiée dans le résultat, jamais déduite après coup.
