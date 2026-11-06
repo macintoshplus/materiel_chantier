@@ -21,16 +21,25 @@ Deux familles de fichiers :
 
 ## Développement
 
-0. [Plan général et phases](developpement/00-plan-general.md)
-1. [Modèle de domaine (entités)](developpement/01-modele-domaine.md)
-2. [Catalogue, fournisseurs et prix](developpement/02-catalogue.md)
-3. [Géométrie et sources de mesures (code)](developpement/03-geometrie.md)
-4. [Systèmes de revêtement et moteur de calcul](developpement/04-systemes-et-calcul.md)
-5. [Électricité (code)](developpement/05-electricite.md)
-6. [Interface utilisateur](developpement/06-interface.md)
-7. [Conventions et qualité](developpement/07-conventions-qualite.md)
-8. [Chiffrage, fournisseurs et exports PDF](developpement/08-fournisseurs-chiffrage-export.md)
-9. [Plomberie et ventilation](developpement/09-plomberie-ventilation.md)
+Références permanentes (préfixe `_`, jamais « terminées ») :
+
+- [Plan général, phases, règle d'une étape](developpement/_plan-general.md)
+- [Modèle de domaine](developpement/_modele-domaine.md)
+- [Conventions et qualité](developpement/_conventions-qualite.md)
+- [Principes d'interface](developpement/_interface-principes.md)
+
+Étapes (un fichier = une étape avec critères d'acceptation ; renommé `.DONE.md` quand elle est terminée) :
+
+0. [Filet de sécurité](developpement/00-filet-securite.DONE.md)
+1. [Catalogue, fournisseurs et prix](developpement/01-catalogue.DONE.md)
+2. [Modèle de domaine et persistance](developpement/02-modele-persistance.md)
+3. [Géométrie, pièces, cloisons, interface](developpement/03-geometrie.md)
+4. [Sources de mesures](developpement/04-sources-mesures.md)
+5. Systèmes et calcul : [a. moteur de couches](developpement/05a-moteur-couches.md), [b. cloisons et doublages](developpement/05b-cloisons-doublages.md), [c. plafond, pose, renforts](developpement/05c-plafond-pose-renforts.md), [d. finitions et thermique](developpement/05d-finitions-thermique.md), [e. agrégation et substitution](developpement/05e-agregation-substitution.md)
+6. [Chiffrage et exports](developpement/06-chiffrage-exports.md)
+7. [Électricité](developpement/07-electricite.md)
+8. [Plomberie et ventilation](developpement/08-plomberie-ventilation.md)
+9. [Vue 3D](developpement/09-vue-3d.md)
 
 > Les valeurs normatives (entraxes, hauteurs, sections, résistances superficielles) sont données à titre
 > d'ordre de grandeur et doivent être validées avec les DTU / NF C 15-100 en vigueur et les fiches

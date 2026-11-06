@@ -1,8 +1,28 @@
-# Catalogue, fournisseurs et prix (code)
+# Étape 01 — Catalogue, fournisseurs et prix
+
+> Statut : terminée (vérifiée le 2026-11-06 : 56 tests, phpstan niveau 8, schéma en phase). Ce fichier est renommé en `.DONE.md` (même commit que le code) quand tous les critères ci-dessous sont cochés et les vérifications vertes. Règles : [_plan-general.md](_plan-general.md#règle-dune-étape).
+
+## Objectif
+
+Un catalogue de matériaux dynamique (JSON validé par schéma de catégorie), des fournisseurs avec adresse/GPS, des prix TTC historisés par fournisseur, administrables et alimentés par l'import des articles existants.
+
+## Périmètre
+
+`Materiau`, `Fournisseur`, `PrixMateriau`, schémas de catégorie, spécifications/candidats, groupe `pose`, import CSV et reprise de l'existant, écrans d'administration.
+
+## Prérequis
+
+Étape 00 terminée.
+
+## Livrables
+
+`src/Catalogue`, entités et repositories, services de prix et d'import, contrôleurs `Admin/*`, templates, traductions, tests.
+
+## Spécification
 
 Connaissance : [06-catalogue-materiaux.md](../connaissances/06-catalogue-materiaux.md).
 
-## Entité `Materiau`
+### Entité `Materiau`
 
 | Colonne | Type | Remarque |
 |---|---|---|
@@ -20,16 +40,16 @@ Connaissance : [06-catalogue-materiaux.md](../connaissances/06-catalogue-materia
 
 Le **prix n'est plus porté par `Materiau`** : il dépend du fournisseur.
 
-### Marge de sécurité
+#### Marge de sécurité
 
 Priorité de la marge appliquée à un matériau : **chiffrage** (surcharge ponctuelle) > **projet**
 (`Projet.parametres.marges`, par matériau ou par catégorie) > **matériau** (`marge_securite_pct`) >
 **catégorie** (défaut déclaré dans le schéma de la catégorie) > **défaut global** (0 % tant qu'il n'est pas
 configuré). Les catégories fixent des défauts raisonnables (ex. plaques et isolant plus élevés que la visserie
 en boîte) ; ce sont des **données**, modifiables sans migration. Voir le calcul dans
-`04-systemes-et-calcul.md`, « Marge de sécurité et arrondi aux lots ».
+`05a-moteur-couches.md`, « Marge de sécurité et arrondi aux lots ».
 
-## Entité `Fournisseur`
+### Entité `Fournisseur`
 
 | Colonne | Type |
 |---|---|
@@ -45,7 +65,7 @@ Service `DistanceCalculator` : distance à vol d'oiseau (formule de haversine) e
 sert à classer les fournisseurs par proximité du chantier (adresse du projet, optionnelle).
 Saisie manuelle des coordonnées au départ ; géocodage d'adresse optionnel plus tard.
 
-## Entité `PrixMateriau` (historique)
+### Entité `PrixMateriau` (historique)
 
 | Colonne | Type | Remarque |
 |---|---|---|
@@ -64,7 +84,7 @@ Règles : on ne modifie jamais un prix, on en **crée un nouveau** qui clôt le 
 (`date_fin` = `date_debut` du nouveau). Au plus un prix courant par couple (matériau, fournisseur).
 `PrixService::prixA(Materiau, Fournisseur, DateTimeImmutable): ?PrixMateriau`.
 
-## Groupe `pose` des caractéristiques
+### Groupe `pose` des caractéristiques
 
 Données de mise en œuvre fournies par le fabricant, dans `Materiau.caracteristiques.pose`, déclarées
 dans le schéma de la catégorie (types et bornes validés comme les autres champs) :
@@ -84,9 +104,9 @@ Règle de lecture : `ProfilView::portees()`, `PlaqueView::pose()`, `VisserieView
 valeurs aux calculateurs avec des types stricts ; une clé obligatoire manquante lève une exception
 explicite (pas de valeur par défaut silencieuse).
 
-## Spécifications
+### Spécifications
 
-`MaterielSpecification` (objet valeur, voir `04-systemes-et-calcul.md`) filtre le catalogue :
+`MaterielSpecification` (objet valeur, voir `05a-moteur-couches.md`) filtre le catalogue :
 `CatalogueRepository::candidats(MaterielSpecification): list<Materiau>`. Les critères portent sur les
 colonnes (dimensions) et sur les clés JSON déclarées dans le schéma de la catégorie (y compris `pose`) ;
 un critère peut référencer le **contexte de calcul** (`{contexte.epaisseurParementsPeau}`), résolu avant
@@ -94,7 +114,7 @@ l'appel à `candidats()` ; une clé inconnue du
 schéma est refusée à la création de la spécification. `ResolveurMateriau` et `ResolveurOffre` s'appuient
 dessus pour le choix d'un article et la substitution par un équivalent.
 
-## Schémas de catégorie
+### Schémas de catégorie
 
 Classe `CategorieMateriau` (interface) : `code()`, `libelle()`, `champs(): list<ChampCaracteristique>`.
 Chaque `ChampCaracteristique` : clé, type (`int`, `float`, `string`, `enum`, `bool`), obligatoire, unité,
@@ -107,13 +127,13 @@ Services :
 - Accès typé pour les calculateurs : `IsolantView`, `MembraneView`, `ProfilView`… (façades en lecture sur
   `Materiau`, exception claire si un champ obligatoire manque).
 
-## Reprise de l'existant
+### Reprise de l'existant
 
 Commande `app:catalogue:importer-defauts` qui crée les articles correspondant aux objets codés en dur dans
 le contrôleur actuel (montant 3 m, rail 3 m, plaque 2,5×1,2, joints, appuis) et un fournisseur « Défaut »
 portant leurs prix. Le contrôleur lit ensuite le catalogue au lieu de construire les objets à la main.
 
-## Écrans
+### Écrans
 
 - Matériaux : liste filtrable par catégorie, formulaire dynamique, duplication.
 - Fournisseurs : CRUD avec carte (position GPS), liste des articles vendus.
@@ -122,12 +142,30 @@ portant leurs prix. Le contrôleur lit ensuite le catalogue au lieu de construir
 
 ## Critères d'acceptation
 
-- Ajouter une catégorie ne demande aucune migration.
-- Un article avec une caractéristique obligatoire manquante est refusé.
-- Les calculateurs lisent la table de portées via `ProfilView` (filtrée par orientation), sans accès au JSON brut.
-- Une ligne de portée est identifiée par `(renfort, orientation, entraxe)` ; doublons refusés à la validation du schéma.
-- `candidats()` renvoie uniquement les articles satisfaisant une spécification (ex. isolant λ ≤ 0,035 et épaisseur ≥ 100).
-- Changer un prix conserve l'ancien dans l'historique ; `prixA` retourne le bon prix à une date passée.
-- Un article peut avoir des prix différents chez deux fournisseurs, avec des tailles de lot différentes.
-- Les calculateurs ne reçoivent plus d'objets construits en dur.
-- Tests : validation de schéma, historique de prix, haversine (cas connu), `candidats()` (pas de test de CRUD : code framework).
+- [x] Ajouter une catégorie ne demande aucune migration.
+- [x] Un article avec une caractéristique obligatoire manquante est refusé.
+- [x] Les calculateurs lisent la table de portées via `ProfilView` (filtrée par orientation), sans accès au JSON brut.
+- [x] Une ligne de portée est identifiée par `(renfort, orientation, entraxe)` ; doublons refusés à la validation du schéma.
+- [x] `candidats()` renvoie uniquement les articles satisfaisant une spécification (ex. isolant λ ≤ 0,035 et épaisseur ≥ 100).
+- [x] Changer un prix conserve l'ancien dans l'historique ; `prixA` retourne le bon prix à une date passée.
+- [x] Un article peut avoir des prix différents chez deux fournisseurs, avec des tailles de lot différentes.
+- [x] Les calculateurs ne reçoivent plus d'objets construits en dur.
+- [x] Tests : validation de schéma, historique de prix, haversine (cas connu), `candidats()` (pas de test de CRUD : code framework).
+
+## Vérifications automatiques
+
+Toutes doivent être vertes avant de renommer le fichier en `.DONE.md` :
+
+```bash
+symfony php vendor/bin/phpunit
+symfony php vendor/bin/phpstan analyse
+symfony console doctrine:schema:validate
+```
+
+## Décisions et écarts
+
+- Les 25 catégories sont créées d'emblée (y compris celles utilisées par les étapes 05–08) ; elles ne sont pas toutes exploitées avant ces étapes.
+- Valeurs de pose par défaut des plaques (600/300/250/250) posées par l'import : **à valider** avec les fiches fabricants.
+- `Ouverture.type` et `typeContour` restent des chaînes libres (à contraindre à l'étape 03).
+- `tunel` vs `tunnel` : orthographe à unifier.
+- `optimiserBarres` : comportement particulier conservé tel quel (caractérisé par les tests).

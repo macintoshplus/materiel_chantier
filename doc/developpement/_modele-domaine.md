@@ -2,8 +2,8 @@
 
 Base : MariaDB via Doctrine ORM (attributs PHP). Entités dans `src/Entity`, repositories dans
 `src/Repository`. Valeurs géométriques en **millimètres entiers**. Le catalogue, les fournisseurs et les
-prix sont détaillés dans [02-catalogue.md](02-catalogue.md) ; chiffrage et exports dans
-[08-fournisseurs-chiffrage-export.md](08-fournisseurs-chiffrage-export.md).
+prix sont détaillés dans [01-catalogue.DONE.md](01-catalogue.DONE.md) ; chiffrage et exports dans
+[06-chiffrage-exports.md](06-chiffrage-exports.md).
 
 ## Entités
 
@@ -49,10 +49,10 @@ sont des lignes `type = cloison_face` avec `cloison_id` et `cote` renseignés.
 | `ParoiExistante` | surface (1–1), couches (matériau existant + épaisseur, ou R forfaitaire) |
 | `SystemeApplique` | id, surface **ou** cloison (deux clés étrangères nullables, exactement une renseignée), variante (libellé), actif (bool), definitionSysteme (code), parametres JSON ; plusieurs par surface, **un seul actif** |
 | `CoucheAppliquee` | systemeApplique, ordre, face (`null` = couche commune ; `A` \| `B` pour le parement d'une face de cloison), role (`attache`, `isolant`, `ossature`, `membrane`, `parement`…), emplacement (code dans la définition), specification JSON (catégorie + critères), materiau (nullable : article épinglé), orientation (degrés, nullable), position (`entre_ossature`, `continue`, `sur_ossature`), decalage JSON (calepinage), epaisseurOverride |
-| `Materiau`, `Fournisseur`, `PrixMateriau` | voir `02-catalogue.md` |
+| `Materiau`, `Fournisseur`, `PrixMateriau` | voir `01-catalogue.DONE.md` |
 | `Equipement` | id, piece, surface, famille (`electrique`, `plomberie`, `ventilation`), type, u, v (la hauteur sur un mur est `v`, pas de champ `hauteurPose`), reseau, parametres JSON |
 | `Reseau` | id, projet, nom, famille, type, parametres JSON (section, protection, diamètre…) |
-| `Chiffrage`, `LigneChiffrage` | voir `08-fournisseurs-chiffrage-export.md` |
+| `Chiffrage`, `LigneChiffrage` | voir `06-chiffrage-exports.md` |
 
 Choix : les polygones sont stockés en **JSON** (petits, jamais interrogés en SQL), manipulés dans le code
 par des objets valeur (`Polygone`, `Point2D`). Surface plane : un mur courbe n'est pas représentable
@@ -82,7 +82,7 @@ cavité, direction de l'ossature, calepinage précédent, entraxe retenu, pas de
 de vis), `ConfigurationOssature` (profilé, entraxe, renfort, zone d'application). Immuables, `readonly`.
 
 `DefinitionSysteme` et `EmplacementCouche` ne sont pas des entités : ce sont des services/objets de code
-enregistrés par tag (voir `04-systemes-et-calcul.md`).
+enregistrés par tag (voir `05a-moteur-couches.md`).
 
 ## Migration depuis l'existant
 
@@ -116,6 +116,6 @@ moment-là). Aucune préparation dans les phases actuelles.
 
 ## Tests
 
-Tests unitaires des objets valeur du domaine (conformément à `07-conventions-qualite.md`, pas de test du
+Tests unitaires des objets valeur du domaine (conformément à `_conventions-qualite.md`, pas de test du
 mapping Doctrine trivial). Un test d'intégration n'est écrit que pour une requête ou une logique propre au
 projet (par exemple l'historique de prix ou la recherche de candidats du catalogue).

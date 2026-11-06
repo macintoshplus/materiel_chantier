@@ -11,7 +11,7 @@ calculateur multi-projets, persistant, géométrique, extensible, avec chiffrage
   Doctrine ne sert qu'à la persistance.
 - **Extensible par données** : catalogue (JSON validé par schéma), systèmes et types d'équipements
   ajoutés sans nouvelle migration quand c'est possible.
-- Outillage : voir [07-conventions-qualite.md](07-conventions-qualite.md).
+- Outillage : voir [_conventions-qualite.md](_conventions-qualite.md).
 
 ## Phases
 
@@ -22,14 +22,14 @@ calculateur multi-projets, persistant, géométrique, extensible, avec chiffrage
 | 2 | Modèle de domaine | Projet / Pièce / Surface / Ouverture persistés, plusieurs projets, CRUD | 0 |
 | 3 | Géométrie | Polygone au sol, murs générés, **cloisons (tracé, faces, ancrages)**, jonctions, murs non rectangulaires, **plafonds composés de pans**, repère propre à chaque surface, ouvertures positionnées ; aperçu 2D d'un mur, aperçu 2D vu du dessus d'une pièce | 2 |
 | 4 | Sources de mesures | Saisie par côtés et angles (la création manuelle « rectangle rapide » et le tableau de sommets sont déjà en phase 3), import DXF, import CSV de relevé laser → pièce créée | 3 |
-| 5 | Systèmes et calcul | Paroi existante, systèmes de revêtement par surface (doublage, cloison, plafonds, lambris, isolation seule), couches, thermique R/U, variantes, quantités par surface et par pièce | 1, 3 |
+| 5 (a–e) | Systèmes et calcul | Paroi existante, systèmes de revêtement par surface (doublage, cloison, plafonds, lambris, isolation seule), couches, thermique R/U, variantes, quantités par surface et par pièce | 1, 3 |
 | 6 | Chiffrage et exports | Chiffrage figé (instantané daté ; un nouveau chiffrage est une nouvelle ligne, sans chaîne de versions), choix du fournisseur, liste de courses PDF par pièce et par fournisseur, avec ou sans prix | 1, 5 |
 | 7 | Réseaux : électricité | Équipements placés, circuits, longueurs de câble/gaine, quantités annexes | 3, 5 |
 | 8 | Plomberie et ventilation | Mêmes principes que l'électricité (équipements, réseaux, cheminement), alimentés par le catalogue | 7 |
 | 9 | Vue 3D de la pièce | Visualisation 3D (murs, plafond à pans, ouvertures, équipements) | 3 |
 
 Les phases 1 et 2 sont indépendantes et peuvent avancer en parallèle. L'interface suit chaque phase
-(voir [06-interface.md](06-interface.md)).
+(voir [_interface-principes.md](_interface-principes.md)).
 
 ## Décisions prises
 
@@ -70,7 +70,34 @@ Aucune. Livraison : un prix forfaitaire de livraison peut être saisi par fourni
 sans franco ni calcul au poids. Fournisseur le plus proche : mesuré depuis l'adresse du chantier saisie sur le
 projet. Article indisponible : équivalent seulement sans correspondance exacte (voir `04` et `08`).
 
-## Définition de « terminé » pour toute tâche
+## Règle d'une étape
 
-`symfony php vendor/bin/phpunit` vert, `symfony php vendor/bin/phpstan analyse` (niveau 8) sans erreur,
-CI verte, doc mise à jour si le comportement métier change.
+Les fichiers `NN-*.md` sont des **étapes de développement** ; les fichiers préfixés `_` sont des
+**références permanentes** (plan, modèle, conventions, principes d'interface) qui ne se « terminent » pas.
+
+Une étape contient : Objectif, Périmètre, Prérequis, Livrables, Spécification, **Critères d'acceptation** (cases à
+cocher, chacun vérifiable), Vérifications automatiques, Décisions et écarts.
+
+- On ne commence une étape que si ses prérequis sont `.DONE.md`.
+- Une étape est terminée quand **tous** ses critères sont cochés et que les vérifications sont vertes :
+  `symfony php vendor/bin/phpunit`, `symfony php vendor/bin/phpstan analyse` (niveau 8),
+  `symfony console doctrine:schema:validate`, CI verte.
+- Le fichier est alors renommé en `NN-*.DONE.md`, **dans le même commit que le code** (et les liens mis à jour).
+- Un critère non satisfait ne se coche pas : il est soit implémenté, soit déplacé explicitement vers une autre
+  étape et noté dans « Décisions et écarts ».
+- Un changement de comportement métier met à jour la spécification de l'étape concernée.
+
+## Étapes
+
+| Fichier | Étape |
+|---|---|
+| [00](00-filet-securite.DONE.md) | Filet de sécurité |
+| [01](01-catalogue.DONE.md) | Catalogue, fournisseurs, prix |
+| [02](02-modele-persistance.md) | Modèle de domaine et persistance |
+| [03](03-geometrie.md) | Géométrie, pièces, cloisons, interface d'édition |
+| [04](04-sources-mesures.md) | Sources de mesures (DXF, CSV, côtés/angles) |
+| [05a](05a-moteur-couches.md) → [05e](05e-agregation-substitution.md) | Systèmes et calcul : moteur, cloisons/doublages, plafond/pose/renforts, finitions/thermique, agrégation/substitution |
+| [06](06-chiffrage-exports.md) | Chiffrage et exports |
+| [07](07-electricite.md) | Électricité |
+| [08](08-plomberie-ventilation.md) | Plomberie et ventilation |
+| [09](09-vue-3d.md) | Vue 3D |

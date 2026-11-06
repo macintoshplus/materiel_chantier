@@ -1,30 +1,50 @@
-# Chiffrage, fournisseurs et exports PDF
+# Étape 06 — Chiffrage, fournisseurs et exports PDF
 
-Dépend de [02-catalogue.md](02-catalogue.md) (fournisseurs, prix) et de
-[04-systemes-et-calcul.md](04-systemes-et-calcul.md) (besoins).
+> Statut : à faire. Ce fichier est renommé en `.DONE.md` (même commit que le code) quand tous les critères ci-dessous sont cochés et les vérifications vertes. Règles : [_plan-general.md](_plan-general.md#règle-dune-étape).
 
-## Chiffrage
+## Objectif
+
+Produire un chiffrage figé (instantané daté) avec choix du fournisseur, livraison et exports PDF de liste de courses.
+
+## Périmètre
+
+`Chiffrage`, `LigneChiffrage`, stratégies de fournisseur, livraison, exports PDF.
+
+## Prérequis
+
+Étapes 01 et 05e terminées.
+
+## Livrables
+
+Entités et migration, `StrategieFournisseur` et implémentations, service de chiffrage, exports PDF, écrans Quote et Exports.
+
+## Spécification
+
+Dépend de [01-catalogue.DONE.md](01-catalogue.DONE.md) (fournisseurs, prix) et de
+[05a-moteur-couches.md](05a-moteur-couches.md) (besoins).
+
+### Chiffrage
 
 Un **chiffrage** est un instantané immuable des besoins d'un projet, valorisés à une date donnée.
 
-### `Chiffrage`
+#### `Chiffrage`
 id, projet, libelle, dateCreation, strategieFournisseur, parametres JSON (surcharges de marge de sécurité, fournisseur
 imposé, adresse de référence), totalTtc.
 
-### `LigneChiffrage`
+#### `LigneChiffrage`
 chiffrage, piece (nullable : ligne agrégée), surface (nullable), materiau (identité figée : référence,
 libellé, dimensions copiés), fournisseur, referenceFournisseur, quantiteBesoin, margePct, quantiteAvecMarge, unitesParLot, nombreLots, quantiteAchetee,
 prixLotTtc, totalTtc, chute, tauxPerte, prixMateriauId (traçabilité).
 
 Quantités : `nombreLots = ceil(quantiteBesoin × (1 + margePct/100) / unitesParLot)` ; voir
-`04-systemes-et-calcul.md`, « Marge de sécurité et arrondi aux lots ». La marge utilisée est copiée dans la ligne.
+`05a-moteur-couches.md`, « Marge de sécurité et arrondi aux lots ». La marge utilisée est copiée dans la ligne.
 
 **Livraison** : si le fournisseur a un `frais_livraison_ttc`, une ligne « Livraison » (une par fournisseur utilisé dans le chiffrage, montant copié) s'ajoute au total ; elle **entre dans la comparaison de `MeilleurPrix`** (voir ci-dessous).
 
 Les lignes **copient** les libellés, dimensions et prix : renommer ou supprimer un article ensuite ne
 modifie pas un chiffrage existant.
 
-### Stratégie de fournisseur
+#### Stratégie de fournisseur
 Interface `StrategieFournisseur::choisir(Materiau, QuantiteBrute, DateTimeImmutable, Contexte): ?PrixMateriau`.
 La **quantité brute** (besoin avant marge et lots, dans l'unité de l'article) est toujours fournie : les lots
 n'ayant pas la même taille d'un fournisseur à l'autre, comparer des prix de lot n'a pas de sens.
@@ -36,7 +56,7 @@ n'ayant pas la même taille d'un fournisseur à l'autre, comparer des prix de lo
 | `PlusProche` | Fournisseur le plus proche de l'adresse du chantier qui vend l'article, repli sur le suivant |
 | `Manuelle` | Choix par ligne dans l'écran |
 
-#### Livraison dans `MeilleurPrix`
+##### Livraison dans `MeilleurPrix`
 
 Le forfait de livraison étant payé une fois par fournisseur utilisé, le choix article par article n'est plus
 indépendant : un article légèrement moins cher chez B peut coûter plus cher au total si B ajoute un forfait.
@@ -56,7 +76,7 @@ fournisseur, forfaits) est conservé dans les lignes de chiffrage.
 
 Articles sans prix chez le fournisseur choisi : ligne marquée « prix manquant », jamais un 0 silencieux.
 
-### Service
+#### Service
 `ChiffrageService::creer(Projet, Strategie, DateTimeImmutable, parametres): Chiffrage` calcule les
 besoins (variantes actives), les optimise, applique la stratégie, enregistre. Les besoins étant
 agrégés par matériau, les lignes de pièce/surface sont obtenues par répartition proportionnelle de la
@@ -65,7 +85,7 @@ quantité (pour les exports par pièce) ; le total par article est celui de l'ag
 Comparaison de deux chiffrages (écart par ligne et total) : utile avant/après changement de prix ou de
 variante.
 
-## Exports PDF
+### Exports PDF
 
 Liste de courses en **PDF**, avec ou sans prix :
 
@@ -85,13 +105,24 @@ l'aperçu HTML.
 
 ## Critères d'acceptation
 
-- Un chiffrage créé aujourd'hui ne change pas si un prix est modifié demain.
-- Stratégie `MeilleurPrix` : comparaison sur le coût total de la quantité brute ; si A vend un lot de 5 à
-  12 € et B un lot de 1 à 3 €, pour un besoin de 5 unités A gagne (12 € contre 15 €) alors que le lot de B
-  est le moins cher ; pour un besoin de 2 unités, B gagne (6 € contre 12 €).
-- Stratégie `PlusProche` : classement correct à partir de coordonnées de test (distance connue).
-- Article absent du fournisseur choisi : ligne « prix manquant » visible, total partiel signalé.
-- PDF par pièce avec et sans prix : mêmes articles, colonnes de prix présentes ou non.
-- PDF par fournisseur : un document par fournisseur (ou une section par fournisseur) avec son adresse.
-- Tests : stratégies (unitaire, prioritaire), service de chiffrage, rendu intermédiaire du PDF (gabarit, pas la bibliothèque PDF ; fichier non vide,
-  texte attendu extrait ou rendu HTML intermédiaire vérifié).
+- [ ] Un chiffrage créé aujourd'hui ne change pas si un prix est modifié demain.
+- [ ] Stratégie `MeilleurPrix` : comparaison sur le coût total de la quantité brute ; si A vend un lot de 5 à 12 € et B un lot de 1 à 3 €, pour un besoin de 5 unités A gagne (12 € contre 15 €) alors que le lot de B est le moins cher ; pour un besoin de 2 unités, B gagne (6 € contre 12 €).
+- [ ] Stratégie `PlusProche` : classement correct à partir de coordonnées de test (distance connue).
+- [ ] Article absent du fournisseur choisi : ligne « prix manquant » visible, total partiel signalé.
+- [ ] PDF par pièce avec et sans prix : mêmes articles, colonnes de prix présentes ou non.
+- [ ] PDF par fournisseur : un document par fournisseur (ou une section par fournisseur) avec son adresse.
+- [ ] Tests : stratégies (unitaire, prioritaire), service de chiffrage, rendu intermédiaire du PDF (gabarit, pas la bibliothèque PDF ; fichier non vide, texte attendu extrait ou rendu HTML intermédiaire vérifié).
+
+## Vérifications automatiques
+
+Toutes doivent être vertes avant de renommer le fichier en `.DONE.md` :
+
+```bash
+symfony php vendor/bin/phpunit
+symfony php vendor/bin/phpstan analyse
+symfony console doctrine:schema:validate
+```
+
+## Décisions et écarts
+
+Aucun pour le moment.
