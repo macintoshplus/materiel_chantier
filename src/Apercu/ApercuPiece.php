@@ -19,7 +19,8 @@ use App\Service\OrdreSurfaces;
  * @phpstan-type VueOuvertureMur array{id: int|null, libelle: string, x1: int, y1: int, x2: int, y2: int, porte: bool}
  * @phpstan-type VueMur array{id: int|null, nom: string, x1: int, y1: int, x2: int, y2: int, lx: int, ly: int, ouvertures: list<VueOuvertureMur>}
  * @phpstan-type VueCloison array{id: int|null, nom: string, x1: int, y1: int, x2: int, y2: int, epaisseur: int, lx: int, ly: int, ouvertures: list<VueOuvertureMur>}
- * @phpstan-type VuePiece array{vide: bool, viewBox: string, sol: string, murs: list<VueMur>, cloisons: list<VueCloison>, police: int, trait: int}
+ * @phpstan-type VueEquipementPiece array{id: int|null, nom: string|null, famille: string, type: string, x: int, y: int}
+ * @phpstan-type VuePiece array{vide: bool, viewBox: string, sol: string, murs: list<VueMur>, cloisons: list<VueCloison>, equipements: list<VueEquipementPiece>, police: int, trait: int}
  */
 final class ApercuPiece
 {
@@ -30,7 +31,7 @@ final class ApercuPiece
     {
         $sol = $piece->getPolygoneSol();
         if ([] === $sol->points) {
-            return ['vide' => true, 'viewBox' => '0 0 1000 1000', 'sol' => '', 'murs' => [], 'cloisons' => [], 'police' => 40, 'trait' => 8];
+            return ['vide' => true, 'viewBox' => '0 0 1000 1000', 'sol' => '', 'murs' => [], 'cloisons' => [], 'equipements' => [], 'police' => 40, 'trait' => 8];
         }
         $boite = $sol->boiteEnglobante();
         $taille = max($boite->largeur(), $boite->hauteur(), 1000);
@@ -109,9 +110,26 @@ final class ApercuPiece
             'sol' => implode(' ', array_map(static fn (Point2D $p): string => $p->x.','.(-$p->y), $sol->points)),
             'murs' => $murs,
             'cloisons' => $cloisons,
+            'equipements' => $this->equipements($piece),
             'police' => $police,
             'trait' => max(10, intdiv($taille, 150)),
         ];
+    }
+
+    /**
+     * Équipements de la pièce projetés sur le plan (vue de dessus).
+     *
+     * @return list<VueEquipementPiece>
+     */
+    private function equipements(Piece $piece): array
+    {
+        $vues = [];
+        foreach ($piece->getEquipements() as $e) {
+            $p = $e->getSurface()->getPlan()->versPiece(new Point2D($e->getU(), $e->getV()));
+            $vues[] = ['id' => $e->getId(), 'nom' => $e->getNom(), 'famille' => $e->getFamille()->value, 'type' => $e->getType(), 'x' => $p->x, 'y' => -$p->y];
+        }
+
+        return $vues;
     }
 
     /**

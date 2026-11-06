@@ -48,6 +48,29 @@
         {% endblock %}
     {% endembed %}
 
+    {% embed 'layout/_groupe.html.twig' with {cle: 'equipments', titre: 'Equipment', equipements: equipements, famillesAjout: famillesAjout, piece: piece, surface: surface} %}
+        {% block contenu %}
+            {% if equipements|length > 0 %}
+                <ol class="liste-equipements" data-testid="liste-equipements">
+                    {% for e in equipements %}
+                        <li data-highlight-key="equipment-{{ e.id }}">
+                            {{ e.nom ?? (libelle_equipement(e.famille.value, e.type)|trans) }}
+                            <span class="text-muted small">({{ e.u }}, {{ e.v }}){% if e.reseau %} - {{ e.reseau.nom }}{% endif %}</span>
+                            <a class="btn btn-outline-secondary btn-sm" href="{{ path('equipement_edit', {equipement: e.id}) }}">{{ 'Edit'|trans }}</a>
+                            <button type="submit" form="suppression-equipement-{{ e.id }}" class="btn btn-outline-danger btn-sm">{{ 'Delete'|trans }}</button>
+                        </li>
+                    {% endfor %}
+                </ol>
+            {% else %}
+                <p class="text-muted small">{{ 'No equipment yet.'|trans }}</p>
+            {% endif %}
+            {% for f in famillesAjout %}
+                <a class="btn btn-outline-secondary btn-sm" data-testid="ajout-equipement-{{ f.value }}" href="{{ path('equipement_new', {piece: piece.id, surface: surface.id, famille: f.value}) }}">{{ 'Add equipment'|trans }} ({{ ('equipment_family.' ~ f.value)|trans }})</a>
+            {% endfor %}
+            <a class="btn btn-outline-secondary btn-sm" data-testid="lien-reseaux" href="{{ path('reseau_index', {projet: piece.projet.id, famille: 'electrique'}) }}">{{ 'Circuits'|trans }}</a>
+        {% endblock %}
+    {% endembed %}
+
     {% embed 'layout/_groupe.html.twig' with {cle: 'properties', titre: 'Properties'} %}
         {% block contenu %}
             {{ form_row(form.nom) }}
@@ -77,4 +100,12 @@
             {% include 'layout/_collection.html.twig' with {champ: form.ouvertures, ajout: 'Add an opening'} only %}
         {% endblock %}
     {% endembed %}
+{% endblock %}
+
+{% block apres_formulaire %}
+    {% for e in equipements %}
+        <form id="suppression-equipement-{{ e.id }}" method="post" action="{{ path('equipement_delete', {equipement: e.id}) }}">
+            <input type="hidden" name="_token" value="{{ csrf_token('supprimer-equipement' ~ e.id) }}">
+        </form>
+    {% endfor %}
 {% endblock %}

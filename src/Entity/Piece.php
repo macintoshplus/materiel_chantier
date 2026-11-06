@@ -184,6 +184,11 @@ final class Piece
         }
     }
 
+    public function retirerEquipement(Equipement $equipement): void
+    {
+        $this->equipements->removeElement($equipement);
+    }
+
     /**
      * @return Collection<int, Jonction>
      */

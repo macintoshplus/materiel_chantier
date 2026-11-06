@@ -37,7 +37,7 @@ Références permanentes (préfixe `_`, jamais « terminées ») :
 4. [Sources de mesures](developpement/04-sources-mesures.DONE.md)
 5. Systèmes et calcul : [a. moteur de couches](developpement/05a-moteur-couches.DONE.md), [b. cloisons et doublages](developpement/05b-cloisons-doublages.DONE.md), [c. plafond, pose, renforts](developpement/05c-plafond-pose-renforts.DONE.md), [d. finitions et thermique](developpement/05d-finitions-thermique.DONE.md), [e. agrégation et substitution](developpement/05e-agregation-substitution.DONE.md)
 6. [Chiffrage et exports](developpement/06-chiffrage-exports.DONE.md)
-7. [Électricité](developpement/07-electricite.md)
+7. [Électricité](developpement/07-electricite.DONE.md)
 8. [Plomberie et ventilation](developpement/08-plomberie-ventilation.md)
 9. [Vue 3D](developpement/09-vue-3d.md)
 

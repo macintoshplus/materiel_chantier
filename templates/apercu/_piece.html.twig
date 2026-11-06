@@ -20,5 +20,8 @@
                 <text x="{{ c.lx }}" y="{{ c.ly }}" font-size="{{ apercu.police }}" text-anchor="middle" dominant-baseline="middle">{{ c.nom }}</text>
             {% if liens %}</a>{% else %}</g>{% endif %}
         {% endfor %}
+        {% for e in apercu.equipements %}
+            <circle class="equipement-plan" cx="{{ e.x }}" cy="{{ e.y }}" r="{{ apercu.trait * 2 }}"{% if e.id %} data-highlight-key="equipment-{{ e.id }}"{% endif %}><title>{{ e.nom ?: libelle_equipement(e.famille, e.type)|trans }}</title></circle>
+        {% endfor %}
     {% endif %}
 </svg>

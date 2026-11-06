@@ -86,6 +86,8 @@ final class ElectriciteProjet
 
         $gaines = $this->gaines();
         $cheminements = [];
+        $parReseau = [];
+        $elementsParReseau = [];
         foreach ($projet->getReseaux() as $reseau) {
             if (FamilleEquipement::Electrique !== $reseau->getFamille()) {
                 continue;
@@ -96,6 +98,8 @@ final class ElectriciteProjet
             }
             $resultat = $this->cheminement->calculer($calcul, $gaines, $passages);
             $cheminements[] = $resultat;
+            $parReseau[spl_object_id($reseau)] = $resultat;
+            $elementsParReseau[spl_object_id($reseau)] = array_values($calcul->elements);
             array_push($avertissements, ...$resultat->avertissements);
             array_push($erreurs, ...$resultat->erreurs);
         }
@@ -119,7 +123,7 @@ final class ElectriciteProjet
 
         array_push($avertissements, ...$this->controle->controler($projet));
 
-        return new ResultatElectricite($supports, $specifications, $cheminements, self::uniques($avertissements), self::uniques($erreurs));
+        return new ResultatElectricite($supports, $specifications, $cheminements, self::uniques($avertissements), self::uniques($erreurs), $parReseau, $elementsParReseau);
     }
 
     /**

@@ -8,12 +8,14 @@ use App\Apercu\ApercuCalcul;
 use App\Apercu\ApercuSurface;
 use App\Entity\Piece;
 use App\Entity\Surface;
+use App\Enum\FamilleEquipement;
 use App\Form\Dto\SurfaceSaisie;
 use App\Form\SurfaceSaisieType;
 use App\Geometrie\ErreurGeometrique;
 use App\Service\ControlePlacement;
 use App\Service\OrdreSurfaces;
 use App\Service\SurfaceEditionService;
+use App\Service\TypesEquipement;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,6 +40,7 @@ final class SurfaceController extends AbstractController
         ApercuSurface $apercu,
         ApercuCalcul $apercuCalcul,
         TranslatorInterface $translator,
+        TypesEquipement $types,
     ): Response {
         if ($surface->getPiece() !== $piece || null !== $surface->getCloison()) {
             throw $this->createNotFoundException();
@@ -73,6 +76,8 @@ final class SurfaceController extends AbstractController
             'calcul' => $calcul,
             'messagesCalcul' => null === $calcul ? [] : $this->messages([...$calcul['erreurs'], ...$calcul['avertissements']]),
             'voisins' => OrdreSurfaces::voisins($surface),
+            'equipements' => ApercuSurface::equipementsDe($surface),
+            'famillesAjout' => array_values(array_filter(FamilleEquipement::cases(), static fn (FamilleEquipement $f): bool => [] !== $types->types($f))),
             'contraintes' => $surface->getContraintesSommets(),
         ], new Response(status: $statut));
     }

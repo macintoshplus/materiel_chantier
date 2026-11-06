@@ -21,7 +21,7 @@ Types d'équipements et de réseaux, calculs, articles de catalogue.
 ## Spécification
 
 Connaissance : [08-plomberie-ventilation.md](../connaissances/08-plomberie-ventilation.md). S'appuie
-sur le même socle que l'électricité ([07-electricite.md](07-electricite.md)) : **le socle (`Equipement`, `Reseau`, `TypeEquipement`, `CheminementCalculator`) est créé générique dès la phase 7**
+sur le même socle que l'électricité ([07-electricite.DONE.md](07-electricite.DONE.md)) : **le socle (`Equipement`, `Reseau`, `TypeEquipement`, `CheminementCalculator`) est créé générique dès la phase 7**
 (famille `electrique`) ; cette phase ajoute seulement des familles, types et règles, sans réécriture.
 
 ### Socle commun `src/Reseaux`

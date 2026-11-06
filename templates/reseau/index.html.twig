@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Circuits'|trans }}{% endblock %}
+
+{% block body %}
+    <nav class="fil-ariane" aria-label="{{ 'Breadcrumb'|trans }}">
+        <a href="{{ path('projet_index') }}">{{ 'Projects'|trans }}</a> &rsaquo;
+        <a href="{{ path('projet_show', {id: projet.id}) }}">{{ projet.nom }}</a> &rsaquo;
+        <span aria-current="page">{{ 'Circuits'|trans }}</span>
+    </nav>
+
+    <h1>{{ 'Circuits'|trans }} - {{ projet.nom }}</h1>
+    <p><a class="btn btn-primary btn-sm" data-testid="nouveau-reseau" href="{{ path('reseau_new', {projet: projet.id, famille: famille.value}) }}">{{ 'Add a circuit'|trans }}</a></p>
+
+    {% if erreurs|length > 0 or avertissements|length > 0 %}
+        <ul class="alert alert-warning controles" data-testid="controles-generaux">
+            {% for m in erreurs %}<li>{{ m|trans }}</li>{% endfor %}
+            {% for m in avertissements %}<li>{{ m|trans }}</li>{% endfor %}
+        </ul>
+    {% endif %}
+
+    {% for resume in resumes %}
+        {% include 'reseau/_resume.html.twig' with {resume: resume, messages: messagesParReseau[resume.reseau.id]} only %}
+    {% else %}
+        <p class="text-muted">{{ 'No circuit yet.'|trans }}</p>
+    {% endfor %}
+{% endblock %}

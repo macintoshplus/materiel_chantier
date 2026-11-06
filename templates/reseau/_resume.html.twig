@@ -1,0 +1,56 @@
+{# Un circuit et ses résultats de calcul. Variables : resume (ResumeReseau), messages (TranslatableMessage du réseau). #}
+{% set r = resume.reseau %}
+<section class="reseau-resume mb-4" data-testid="reseau" data-reseau="{{ r.nom }}">
+    <h2 class="h5">{{ r.nom }}
+        <small class="text-muted">{{ ('circuit_type.' ~ r.type.value)|trans }} - {{ r.section }} mm2 - {{ r.protection }} A</small>
+    </h2>
+    <p class="mb-1">
+        {{ 'Load'|trans }} : {{ resume.charge }} W / {{ resume.chargeMax }} W
+        {% if resume.depart %} - {{ 'Starting point'|trans }} : {{ resume.depart.nom ?? (resume.depart.type|trans) }}{% endif %}
+    </p>
+
+    <h3 class="h6">{{ 'Elements'|trans }}</h3>
+    {% if resume.equipements|length > 0 %}
+        <ul>
+            {% for e in resume.equipements %}
+                <li>{{ e.nom ?? (libelle_equipement(e.famille.value, e.type)|trans) }} ({{ e.surface.nom }}, {{ e.u }}, {{ e.v }})</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-muted small">{{ 'No element in this circuit.'|trans }}</p>
+    {% endif %}
+
+    {% if resume.cheminement %}
+        <h3 class="h6">{{ 'Computed lengths'|trans }}</h3>
+        <ul data-testid="longueurs">
+            {% for diametre, longueur in resume.cheminement.gaines %}
+                <li data-testid="gaine">{{ 'Conduit'|trans }} {{ diametre }} mm : {{ (longueur / 1000)|number_format(2, '.', '') }} m</li>
+            {% endfor %}
+            {% for cable in resume.cheminement.cables %}
+                <li data-testid="cable">{{ 'Cable'|trans }} {{ cable.conducteurs }}G{{ (cable.section / 100)|number_format(1, '.', '') }} : {{ (cable.longueur / 1000)|number_format(2, '.', '') }} m</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if resume.quantites|length > 0 %}
+        <h3 class="h6">{{ 'Annex quantities'|trans }}</h3>
+        <ul data-testid="quantites">
+            {% for q in resume.quantites %}
+                <li>{{ q.categorie|trans }}{% if q.criteres %} ({{ q.criteres }}){% endif %} :
+                    {% if q.longueur %}{{ (q.quantite / 1000)|number_format(2, '.', '') }} m{% else %}{{ q.quantite }}{% endif %}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if messages|length > 0 %}
+        <ul class="alert alert-warning controles" data-testid="controles">
+            {% for m in messages %}<li>{{ m|trans }}</li>{% endfor %}
+        </ul>
+    {% endif %}
+
+    <a class="btn btn-outline-secondary btn-sm" href="{{ path('reseau_edit', {reseau: r.id}) }}">{{ 'Edit'|trans }}</a>
+    <form method="post" action="{{ path('reseau_delete', {reseau: r.id}) }}" class="d-inline">
+        <input type="hidden" name="_token" value="{{ csrf_token('supprimer-reseau' ~ r.id) }}">
+        <button type="submit" class="btn btn-outline-danger btn-sm">{{ 'Delete'|trans }}</button>
+    </form>
+</section>

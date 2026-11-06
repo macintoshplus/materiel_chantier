@@ -75,6 +75,12 @@ parameters:
             hauteur: 1800
             boite: { categorie: electrique_boite }
 
+    # Types d'équipements des familles autres que l'électricité (étape 08) : famille => code => libellé (clé de
+    # traduction). Les types électriques viennent de `app.electricite.types`.
+    app.reseaux.types:
+        plomberie: {}
+        ventilation: {}
+
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -115,6 +121,11 @@ services:
         public: true
         arguments:
             $definitions: '%app.electricite.types%'
+
+    App\Service\TypesEquipement:
+        public: true
+        arguments:
+            $autres: '%app.reseaux.types%'
 
     App\Calcul\Materiau\SpecificationSerialiseur:
         public: true

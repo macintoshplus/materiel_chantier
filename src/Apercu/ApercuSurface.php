@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Apercu;
 
 use App\Entity\Cloison;
+use App\Entity\Equipement;
 use App\Entity\Ouverture;
 use App\Entity\Surface;
 use App\Enum\CoteCloison;
@@ -22,7 +23,8 @@ use App\Geometrie\Polygone;
  *
  * @phpstan-type VueOuverture array{id: int|null, libelle: string, points: string, x: int, y: int, largeur: int, hauteur: int, tunnel: bool, porte: bool, retours: list<array{x: int, y: int, largeur: int, hauteur: int}>}
  * @phpstan-type VueSommet array{id: string, x: int, y: int}
- * @phpstan-type VueSurface array{viewBox: string, contour: string, sommets: list<VueSommet>, ouvertures: list<VueOuverture>, police: int, trait: int}
+ * @phpstan-type VueEquipement array{id: int|null, rang: int, nom: string|null, famille: string, type: string, x: int, y: int}
+ * @phpstan-type VueSurface array{viewBox: string, contour: string, sommets: list<VueSommet>, ouvertures: list<VueOuverture>, equipements: list<VueEquipement>, police: int, trait: int}
  */
 final class ApercuSurface
 {
@@ -39,7 +41,17 @@ final class ApercuSurface
             $ouvertures[] = ['ouverture' => $ouverture, 'forme' => $ouverture->getForme()];
         }
 
-        return $this->construire($surface->getContour(), $ouvertures);
+        return $this->construire($surface->getContour(), $ouvertures, self::equipementsDe($surface));
+    }
+
+    /**
+     * Équipements posés sur une surface, dans l'ordre de leur numérotation (marqueurs de l'aperçu et liste du groupe).
+     *
+     * @return list<Equipement>
+     */
+    public static function equipementsDe(Surface $surface): array
+    {
+        return array_values(array_filter($surface->getPiece()->getEquipements()->toArray(), static fn (Equipement $e): bool => $e->getSurface() === $surface));
     }
 
     /**
@@ -65,20 +77,24 @@ final class ApercuSurface
             $ouvertures[] = ['ouverture' => $ouverture, 'forme' => CoteCloison::A === $cote ? $projection->faceA : $projection->faceB];
         }
 
-        return $this->construire($face->getContour(), $ouvertures);
+        return $this->construire($face->getContour(), $ouvertures, self::equipementsDe($face));
     }
 
     /**
      * @param list<array{ouverture: Ouverture, forme: Polygone}> $ouvertures formes déjà exprimées dans le repère de la surface
+     * @param list<Equipement>                                   $equipements marqués à leur position `(u, v)`
      *
      * @return VueSurface
      */
-    public function construire(ContourIdentifie $contour, array $ouvertures): array
+    public function construire(ContourIdentifie $contour, array $ouvertures, array $equipements = []): array
     {
         $points = $contour->polygone()->points;
         $tous = $points;
         foreach ($ouvertures as $o) {
             array_push($tous, ...$o['forme']->points);
+        }
+        foreach ($equipements as $e) {
+            $tous[] = new Point2D($e->getU(), $e->getV());
         }
         $boite = [] === $tous ? new BoiteEnglobante(0, 0, 1000, 1000) : BoiteEnglobante::depuisPoints($tous);
         $taille = max($boite->largeur(), $boite->hauteur(), 1000);
@@ -90,11 +106,17 @@ final class ApercuSurface
             $vues[] = $this->ouverture($o['ouverture'], $o['forme']);
         }
 
+        $marqueurs = [];
+        foreach ($equipements as $i => $e) {
+            $marqueurs[] = ['id' => $e->getId(), 'rang' => $i + 1, 'nom' => $e->getNom(), 'famille' => $e->getFamille()->value, 'type' => $e->getType(), 'x' => $e->getU(), 'y' => -$e->getV()];
+        }
+
         return [
             'viewBox' => sprintf('%d %d %d %d', $boite->minX - $marge, -$boite->maxY - $marge, $boite->largeur() + 2 * $marge, $boite->hauteur() + 2 * $marge),
             'contour' => self::points($points),
             'sommets' => array_map(static fn ($s): array => ['id' => $s->id, 'x' => $s->point->x, 'y' => -$s->point->y], $contour->sommets),
             'ouvertures' => $vues,
+            'equipements' => $marqueurs,
             'police' => $police,
             'trait' => max(8, intdiv($taille, 250)),
         ];

@@ -1,0 +1,51 @@
+{% extends 'layout/editeur.html.twig' %}
+
+{% block title %}{{ reseau ? 'Edit circuit'|trans : 'Add a circuit'|trans }}{% endblock %}
+
+{% block fil %}
+    <a href="{{ path('projet_index') }}">{{ 'Projects'|trans }}</a> &rsaquo;
+    <a href="{{ path('projet_show', {id: projet.id}) }}">{{ projet.nom }}</a> &rsaquo;
+    <a href="{{ path('reseau_index', {projet: projet.id, famille: famille.value}) }}">{{ 'Circuits'|trans }}</a> &rsaquo;
+    <span aria-current="page">{{ reseau ? reseau.nom : 'Add a circuit'|trans }}</span>
+{% endblock %}
+
+{% block centre %}
+    <h1>{{ reseau ? 'Edit circuit'|trans : 'Add a circuit'|trans }}</h1>
+    {% embed 'layout/_groupe.html.twig' with {cle: 'circuit', titre: 'Circuit'} %}
+        {% block contenu %}
+            {{ form_row(form.nom) }}
+            {{ form_row(form.type) }}
+            {{ form_row(form.section) }}
+            {{ form_row(form.protection) }}
+            {{ form_row(form.reservePct) }}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block droite %}
+    {% embed 'layout/_groupe.html.twig' with {cle: 'circuit-elements', titre: 'Elements of the circuit'} %}
+        {% block contenu %}
+            {{ form_row(form.depart) }}
+            {{ form_row(form.equipements) }}
+        {% endblock %}
+    {% endembed %}
+    {% embed 'layout/_groupe.html.twig' with {cle: 'circuit-links', titre: 'Links'} %}
+        {% block contenu %}
+            <p class="text-muted small">{{ 'Each link says which element feeds which. Use 3 conductors for a two-way link.'|trans }}</p>
+            {% include 'layout/_collection.html.twig' with {champ: form.liaisons, ajout: 'Add a link'} only %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block actions_supplementaires %}
+    <a class="btn btn-outline-secondary" href="{{ path('reseau_index', {projet: projet.id, famille: famille.value}) }}">{{ 'Cancel'|trans }}</a>
+{% endblock %}
+
+{% block apres_formulaire %}
+    {% if reseau %}
+        <form method="post" action="{{ path('reseau_delete', {reseau: reseau.id}) }}" class="mt-3">
+            <input type="hidden" name="_token" value="{{ csrf_token('supprimer-reseau' ~ reseau.id) }}">
+            <button type="submit" class="btn btn-outline-danger">{{ 'Delete this circuit'|trans }}</button>
+        </form>
+    {% endif %}
+{% endblock %}

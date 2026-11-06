@@ -1108,6 +1108,60 @@
       <trans-unit id="v6123" resname="layer_slot.fixation_support"><source>layer_slot.fixation_support</source><target>Fixations au support</target></trans-unit>
       <trans-unit id="v6124" resname="layer_slot.bande_resiliente"><source>layer_slot.bande_resiliente</source><target>Bande résiliente</target></trans-unit>
       <trans-unit id="v6125" resname="layer_slot.suspente"><source>layer_slot.suspente</source><target>Suspentes</target></trans-unit>
+      <trans-unit id="v6126" resname="Choose a type"><source>Choose a type</source><target>Choisir un type</target></trans-unit>
+      <trans-unit id="v6127" resname="Power (W)"><source>Power (W)</source><target>Puissance (W)</target></trans-unit>
+      <trans-unit id="v6128" resname="Element"><source>Element</source><target>Élément</target></trans-unit>
+      <trans-unit id="v6129" resname="Fed from"><source>Fed from</source><target>Alimenté depuis</target></trans-unit>
+      <trans-unit id="v6130" resname="Links"><source>Links</source><target>Liaisons</target></trans-unit>
+      <trans-unit id="v6131" resname="Circuit type"><source>Circuit type</source><target>Type de circuit</target></trans-unit>
+      <trans-unit id="v6132" resname="Conductor section (mm2)"><source>Conductor section (mm2)</source><target>Section des conducteurs (mm²)</target></trans-unit>
+      <trans-unit id="v6133" resname="Protection (A)"><source>Protection (A)</source><target>Protection (A)</target></trans-unit>
+      <trans-unit id="v6134" resname="Starting point (distribution board)"><source>Starting point (distribution board)</source><target>Point de départ (tableau)</target></trans-unit>
+      <trans-unit id="v6135" resname="Elements of the circuit"><source>Elements of the circuit</source><target>Éléments du circuit</target></trans-unit>
+      <trans-unit id="v6136" resname="Cable reserve (%, empty = project value)"><source>Cable reserve (%, empty = project value)</source><target>Réserve de câble (%, vide = valeur du projet)</target></trans-unit>
+      <trans-unit id="v6137" resname="Add a link"><source>Add a link</source><target>Ajouter une liaison</target></trans-unit>
+      <trans-unit id="v6138" resname="Active conductors (earth excluded, empty = automatic, 3 = two-way link)"><source>Active conductors (earth excluded, empty = automatic, 3 = two-way link)</source><target>Conducteurs actifs (terre exclue, vide = automatique, 3 = va-et-vient)</target></trans-unit>
+      <trans-unit id="v6139" resname="Add equipment"><source>Add equipment</source><target>Ajouter un équipement</target></trans-unit>
+      <trans-unit id="v6140" resname="Distribution board"><source>Distribution board</source><target>Tableau électrique</target></trans-unit>
+      <trans-unit id="v6141" resname="Junction box"><source>Junction box</source><target>Boîte de dérivation</target></trans-unit>
+      <trans-unit id="v6142" resname="Switch"><source>Switch</source><target>Interrupteur</target></trans-unit>
+      <trans-unit id="v6143" resname="Two-way switch"><source>Two-way switch</source><target>Va-et-vient</target></trans-unit>
+      <trans-unit id="v6144" resname="Intermediate switch"><source>Intermediate switch</source><target>Permutateur</target></trans-unit>
+      <trans-unit id="v6145" resname="Socket outlet"><source>Socket outlet</source><target>Prise de courant</target></trans-unit>
+      <trans-unit id="v6146" resname="Dedicated outlet"><source>Dedicated outlet</source><target>Prise dédiée</target></trans-unit>
+      <trans-unit id="v6147" resname="Light point"><source>Light point</source><target>Point lumineux</target></trans-unit>
+      <trans-unit id="v6148" resname="Wall light"><source>Wall light</source><target>Applique</target></trans-unit>
+      <trans-unit id="v6149" resname="Heater"><source>Heater</source><target>Radiateur</target></trans-unit>
+      <trans-unit id="v6150" resname="Circuit"><source>Circuit</source><target>Circuit</target></trans-unit>
+      <trans-unit id="v6151" resname="No equipment yet."><source>No equipment yet.</source><target>Aucun équipement.</target></trans-unit>
+      <trans-unit id="v6152" resname="Circuits"><source>Circuits</source><target>Circuits</target></trans-unit>
+      <trans-unit id="v6153" resname="Edit equipment"><source>Edit equipment</source><target>Modifier l'équipement</target></trans-unit>
+      <trans-unit id="v6154" resname="Delete this equipment"><source>Delete this equipment</source><target>Supprimer cet équipement</target></trans-unit>
+      <trans-unit id="v6155" resname="Load"><source>Load</source><target>Charge</target></trans-unit>
+      <trans-unit id="v6156" resname="Starting point"><source>Starting point</source><target>Point de départ</target></trans-unit>
+      <trans-unit id="v6157" resname="Elements"><source>Elements</source><target>Éléments</target></trans-unit>
+      <trans-unit id="v6158" resname="No element in this circuit."><source>No element in this circuit.</source><target>Aucun élément dans ce circuit.</target></trans-unit>
+      <trans-unit id="v6159" resname="Computed lengths"><source>Computed lengths</source><target>Longueurs calculées</target></trans-unit>
+      <trans-unit id="v6160" resname="Conduit"><source>Conduit</source><target>Gaine</target></trans-unit>
+      <trans-unit id="v6161" resname="Cable"><source>Cable</source><target>Câble</target></trans-unit>
+      <trans-unit id="v6162" resname="Annex quantities"><source>Annex quantities</source><target>Quantités annexes</target></trans-unit>
+      <trans-unit id="v6163" resname="Add a circuit"><source>Add a circuit</source><target>Ajouter un circuit</target></trans-unit>
+      <trans-unit id="v6164" resname="No circuit yet."><source>No circuit yet.</source><target>Aucun circuit.</target></trans-unit>
+      <trans-unit id="v6165" resname="Each link says which element feeds which. Use 3 conductors for a two-way link."><source>Each link says which element feeds which. Use 3 conductors for a two-way link.</source><target>Chaque liaison indique quel élément en alimente un autre. Utiliser 3 conducteurs pour un va-et-vient.</target></trans-unit>
+      <trans-unit id="v6166" resname="Edit circuit"><source>Edit circuit</source><target>Modifier le circuit</target></trans-unit>
+      <trans-unit id="v6167" resname="Delete this circuit"><source>Delete this circuit</source><target>Supprimer ce circuit</target></trans-unit>
+      <trans-unit id="v6168" resname="Equipment saved."><source>Equipment saved.</source><target>Équipement enregistré.</target></trans-unit>
+      <trans-unit id="v6169" resname="Equipment deleted."><source>Equipment deleted.</source><target>Équipement supprimé.</target></trans-unit>
+      <trans-unit id="v6170" resname="Circuit saved."><source>Circuit saved.</source><target>Circuit enregistré.</target></trans-unit>
+      <trans-unit id="v6171" resname="Circuit deleted."><source>Circuit deleted.</source><target>Circuit supprimé.</target></trans-unit>
+      <trans-unit id="v6172" resname="equipment_family.electrique"><source>equipment_family.electrique</source><target>Électricité</target></trans-unit>
+      <trans-unit id="v6173" resname="equipment_family.plomberie"><source>equipment_family.plomberie</source><target>Plomberie</target></trans-unit>
+      <trans-unit id="v6174" resname="equipment_family.ventilation"><source>equipment_family.ventilation</source><target>Ventilation</target></trans-unit>
+      <trans-unit id="v6175" resname="circuit_type.eclairage"><source>circuit_type.eclairage</source><target>Éclairage</target></trans-unit>
+      <trans-unit id="v6176" resname="circuit_type.prises"><source>circuit_type.prises</source><target>Prises</target></trans-unit>
+      <trans-unit id="v6177" resname="circuit_type.chauffage"><source>circuit_type.chauffage</source><target>Chauffage</target></trans-unit>
+      <trans-unit id="v6178" resname="circuit_type.cuisson"><source>circuit_type.cuisson</source><target>Cuisson</target></trans-unit>
+      <trans-unit id="v6179" resname="circuit_type.specialise"><source>circuit_type.specialise</source><target>Spécialisé</target></trans-unit>
     </body>
   </file>
 </xliff>

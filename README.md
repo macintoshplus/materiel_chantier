@@ -38,6 +38,21 @@ Sans système appliqué, les pages de comparaison des variantes (`/projets/{id}/
 5. Créer d'autres variantes en répétant l'étape 3 ; **Activer** (liste ou comparaison) choisit celle qui alimente le
    calcul et le chiffrage ; **Comparer les variantes** montre R, U, épaisseur et coût. **Supprimer** retire un système.
 
+### Électricité : équipements et circuits
+
+1. Ouvrir une surface (`/rooms/{pièce}/walls/{surface}`) : le groupe **Équipements** de la colonne de droite liste les
+   équipements posés, avec leur position et leur circuit, et un marqueur numéroté les repère sur l'aperçu 2D.
+2. **Ajouter un équipement (Électricité)** ouvre le formulaire : type (tableau, prise, interrupteur, va-et-vient,
+   point lumineux, etc.), position `(u, v)` en mm sur la surface, puissance et circuit. **Modifier** et **Supprimer**
+   sont disponibles pour chaque ligne. Les contrôles de position (hors surface, sur ou près d'une ouverture, sur un
+   montant d'ossature) s'affichent après l'enregistrement. Une saisie invalide réaffiche le formulaire (HTTP 422).
+3. Le lien **Circuits** (page du projet ou page d'une surface) ouvre `/projets/{id}/reseaux/electrique` : un circuit
+   par bloc, avec ses éléments, la longueur de gaine par diamètre, la longueur de câble par nombre de conducteurs,
+   les quantités annexes (boîtes, appareillage, fixations, connecteurs) et les avertissements.
+4. **Ajouter un circuit** : nom, type (éclairage, prises, chauffage, cuisson, spécialisé), section, protection,
+   tableau de départ, éléments du circuit et liaisons (qui alimente qui ; 3 conducteurs pour un va-et-vient).
+   Les longueurs sont recalculées à chaque affichage.
+
 ### Catalogue (optionnel)
 
 Le catalogue de matériaux et les fournisseurs se gèrent dans l'interface :

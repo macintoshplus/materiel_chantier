@@ -457,6 +457,21 @@
         <source>The equipment block {{ block }} is neither on a wall nor under the ceiling: no equipment created.</source>
         <target>Le bloc d'équipement {{ block }} n'est ni sur un mur ni sous le plafond : aucun équipement créé.</target>
       </trans-unit>
+      <trans-unit id="dto0x"><source>The section must be a positive number.</source>
+        <target>La section doit être un nombre positif.</target>
+      </trans-unit>
+      <trans-unit id="dto1x"><source>An element cannot be linked to itself.</source>
+        <target>Un élément ne peut pas être relié à lui-même.</target>
+      </trans-unit>
+      <trans-unit id="dto2x"><source>The starting point cannot have a parent.</source>
+        <target>Le point de départ ne peut pas avoir de parent.</target>
+      </trans-unit>
+      <trans-unit id="dto3x"><source>An element has only one parent.</source>
+        <target>Un élément n'a qu'un seul parent.</target>
+      </trans-unit>
+      <trans-unit id="dto4x"><source>A link can only join elements of the circuit or its starting point.</source>
+        <target>Une liaison ne peut relier que des éléments du circuit ou son point de départ.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

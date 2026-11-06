@@ -1,6 +1,6 @@
 # Étape 07 — Réseaux : électricité
 
-> Statut : partiel (moteur, entités, contrôles, quantités annexes et intégration à la nomenclature faits et testés ; import DXF et écran Equipement non faits, voir « Décisions et écarts »). Ce fichier est renommé en `.DONE.md` (même commit que le code) quand tous les critères ci-dessous sont cochés et les vérifications vertes. Règles : [_plan-general.md](_plan-general.md#règle-dune-étape).
+> Statut : terminée (vérifiée le 2026-11-06 : phpunit, phpstan niveau 8, schéma en phase). Import des blocs DXF différé sur décision de l'utilisateur ; écrans à voir en navigateur. Règles : [_plan-general.md](_plan-general.md#règle-dune-étape).
 
 ## Objectif
 
@@ -20,7 +20,7 @@ Entités et migration, calcul de cheminement, nomenclature annexe, écran Equipm
 
 ## Spécification
 
-Connaissance : [07-electricite.md](../connaissances/05-electricite.md). Dépend des phases géométrie et
+Connaissance : [07-electricite.DONE.md](../connaissances/05-electricite.md). Dépend des phases géométrie et
 systèmes.
 
 ### Modèle
@@ -90,5 +90,8 @@ Tests : `tests/Calcul/Electricite/CheminementCalculatorTest.php` (calcul pur), `
 - Seule modification du moteur : `BesoinsSupport::$support` devient nullable (support null = installation électrique de la pièce, libellé « Electrical installation »), `ChiffrageService` et `CalculProjet` adaptés. Résultats 05a-06 inchangés (suite complète verte).
 - Types d'éléments : paramètre `app.electricite.types` (config/services.yaml), extensible par données.
 - Contrôles : constantes de `ControleElectricite` (3 prises, 1 point lumineux, 230 V, 100 mm aux ouvertures, entraxe d'ossature 600 par défaut), surchargeables par `Projet.parametres['electricite']`.
-- **Non fait** : import des blocs DXF comme équipements (messages `import_equipment_*` préparés seulement) ; écran Equipement et libellés de types dans `messages+intl-icu.fr.xlf`. Les critères ne les couvrant pas restent hors liste cochée.
-- **Non vérifié par test** : contrôles « boîte sur montant » et « distance aux ouvertures » (code écrit, pas de test).
+- **Écran Equipement** (fait) : générique par famille. `TypesEquipement` (registre des types par famille : électricité depuis `app.electricite.types`, autres familles depuis `app.reseaux.types`, vide pour l'instant) ; routes `/rooms/{piece}/walls/{surface}/equipments/{famille}/new`, `/equipments/{id}/edit`, `/equipments/{id}/delete`. Pour l'étape 08 il suffit de remplir `app.reseaux.types` pour plomberie et ventilation. Marqueurs sur l'aperçu de la surface et de la pièce (`ApercuSurface`, `ApercuPiece`). Libellés de types dans `messages+intl-icu.fr.xlf`.
+- **Écran des circuits** (fait) : `/projets/{id}/reseaux/{famille}` (liste avec éléments, longueurs de gaine et de câble, quantités annexes, avertissements), `/projets/{id}/reseaux/{famille}/new`, `/reseaux/{id}/edit`, suppression en POST avec jeton CSRF. Limité à la famille électrique : les autres familles répondent 404 car le formulaire dépend de l'énumération `TypeCircuit` (point d'extension de l'étape 08).
+- **Écart au périmètre « moteur inchangé »** : `ResultatElectricite` expose en plus `cheminementParReseau` et `elementsParReseau` (clés `spl_object_id` du réseau), remplis par `ElectriciteProjet::analyser()`, pour afficher les longueurs et les quantités par circuit. Aucune modification de `src/Calcul`. Ajout de `Piece::retirerEquipement()`.
+- Les contrôles « boîte sur montant d'ossature » et « distance mini aux ouvertures » sont couverts par `tests/Integration/ElectriciteTest.php` ; l'écran par `tests/Controller/EquipementControllerTest.php`.
+- **Différé sur décision de l'utilisateur (2026-11-06)** : l'import des blocs DXF comme équipements. À reprendre dans une étape ultérieure ; les messages `import_equipment_*` sont déjà préparés.

@@ -5,13 +5,16 @@ declare(strict_types=1);
 namespace App\Tests\Integration;
 
 use App\Calcul\Agregation\LigneAchat;
+use App\Entity\CoucheAppliquee;
 use App\Entity\Equipement;
 use App\Entity\Fournisseur;
 use App\Entity\Materiau;
+use App\Entity\Ouverture;
 use App\Entity\Piece;
 use App\Entity\Projet;
 use App\Entity\Reseau;
 use App\Entity\Surface;
+use App\Entity\SystemeApplique;
 use App\Enum\TypeCircuit;
 use App\Enum\TypeStrategie;
 use App\Enum\TypeSurface;
@@ -350,5 +353,61 @@ final class ElectriciteTest extends KernelTestCase
         $codes = array_map(static fn ($a) => $a->code, $controle->controler($projet));
         self::assertContains('electrical_circuit_overload', $codes);
         self::assertSame(4060, $controle->charge($projet, $reseau));
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function codesPosition(Equipement $equipement): array
+    {
+        return array_map(static fn ($a) => $a->code, self::getContainer()->get(ControleElectricite::class)->position($equipement));
+    }
+
+    public function testBoitePoseeSurUnMontantDOssature(): void
+    {
+        [, $piece] = $this->projet();
+        $mur = $this->surface($piece, 'Wall 4');
+        $systeme = new SystemeApplique('doublage_ossature', $mur);
+        $systeme->activer();
+        new CoucheAppliquee($systeme, 0, 'ossature', 'cavity');
+        $this->em->persist($systeme);
+        $this->em->flush();
+
+        $surMontant = $this->equipement($piece, 'Wall 4', 'prise', 1200, 300);
+        $entreMontants = $this->equipement($piece, 'Wall 4', 'prise', 900, 300);
+        $this->em->flush();
+
+        self::assertSame(600, self::getContainer()->get(ControleElectricite::class)->entraxeOssature($mur));
+        self::assertContains('electrical_on_stud', $this->codesPosition($surMontant));
+        self::assertNotContains('electrical_on_stud', $this->codesPosition($entreMontants));
+    }
+
+    public function testSansOssatureAucunMontantNEstSignale(): void
+    {
+        [, $piece] = $this->projet();
+        $prise = $this->equipement($piece, 'Wall 4', 'prise', 1200, 300);
+        $this->em->flush();
+
+        self::assertNotContains('electrical_on_stud', $this->codesPosition($prise));
+    }
+
+    public function testDistanceMiniAuxOuvertures(): void
+    {
+        [, $piece] = $this->projet();
+        $mur = $this->surface($piece, 'Wall 4');
+        $fenetre = new Ouverture($mur);
+        $fenetre->setType('window');
+        $fenetre->definirRectangle(2000, 1000, 900, 600);
+        $this->em->persist($fenetre);
+        $this->em->flush();
+
+        $trop = $this->equipement($piece, 'Wall 4', 'prise', 2300, 1650);
+        $assez = $this->equipement($piece, 'Wall 4', 'prise', 2300, 1750);
+        $dedans = $this->equipement($piece, 'Wall 4', 'prise', 2300, 1300);
+        $this->em->flush();
+
+        self::assertContains('electrical_near_opening', $this->codesPosition($trop));
+        self::assertNotContains('electrical_near_opening', $this->codesPosition($assez));
+        self::assertContains('electrical_on_opening', $this->codesPosition($dedans));
     }
 }
