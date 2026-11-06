@@ -1,7 +1,19 @@
-{# Aperçu SVG d'une surface dans son repère (1 unité = 1 mm, axe v inversé). Variable : apercu (VueSurface). #}
+{# Aperçu SVG d'une surface dans son repère (1 unité = 1 mm, axe v inversé). Variables : apercu (VueSurface), calcul (VueCalcul ou null : ossature et plaques du système actif). #}
 <svg class="apercu" viewBox="{{ apercu.viewBox }}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="{{ 'Surface preview'|trans }}">
     {% if apercu.sommets|length > 0 %}
         <polygon class="surface-contour" points="{{ apercu.contour }}" stroke-width="{{ apercu.trait }}"/>
+    {% endif %}
+    {% if calcul is defined and calcul is not null %}
+        <g class="calcul-plaques" data-testid="apercu-plaques">
+            {% for p in calcul.plaques %}
+                <rect class="calcul-plaque" x="{{ p.x }}" y="{{ p.y }}" width="{{ p.largeur }}" height="{{ p.hauteur }}" stroke-width="{{ apercu.trait }}"/>
+            {% endfor %}
+        </g>
+        <g class="calcul-montants" data-testid="apercu-montants">
+            {% for m in calcul.montants %}
+                <line class="calcul-montant" x1="{{ m.x1 }}" y1="{{ m.y1 }}" x2="{{ m.x2 }}" y2="{{ m.y2 }}" stroke-width="{{ apercu.trait * 1.5 }}"/>
+            {% endfor %}
+        </g>
     {% endif %}
     {% for o in apercu.ouvertures %}
         <g class="ouverture{{ o.tunnel ? ' ouverture-tunnel' : '' }}{{ o.porte ? ' ouverture-porte' : ' ouverture-fenetre' }}"{% if o.id %} data-highlight-key="opening-{{ o.id }}"{% endif %}>

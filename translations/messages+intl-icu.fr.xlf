@@ -962,6 +962,26 @@
       <trans-unit id="v5b09" resname="Activate"><source>Activate</source><target>Activer</target></trans-unit>
       <trans-unit id="v5b10" resname="Variant activated."><source>Variant activated.</source><target>Variante activée.</target></trans-unit>
       <trans-unit id="v5b11" resname="Back"><source>Back</source><target>Retour</target></trans-unit>
+      <trans-unit id="v5e01" resname="Calculation"><source>Calculation</source><target>Calcul</target></trans-unit>
+      <trans-unit id="v5e02" resname="Scope"><source>Scope</source><target>Étendue</target></trans-unit>
+      <trans-unit id="v5e03" resname="No supplier (catalogue articles)"><source>No supplier (catalogue articles)</source><target>Aucun fournisseur (articles du catalogue)</target></trans-unit>
+      <trans-unit id="v5e04" resname="Calculate"><source>Calculate</source><target>Calculer</target></trans-unit>
+      <trans-unit id="v5e05" resname="Article"><source>Article</source><target>Article</target></trans-unit>
+      <trans-unit id="v5e06" resname="Need"><source>Need</source><target>Besoin</target></trans-unit>
+      <trans-unit id="v5e07" resname="Units after optimisation"><source>Units after optimisation</source><target>Unités après optimisation</target></trans-unit>
+      <trans-unit id="v5e08" resname="Margin (%)"><source>Margin (%)</source><target>Marge (%)</target></trans-unit>
+      <trans-unit id="v5e09" resname="Quantity with margin"><source>Quantity with margin</source><target>Quantité avec marge</target></trans-unit>
+      <trans-unit id="v5e10" resname="Lots"><source>Lots</source><target>Lots</target></trans-unit>
+      <trans-unit id="v5e11" resname="Units bought"><source>Units bought</source><target>Unités achetées</target></trans-unit>
+      <trans-unit id="v5e12" resname="Waste (units)"><source>Waste (units)</source><target>Chute (unités)</target></trans-unit>
+      <trans-unit id="v5e13" resname="instead of"><source>instead of</source><target>au lieu de</target></trans-unit>
+      <trans-unit id="v5e14" resname="Missing price"><source>Missing price</source><target>Prix manquant</target></trans-unit>
+      <trans-unit id="v5e15" resname="Nothing to buy."><source>Nothing to buy.</source><target>Rien à acheter.</target></trans-unit>
+      <trans-unit id="v5e16" resname="No active system to calculate."><source>No active system to calculate.</source><target>Aucun système actif à calculer.</target></trans-unit>
+      <trans-unit id="v5e17" resname="aggregation_scope.projet"><source>aggregation_scope.projet</source><target>Tout le projet</target></trans-unit>
+      <trans-unit id="v5e18" resname="aggregation_scope.piece"><source>aggregation_scope.piece</source><target>Par pièce</target></trans-unit>
+      <trans-unit id="v5e19" resname="aggregation_scope.surface"><source>aggregation_scope.surface</source><target>Par surface</target></trans-unit>
+      <trans-unit id="v5e20" resname="The active system raises no warning."><source>The active system raises no warning.</source><target>Le système actif ne signale aucun avertissement.</target></trans-unit>
     </body>
   </file>
 </xliff>

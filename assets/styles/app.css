@@ -36,6 +36,8 @@ body {
 .ouverture-forme { fill: #dff0fb; stroke: #4a9fd8; }
 .ouverture-porte .ouverture-forme { fill: #f7e6d0; stroke: #c0883a; }
 .retour { fill: rgba(60, 60, 60, 0.35); }
+.calcul-plaque { fill: rgba(200, 180, 140, 0.25); stroke: #b8a37a; }
+.calcul-montant { stroke: #7a8a99; stroke-dasharray: 40 30; }
 .sommet { fill: #333; }
 .sommet-nom { fill: #666; }
 .apercu text { fill: #222; pointer-events: none; }

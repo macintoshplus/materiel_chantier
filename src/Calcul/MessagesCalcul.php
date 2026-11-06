@@ -43,6 +43,10 @@ final class MessagesCalcul
         'plaster_thickness_missing' => 'The plastering layer {{ order }} has no thickness.',
         'plaster_consumption_missing' => 'The plaster of the layer {{ order }} has no consumption.',
         'fixing_pitch_missing' => 'The support fixing of the layer {{ order }} has no pitch.',
+        'offer_equivalent_used' => 'The article "{{ original }}" is replaced by the equivalent "{{ replacement }}".',
+        'offer_other_supplier_used' => 'The article "{{ article }}" is bought from another supplier.',
+        'offer_missing' => 'No price found for the article "{{ article }}".',
+        'article_dimension_missing' => 'The article "{{ article }}" has no usable dimension: its needs cannot be optimised.',
     ];
 
     public static function existe(string $code): bool

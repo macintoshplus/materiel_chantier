@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Calculation'|trans }} - {{ projet.nom }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'Calculation'|trans }} - {{ projet.nom }}</h1>
+
+    <form method="get" action="{{ path('projet_calcul', {id: projet.id}) }}" class="calcul-options">
+        <label>{{ 'Scope'|trans }}
+            <select name="portee" data-testid="portee">
+                {% for p in portees %}
+                    <option value="{{ p.value }}"{{ p == portee ? ' selected' : '' }}>{{ ('aggregation_scope.' ~ p.value)|trans }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>{{ 'Supplier'|trans }}
+            <select name="fournisseur" data-testid="fournisseur">
+                <option value="">{{ 'No supplier (catalogue articles)'|trans }}</option>
+                {% for f in fournisseurs %}
+                    <option value="{{ f.id }}"{{ fournisseur is not null and fournisseur.id == f.id ? ' selected' : '' }}>{{ f.nom }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <button type="submit">{{ 'Calculate'|trans }}</button>
+    </form>
+
+    {% include 'layout/_messages.html.twig' with {messages: messagesCalcul} only %}
+
+    {% for groupe in resultat.groupes %}
+        <h2>{{ groupe.nom }}</h2>
+        {% include 'layout/_messages.html.twig' with {messages: messagesGroupes[loop.index0]} only %}
+        <table class="achats" data-testid="achats">
+            <thead>
+                <tr>
+                    <th>{{ 'Article'|trans }}</th>
+                    <th>{{ 'Category'|trans }}</th>
+                    <th>{{ 'Need'|trans }}</th>
+                    <th>{{ 'Units after optimisation'|trans }}</th>
+                    <th>{{ 'Margin (%)'|trans }}</th>
+                    <th>{{ 'Quantity with margin'|trans }}</th>
+                    <th>{{ 'Lots'|trans }}</th>
+                    <th>{{ 'Units bought'|trans }}</th>
+                    <th>{{ 'Waste (units)'|trans }}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for achat in groupe.resultat.achats %}
+                <tr data-reference="{{ achat.article.valeur('reference') }}">
+                    <td>
+                        {{ achat.article.valeur('reference') }} {{ achat.article.valeur('libelle') }}
+                        {% if achat.articleInitial is not null %}<small>({{ 'instead of'|trans }} {{ achat.articleInitial.valeur('reference') }})</small>{% endif %}
+                    </td>
+                    <td>{{ achat.article.categorie }}</td>
+                    <td>{{ achat.besoin }}</td>
+                    <td>{{ achat.unitesBesoin }}</td>
+                    <td>{{ (achat.margeCentiemes / 100)|number_format(2, ',', ' ') }}</td>
+                    <td>{{ (achat.quantiteAvecMargeMilli / 1000)|number_format(3, ',', ' ') }}</td>
+                    <td>{{ achat.lots }}</td>
+                    <td>{{ achat.quantiteAchetee }}</td>
+                    <td>{{ achat.chute }}</td>
+                    <td>{% if achat.prixManquant %}<span class="prix-manquant">{{ 'Missing price'|trans }}</span>{% endif %}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="10">{{ 'Nothing to buy.'|trans }}</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>{{ 'No active system to calculate.'|trans }}</p>
+    {% endfor %}
+
+    <p><a href="{{ path('projet_show', {id: projet.id}) }}">{{ 'Back to the project'|trans }}</a></p>
+{% endblock %}

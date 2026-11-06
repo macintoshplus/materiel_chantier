@@ -232,6 +232,13 @@ final class Materiau implements MaterielLisible
 
     public function valeur(string $chemin): mixed
     {
+        if (\in_array($chemin, ['reference', 'libelle', 'marge_securite_pct'], true)) {
+            return match ($chemin) {
+                'reference' => $this->reference,
+                'libelle' => $this->libelle,
+                default => $this->margeSecuritePct,
+            };
+        }
         if (\in_array($chemin, self::COLONNES, true)) {
             return match ($chemin) {
                 'longueur' => $this->longueur,

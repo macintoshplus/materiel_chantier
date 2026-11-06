@@ -377,6 +377,22 @@
         <source>The support fixing of the layer {{ order }} has no pitch.</source>
         <target>La fixation au support de la couche {{ order }} n'a pas de pas.</target>
       </trans-unit>
+      <trans-unit id="mc38" resname="The article &quot;{{ original }}&quot; is replaced by the equivalent &quot;{{ replacement }}&quot;.">
+        <source>The article &quot;{{ original }}&quot; is replaced by the equivalent &quot;{{ replacement }}&quot;.</source>
+        <target>L'article « {{ original }} » est remplacé par l'équivalent « {{ replacement }} ».</target>
+      </trans-unit>
+      <trans-unit id="mc39" resname="The article &quot;{{ article }}&quot; is bought from another supplier.">
+        <source>The article &quot;{{ article }}&quot; is bought from another supplier.</source>
+        <target>L'article « {{ article }} » est acheté chez un autre fournisseur.</target>
+      </trans-unit>
+      <trans-unit id="mc40" resname="No price found for the article &quot;{{ article }}&quot;.">
+        <source>No price found for the article &quot;{{ article }}&quot;.</source>
+        <target>Aucun prix trouvé pour l'article « {{ article }} ».</target>
+      </trans-unit>
+      <trans-unit id="mc41" resname="The article &quot;{{ article }}&quot; has no usable dimension: its needs cannot be optimised.">
+        <source>The article &quot;{{ article }}&quot; has no usable dimension: its needs cannot be optimised.</source>
+        <target>L'article « {{ article }} » n'a pas de dimension utilisable : ses besoins ne peuvent pas être optimisés.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

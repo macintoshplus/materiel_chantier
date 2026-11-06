@@ -21,10 +21,22 @@
             <a class="btn btn-outline-secondary btn-sm" rel="next" href="{{ path('surface_show', {piece: piece.id, surface: voisins.suivant.id}) }}">{{ surface.type.value == 'mur' ? 'Next wall'|trans : 'Next surface'|trans }} &rarr;</a>
         {% endif %}
     </div>
-    {% include 'apercu/_surface.html.twig' with {apercu: apercu} only %}
+    {% include 'apercu/_surface.html.twig' with {apercu: apercu, calcul: calcul} only %}
 {% endblock %}
 
 {% block droite %}
+    {% if calcul is not null %}
+        {% embed 'layout/_groupe.html.twig' with {cle: 'calculation', titre: 'Calculation'} %}
+            {% block contenu %}
+                {% if messagesCalcul|length > 0 %}
+                    {% include 'layout/_messages.html.twig' with {messages: messagesCalcul} only %}
+                {% else %}
+                    <p class="text-muted small" data-testid="calcul-ok">{{ 'The active system raises no warning.'|trans }}</p>
+                {% endif %}
+            {% endblock %}
+        {% endembed %}
+    {% endif %}
+
     {% embed 'layout/_groupe.html.twig' with {cle: 'properties', titre: 'Properties'} %}
         {% block contenu %}
             {{ form_row(form.nom) }}

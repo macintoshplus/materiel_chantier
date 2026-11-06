@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Apercu\ApercuCalcul;
 use App\Apercu\ApercuSurface;
 use App\Entity\Piece;
 use App\Entity\Surface;
@@ -35,6 +36,7 @@ final class SurfaceController extends AbstractController
         SurfaceEditionService $edition,
         ControlePlacement $controle,
         ApercuSurface $apercu,
+        ApercuCalcul $apercuCalcul,
         TranslatorInterface $translator,
     ): Response {
         if ($surface->getPiece() !== $piece || null !== $surface->getCloison()) {
@@ -60,12 +62,16 @@ final class SurfaceController extends AbstractController
             }
         }
 
+        $calcul = $apercuCalcul->pourSurface($surface);
+
         return $this->render('surface/show.html.twig', [
             'piece' => $piece,
             'surface' => $surface,
             'form' => $form,
             'apercu' => $apercu->pourSurface($surface),
             'controles' => $this->messages($controle->pourSurface($surface)),
+            'calcul' => $calcul,
+            'messagesCalcul' => null === $calcul ? [] : $this->messages([...$calcul['erreurs'], ...$calcul['avertissements']]),
             'voisins' => OrdreSurfaces::voisins($surface),
             'contraintes' => $surface->getContraintesSommets(),
         ], new Response(status: $statut));
