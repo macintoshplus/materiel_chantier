@@ -6,12 +6,23 @@ namespace App\Entity;
 
 use App\Enum\CoteCloison;
 use App\Enum\TypeSurface;
+use App\Geometrie\ConstructeurSurface;
+use App\Geometrie\ContourIdentifie;
+use App\Geometrie\ContrainteSommet;
+use App\Geometrie\Direction;
+use App\Geometrie\ErreurGeometrique;
+use App\Geometrie\MessagesGeometrie;
+use App\Geometrie\Plan;
+use App\Geometrie\Segment;
+use App\Geometrie\SurfaceGeneree;
+use App\Geometrie\SurfaceGeometrique;
 use App\Repository\SurfaceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Table unique : un mur, un pan incliné, un plafond, un sol et une face de cloison sont le même objet,
@@ -79,6 +90,24 @@ final class Surface
         }
 
         return null === $this->cloison && null === $this->cote;
+    }
+
+    #[Assert\Callback]
+    public function validerContraintes(ExecutionContextInterface $context): void
+    {
+        $contraintes = $this->getContraintesSommets();
+        if ([] === $contraintes) {
+            return;
+        }
+        try {
+            (new ConstructeurSurface())->construire($contraintes);
+        } catch (ErreurGeometrique $e) {
+            $violation = $context->buildViolation(MessagesGeometrie::message($e->erreur))->atPath('contraintes');
+            foreach ($e->params as $nom => $valeur) {
+                $violation->setParameter('{{ '.$nom.' }}', (string) $valeur);
+            }
+            $violation->addViolation();
+        }
     }
 
     public function getId(): ?int
@@ -221,5 +250,133 @@ final class Surface
         if (!$this->ouvertures->contains($ouverture)) {
             $this->ouvertures->add($ouverture);
         }
+    }
+
+    /**
+     * Applique le plan, le contour, les contraintes et (mur) l'arête du sol produits par un générateur.
+     */
+    public function appliquerGeneree(SurfaceGeneree $generee): void
+    {
+        $this->definirPlan($generee->plan);
+        $this->definirContour($generee->contour);
+        $this->definirContraintesSommets($generee->contraintes);
+        $this->definirAreteSol($generee->areteSol);
+    }
+
+    public function retirerOuverture(Ouverture $ouverture): void
+    {
+        $this->ouvertures->removeElement($ouverture);
+    }
+
+    /**
+     * Clé opaque de la surface pour la bibliothèque géométrique (valable le temps de la requête).
+     */
+    public function cle(): string
+    {
+        return 's'.spl_object_id($this);
+    }
+
+    /**
+     * Polygone `(u, v)` avec ses identifiants de sommets stables.
+     */
+    public function getContour(): ContourIdentifie
+    {
+        return ContourIdentifie::depuisTableau($this->polygone);
+    }
+
+    public function definirContour(ContourIdentifie $contour): void
+    {
+        $this->polygone = $contour->versTableau();
+    }
+
+    public function getPlan(): Plan
+    {
+        return Plan::depuisListes($this->origine3D, $this->vecteurU, $this->vecteurV);
+    }
+
+    public function definirPlan(Plan $plan): void
+    {
+        $this->origine3D = $plan->origine->versListe();
+        $this->vecteurU = $plan->u->versListe();
+        $this->vecteurV = $plan->v->versListe();
+    }
+
+    /**
+     * Contraintes de sommets (stockées sous la clé `sommets` ; les autres clés de `contraintes` sont conservées).
+     *
+     * @return list<ContrainteSommet>
+     */
+    public function getContraintesSommets(): array
+    {
+        $liste = $this->contraintes['sommets'] ?? [];
+        if (!\is_array($liste)) {
+            return [];
+        }
+        $contraintes = [];
+        foreach ($liste as $t) {
+            if (\is_array($t)) {
+                $contraintes[] = ContrainteSommet::depuisTableau($t);
+            }
+        }
+
+        return $contraintes;
+    }
+
+    /**
+     * @param list<ContrainteSommet> $contraintes
+     */
+    public function definirContraintesSommets(array $contraintes): void
+    {
+        $this->contraintes['sommets'] = array_map(static fn (ContrainteSommet $c): array => $c->versTableau(), $contraintes);
+    }
+
+    /**
+     * Pour un mur : arête du sol d'origine, par identifiants de sommets du sol.
+     *
+     * @return array{debut: string, fin: string}|null
+     */
+    public function getAreteSol(): ?array
+    {
+        $a = $this->contraintes['arete_sol'] ?? null;
+        if (\is_array($a) && \is_string($a['debut'] ?? null) && \is_string($a['fin'] ?? null)) {
+            return ['debut' => $a['debut'], 'fin' => $a['fin']];
+        }
+
+        return null;
+    }
+
+    /**
+     * @param array{debut: string, fin: string}|null $arete
+     */
+    public function definirAreteSol(?array $arete): void
+    {
+        if (null === $arete) {
+            unset($this->contraintes['arete_sol']);
+        } else {
+            $this->contraintes['arete_sol'] = $arete;
+        }
+    }
+
+    /**
+     * Géométrie pure de la surface, ouvertures comprises.
+     */
+    public function geometrie(): SurfaceGeometrique
+    {
+        $formes = [];
+        foreach ($this->ouvertures as $ouverture) {
+            $formes[] = $ouverture->getForme();
+        }
+
+        return new SurfaceGeometrique($this->getPlan(), $this->getContour(), $formes);
+    }
+
+    /**
+     * Éléments d'ossature (voir SurfaceGeometrique::coupes).
+     *
+     * @return list<Segment>
+     */
+    public function coupes(Direction $direction, int $pas): array
+    {
+        return $this->geometrie()->coupes($direction, $pas);
     }
 }

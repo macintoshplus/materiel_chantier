@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{# Éditeur : fil d'Ariane, aperçu au centre, groupes repliables à droite, barre « Save » toujours visible. #}
+{% block body %}
+    <div class="editeur" data-controller="highlight" data-action="mouseover->highlight#on mouseout->highlight#off focusin->highlight#on focusout->highlight#off">
+        <nav class="fil-ariane" aria-label="{{ 'Breadcrumb'|trans }}">
+            {% block fil %}{% endblock %}
+        </nav>
+
+        {{ form_start(form, {attr: {
+            id: 'editeur-form',
+            novalidate: 'novalidate',
+            'data-controller': 'unsaved-changes',
+            'data-unsaved-changes-dirty-value': form.vars.submitted ? 'true' : 'false',
+            'data-action': 'input->unsaved-changes#marquer change->unsaved-changes#marquer submit->unsaved-changes#soumettre',
+        }}) }}
+            {{ form_errors(form) }}
+
+            {% if impacts is defined and impacts is not null %}
+                <div class="alert alert-warning" role="alert" data-testid="impacts">
+                    <p class="mb-1"><strong>{{ 'This change affects existing data. Review it, then confirm to save.'|trans }}</strong></p>
+                    <ul class="mb-0">
+                        {% for impact in impacts %}<li>{{ impact|trans }}</li>{% endfor %}
+                    </ul>
+                </div>
+                <input type="hidden" name="_confirmer" value="1">
+            {% endif %}
+
+            <div class="editeur-grille">
+                <section class="editeur-centre">{% block centre %}{% endblock %}</section>
+                <aside class="editeur-droite">{% block droite %}{% endblock %}</aside>
+            </div>
+
+            <input type="hidden" name="_continue" value="" data-unsaved-changes-target="suite">
+
+            <div class="barre-enregistrer">
+                <button type="submit" class="btn btn-primary">
+                    {{ (impacts is defined and impacts is not null) ? 'Confirm and save'|trans : 'Save'|trans }}
+                </button>
+                <span class="etat-modifie" data-unsaved-changes-target="etat" hidden>{{ 'Unsaved changes'|trans }}</span>
+            </div>
+
+            <dialog class="dialogue-modifications" data-unsaved-changes-target="dialogue">
+                <p>{{ 'You have unsaved changes.'|trans }}</p>
+                <div class="dialogue-boutons">
+                    <button type="button" class="btn btn-primary" data-action="unsaved-changes#enregistrerEtContinuer">{{ 'Save and continue'|trans }}</button>
+                    <button type="button" class="btn btn-outline-danger" data-action="unsaved-changes#abandonner">{{ 'Discard'|trans }}</button>
+                    <button type="button" class="btn btn-outline-secondary" data-action="unsaved-changes#annuler">{{ 'Cancel'|trans }}</button>
+                </div>
+            </dialog>
+        {{ form_end(form) }}
+
+        {% block apres_formulaire %}{% endblock %}
+    </div>
+{% endblock %}

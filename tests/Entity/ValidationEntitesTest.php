@@ -46,6 +46,33 @@ final class ValidationEntitesTest extends TestCase
         self::assertCount(0, $this->validator->validate($face));
     }
 
+    public function testUnContourDeSolQuiSeCroiseEstRefuse(): void
+    {
+        $piece = $this->piece();
+        $piece->setNom('Salon');
+        $piece->setFormeSol([['x' => 0, 'y' => 0], ['x' => 4000, 'y' => 3000], ['x' => 4000, 'y' => 0], ['x' => 0, 'y' => 3000]]);
+        $violations = $this->validator->validate($piece);
+        self::assertCount(1, $violations);
+        self::assertSame('formeSol', $violations->get(0)->getPropertyPath());
+        self::assertSame('The floor outline crosses itself.', $violations->get(0)->getMessageTemplate());
+
+        $piece->setFormeSol([['x' => 0, 'y' => 0], ['x' => 4000, 'y' => 0], ['x' => 4000, 'y' => 3000], ['x' => 0, 'y' => 3000]]);
+        self::assertCount(0, $this->validator->validate($piece));
+    }
+
+    public function testLesContraintesInvalidesDUneSurfaceSontRefusees(): void
+    {
+        $piece = $this->piece();
+        $mur = new Surface($piece, TypeSurface::Mur);
+        $mur->setContraintes(['sommets' => [
+            ['id' => 'a', 'type' => 'fixe', 'u' => 0, 'v' => 0],
+            ['id' => 'a', 'type' => 'fixe', 'u' => 10, 'v' => 0],
+        ]]);
+        $violations = $this->validator->validate($mur);
+        self::assertCount(1, $violations);
+        self::assertSame('contraintes', $violations->get(0)->getPropertyPath());
+    }
+
     public function testUnMurNePorteNiCloisonNiCote(): void
     {
         $piece = $this->piece();

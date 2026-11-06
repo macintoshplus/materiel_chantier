@@ -801,6 +801,91 @@
         <source>Floor outline (x;y in m, one vertex per line)</source>
         <target>Contour au sol (x;y en m, un sommet par ligne)</target>
       </trans-unit>
+      <trans-unit id="me4bb612" resname="Vertices"><source>Vertices</source><target>Sommets</target></trans-unit>
+      <trans-unit id="mbea59fd" resname="Adjust each vertex by distance or by angle from the previous one."><source>Adjust each vertex by distance or by angle from the previous one.</source><target>Ajustez chaque sommet par sa distance ou son angle depuis le précédent.</target></trans-unit>
+      <trans-unit id="md98a07f" resname="from"><source>from</source><target>depuis</target></trans-unit>
+      <trans-unit id="ma3bc0db" resname="Previous wall"><source>Previous wall</source><target>Mur précédent</target></trans-unit>
+      <trans-unit id="mf52cc59" resname="Previous surface"><source>Previous surface</source><target>Surface précédente</target></trans-unit>
+      <trans-unit id="m5b4eb55" resname="Back to the room"><source>Back to the room</source><target>Retour à la pièce</target></trans-unit>
+      <trans-unit id="mf7b797f" resname="Next wall"><source>Next wall</source><target>Mur suivant</target></trans-unit>
+      <trans-unit id="m08cece0" resname="Next surface"><source>Next surface</source><target>Surface suivante</target></trans-unit>
+      <trans-unit id="m3d1bfb0" resname="Surface preview"><source>Surface preview</source><target>Aperçu de la surface</target></trans-unit>
+      <trans-unit id="m1e1083b" resname="Room top view"><source>Room top view</source><target>Vue de dessus de la pièce</target></trans-unit>
+      <trans-unit id="mcc33a79" resname="Start from scratch: enter a quick rectangle or the floor vertices. The walls are generated, then the room opens in the editor."><source>Start from scratch: enter a quick rectangle or the floor vertices. The walls are generated, then the room opens in the editor.</source><target>Partir de zéro : saisissez un rectangle rapide ou les sommets du sol. Les murs sont générés, puis la pièce s'ouvre dans l'éditeur.</target></trans-unit>
+      <trans-unit id="m8339683" resname="Floor vertices (counter-clockwise, mm)"><source>Floor vertices (counter-clockwise, mm)</source><target>Sommets du sol (sens anti-horaire, mm)</target></trans-unit>
+      <trans-unit id="mf5e40d2" resname="One vertex change per save: move, add or remove a single vertex."><source>One vertex change per save: move, add or remove a single vertex.</source><target>Un seul changement de sommet par enregistrement : déplacer, ajouter ou retirer un seul sommet.</target></trans-unit>
+      <trans-unit id="ma37de02" resname="No wall."><source>No wall.</source><target>Aucun mur.</target></trans-unit>
+      <trans-unit id="m3237fbc" resname="Ceiling"><source>Ceiling</source><target>Plafond</target></trans-unit>
+      <trans-unit id="m5f7c971" resname="No partition."><source>No partition.</source><target>Aucune cloison.</target></trans-unit>
+      <trans-unit id="mb350b31" resname="Add partition"><source>Add partition</source><target>Ajouter une cloison</target></trans-unit>
+      <trans-unit id="m5a822c1" resname="New partition"><source>New partition</source><target>Nouvelle cloison</target></trans-unit>
+      <trans-unit id="mc142a73" resname="Side"><source>Side</source><target>Côté</target></trans-unit>
+      <trans-unit id="m735f595" resname="Side A"><source>Side A</source><target>Côté A</target></trans-unit>
+      <trans-unit id="mcd598cc" resname="Side B"><source>Side B</source><target>Côté B</target></trans-unit>
+      <trans-unit id="m648b50b" resname="Click two points on the plan to set the start and the end, or enter the values."><source>Click two points on the plan to set the start and the end, or enter the values.</source><target>Cliquez deux points sur le plan pour fixer le début et la fin, ou saisissez les valeurs.</target></trans-unit>
+      <trans-unit id="mb4e0e86" resname="Delete this partition? Partitions anchored on it become free."><source>Delete this partition? Partitions anchored on it become free.</source><target>Supprimer cette cloison ? Les cloisons ancrées dessus deviennent libres.</target></trans-unit>
+      <trans-unit id="m2e62ee3" resname="Delete partition"><source>Delete partition</source><target>Supprimer la cloison</target></trans-unit>
+      <trans-unit id="m1063e38" resname="Remove"><source>Remove</source><target>Retirer</target></trans-unit>
+      <trans-unit id="m1cdb526" resname="Breadcrumb"><source>Breadcrumb</source><target>Fil d'Ariane</target></trans-unit>
+      <trans-unit id="m39e07c1" resname="This change affects existing data. Review it, then confirm to save."><source>This change affects existing data. Review it, then confirm to save.</source><target>Ce changement touche des données existantes. Vérifiez-le, puis confirmez pour enregistrer.</target></trans-unit>
+      <trans-unit id="m64d7a62" resname="Confirm and save"><source>Confirm and save</source><target>Confirmer et enregistrer</target></trans-unit>
+      <trans-unit id="mc227ad7" resname="Unsaved changes"><source>Unsaved changes</source><target>Modifications non enregistrées</target></trans-unit>
+      <trans-unit id="m604a9a8" resname="You have unsaved changes."><source>You have unsaved changes.</source><target>Vous avez des modifications non enregistrées.</target></trans-unit>
+      <trans-unit id="m26030c7" resname="Save and continue"><source>Save and continue</source><target>Enregistrer et continuer</target></trans-unit>
+      <trans-unit id="md94b420" resname="Discard"><source>Discard</source><target>Abandonner</target></trans-unit>
+      <trans-unit id="mea47887" resname="Cancel"><source>Cancel</source><target>Annuler</target></trans-unit>
+      <trans-unit id="mcc3abcf" resname="Room"><source>Room</source><target>Pièce</target></trans-unit>
+      <trans-unit id="m2e958ff" resname="Floor vertices"><source>Floor vertices</source><target>Sommets du sol</target></trans-unit>
+      <trans-unit id="m1f5c5ce" resname="Walls"><source>Walls</source><target>Murs</target></trans-unit>
+      <trans-unit id="m04d8324" resname="Partitions"><source>Partitions</source><target>Cloisons</target></trans-unit>
+      <trans-unit id="m9fc2d28" resname="Properties"><source>Properties</source><target>Propriétés</target></trans-unit>
+      <trans-unit id="ma787ce0" resname="Openings"><source>Openings</source><target>Ouvertures</target></trans-unit>
+      <trans-unit id="mbc9fb12" resname="Add an opening"><source>Add an opening</source><target>Ajouter une ouverture</target></trans-unit>
+      <trans-unit id="mebd9bec" resname="Layout"><source>Layout</source><target>Implantation</target></trans-unit>
+      <trans-unit id="mae706f0" resname="Room created."><source>Room created.</source><target>Pièce créée.</target></trans-unit>
+      <trans-unit id="mfae8822" resname="Surface saved."><source>Surface saved.</source><target>Surface enregistrée.</target></trans-unit>
+      <trans-unit id="mf5b761f" resname="Partition saved."><source>Partition saved.</source><target>Cloison enregistrée.</target></trans-unit>
+      <trans-unit id="mcd6aef8" resname="Partition deleted."><source>Partition deleted.</source><target>Cloison supprimée.</target></trans-unit>
+      <trans-unit id="m953da51" resname="surface_type.mur"><source>surface_type.mur</source><target>Mur</target></trans-unit>
+      <trans-unit id="me94b5b9" resname="surface_type.plafond_pan"><source>surface_type.plafond_pan</source><target>Pan de plafond</target></trans-unit>
+      <trans-unit id="mc1802bf" resname="surface_type.sol"><source>surface_type.sol</source><target>Sol</target></trans-unit>
+      <trans-unit id="mfecec0b" resname="surface_type.cloison_face"><source>surface_type.cloison_face</source><target>Face de cloison</target></trans-unit>
+      <trans-unit id="m0b47f33" resname="pose_mode.applique"><source>pose_mode.applique</source><target>En applique</target></trans-unit>
+      <trans-unit id="md059305" resname="pose_mode.tunnel"><source>pose_mode.tunnel</source><target>En tunnel</target></trans-unit>
+      <trans-unit id="mf1688ec" resname="Ceiling height (mm)"><source>Ceiling height (mm)</source><target>Hauteur sous plafond (mm)</target></trans-unit>
+      <trans-unit id="m97efba0" resname="Input mode"><source>Input mode</source><target>Mode de saisie</target></trans-unit>
+      <trans-unit id="m154ddb5" resname="Quick rectangle"><source>Quick rectangle</source><target>Rectangle rapide</target></trans-unit>
+      <trans-unit id="m59a6607" resname="Vertex table"><source>Vertex table</source><target>Tableau de sommets</target></trans-unit>
+      <trans-unit id="m798ddf5" resname="X (mm)"><source>X (mm)</source><target>X (mm)</target></trans-unit>
+      <trans-unit id="mec515f5" resname="Y (mm)"><source>Y (mm)</source><target>Y (mm)</target></trans-unit>
+      <trans-unit id="m73e59ba" resname="Remove this vertex"><source>Remove this vertex</source><target>Retirer ce sommet</target></trans-unit>
+      <trans-unit id="m6a533cc" resname="Default ceiling height (mm)"><source>Default ceiling height (mm)</source><target>Hauteur sous plafond par défaut (mm)</target></trans-unit>
+      <trans-unit id="m1e68a81" resname="Add a vertex"><source>Add a vertex</source><target>Ajouter un sommet</target></trans-unit>
+      <trans-unit id="ma57e1a0" resname="Add a vertex on the edge"><source>Add a vertex on the edge</source><target>Ajouter un sommet sur l'arête</target></trans-unit>
+      <trans-unit id="m6adf97f" resname="None"><source>None</source><target>Aucune</target></trans-unit>
+      <trans-unit id="mf1e89f5" resname="Distance from the edge start (mm)"><source>Distance from the edge start (mm)</source><target>Distance depuis le début de l'arête (mm)</target></trans-unit>
+      <trans-unit id="mc89686a" resname="Window"><source>Window</source><target>Fenêtre</target></trans-unit>
+      <trans-unit id="mf44e14d" resname="Door"><source>Door</source><target>Porte</target></trans-unit>
+      <trans-unit id="md3141b8" resname="Position u (mm)"><source>Position u (mm)</source><target>Position u (mm)</target></trans-unit>
+      <trans-unit id="m5cfc7fe" resname="Position v (mm)"><source>Position v (mm)</source><target>Position v (mm)</target></trans-unit>
+      <trans-unit id="mcd2b03c" resname="Pose mode"><source>Pose mode</source><target>Mode de pose</target></trans-unit>
+      <trans-unit id="md7fd04b" resname="Recess depth (mm)"><source>Recess depth (mm)</source><target>Profondeur de retour (mm)</target></trans-unit>
+      <trans-unit id="mbdafdac" resname="Distance (mm)"><source>Distance (mm)</source><target>Distance (mm)</target></trans-unit>
+      <trans-unit id="m84b8c9d" resname="Angle (deg)"><source>Angle (deg)</source><target>Angle (°)</target></trans-unit>
+      <trans-unit id="m0a5eee0" resname="Start X (mm)"><source>Start X (mm)</source><target>Début X (mm)</target></trans-unit>
+      <trans-unit id="m1c08bbf" resname="Start Y (mm)"><source>Start Y (mm)</source><target>Début Y (mm)</target></trans-unit>
+      <trans-unit id="mde7b4a4" resname="End X (mm)"><source>End X (mm)</source><target>Fin X (mm)</target></trans-unit>
+      <trans-unit id="mac0dfda" resname="End Y (mm)"><source>End Y (mm)</source><target>Fin Y (mm)</target></trans-unit>
+      <trans-unit id="med8fcba" resname="Reference wall"><source>Reference wall</source><target>Mur de référence</target></trans-unit>
+      <trans-unit id="m7862b09" resname="Offset from the reference wall (mm)"><source>Offset from the reference wall (mm)</source><target>Décalage depuis le mur de référence (mm)</target></trans-unit>
+      <trans-unit id="mecf336d" resname="Start anchor"><source>Start anchor</source><target>Ancrage du début</target></trans-unit>
+      <trans-unit id="mf51c4eb" resname="End anchor"><source>End anchor</source><target>Ancrage de la fin</target></trans-unit>
+      <trans-unit id="m086247a" resname="Automatic"><source>Automatic</source><target>Automatique</target></trans-unit>
+      <trans-unit id="mb24ce0c" resname="Free"><source>Free</source><target>Libre</target></trans-unit>
+      <trans-unit id="mba2a9c6" resname="Length"><source>Length</source><target>Longueur</target></trans-unit>
+      <trans-unit id="m45f4ce6" resname="Angle"><source>Angle</source><target>Angle</target></trans-unit>
+      <trans-unit id="mdfd0a82" resname="Offset"><source>Offset</source><target>Décalage</target></trans-unit>
+      <trans-unit id="mfv0001" resname="Floor vertices (mm)"><source>Floor vertices (mm)</source><target>Sommets du sol (mm)</target></trans-unit>
     </body>
   </file>
 </xliff>

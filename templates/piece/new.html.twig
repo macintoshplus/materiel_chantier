@@ -1,0 +1,29 @@
+{% extends 'layout/editeur.html.twig' %}
+
+{% block title %}{{ 'New room'|trans }}{% endblock %}
+
+{% block fil %}
+    <a href="{{ path('projet_index') }}">{{ 'Projects'|trans }}</a> &rsaquo;
+    <a href="{{ path('projet_show', {id: projet.id}) }}">{{ projet.nom }}</a> &rsaquo;
+    <span>{{ 'New room'|trans }}</span>
+{% endblock %}
+
+{% block centre %}
+    <h1>{{ 'New room'|trans }}</h1>
+    <p class="text-muted">{{ 'Start from scratch: enter a quick rectangle or the floor vertices. The walls are generated, then the room opens in the editor.'|trans }}</p>
+    {{ form_row(form.nom) }}
+    {{ form_row(form.hauteurSousPlafond) }}
+    <div data-controller="mode-switch">
+        <div data-action="change->mode-switch#appliquer">{{ form_row(form.mode) }}</div>
+        <div data-mode-switch-target="section" data-mode="rectangle">
+            {{ form_row(form.largeur) }}
+            {{ form_row(form.longueur) }}
+        </div>
+        <div data-mode-switch-target="section" data-mode="sommets">
+            <h2 class="h6">{{ 'Floor vertices (counter-clockwise, mm)'|trans }}</h2>
+            {% include 'layout/_collection.html.twig' with {champ: form.formeSol, ajout: 'Add a vertex'} only %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block droite %}{% endblock %}

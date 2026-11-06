@@ -46,6 +46,7 @@ final class FormeSolTest extends TestCase
         yield 'deux sommets' => ["0;0\n1;1"];
         yield 'sommets confondus' => ["0;0\n0;0\n1;1"];
         yield 'surface nulle' => ["0;0\n1;1\n2;2"];
+        yield 'contour qui se croise' => ["0;0\n4;3\n4;0\n0;3"];
     }
 
     public function testAllerRetourTexte(): void

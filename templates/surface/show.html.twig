@@ -1,0 +1,57 @@
+{% extends 'layout/editeur.html.twig' %}
+
+{% block title %}{{ surface.nom }}{% endblock %}
+
+{% block fil %}
+    <a href="{{ path('projet_index') }}">{{ 'Projects'|trans }}</a> &rsaquo;
+    <a href="{{ path('projet_show', {id: piece.projet.id}) }}">{{ piece.projet.nom }}</a> &rsaquo;
+    <a href="{{ path('piece_show', {id: piece.id}) }}">{{ piece.nom }}</a> &rsaquo;
+    <span aria-current="page">{{ surface.nom }}</span>
+{% endblock %}
+
+{% block centre %}
+    <h1>{{ surface.nom }}</h1>
+    <p class="text-muted">{{ ('surface_type.' ~ surface.type.value)|trans }}</p>
+    <div class="navigation-surface">
+        {% if voisins.precedent %}
+            <a class="btn btn-outline-secondary btn-sm" rel="prev" href="{{ path('surface_show', {piece: piece.id, surface: voisins.precedent.id}) }}">&larr; {{ surface.type.value == 'mur' ? 'Previous wall'|trans : 'Previous surface'|trans }}</a>
+        {% endif %}
+        <a class="btn btn-outline-secondary btn-sm" href="{{ path('piece_show', {id: piece.id}) }}">{{ 'Back to the room'|trans }}</a>
+        {% if voisins.suivant %}
+            <a class="btn btn-outline-secondary btn-sm" rel="next" href="{{ path('surface_show', {piece: piece.id, surface: voisins.suivant.id}) }}">{{ surface.type.value == 'mur' ? 'Next wall'|trans : 'Next surface'|trans }} &rarr;</a>
+        {% endif %}
+    </div>
+    {% include 'apercu/_surface.html.twig' with {apercu: apercu} only %}
+{% endblock %}
+
+{% block droite %}
+    {% embed 'layout/_groupe.html.twig' with {cle: 'properties', titre: 'Properties'} %}
+        {% block contenu %}
+            {{ form_row(form.nom) }}
+            {% if form.sommets|length > 0 %}
+                <h3 class="h6">{{ 'Vertices'|trans }}</h3>
+                <p class="text-muted small">{{ 'Adjust each vertex by distance or by angle from the previous one.'|trans }}</p>
+                {% for sommet in form.sommets %}
+                    {% set c = sommet.vars.value %}
+                    <div class="collection-ligne">
+                        <strong>{{ c.id }}</strong>
+                        <span class="text-muted small">{{ 'from'|trans }} {{ c.depuis }}{% if c.direction %} ({{ c.direction }}){% endif %}</span>
+                        {{ form_widget(sommet.id) }}
+                        {{ form_row(sommet.distance) }}
+                        {% if c.type == 'angle' %}{{ form_row(sommet.angle) }}{% else %}{% do sommet.angle.setRendered %}{% endif %}
+                    </div>
+                {% endfor %}
+                {% do form.sommets.setRendered %}
+            {% else %}
+                {% do form.sommets.setRendered %}
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
+
+    {% embed 'layout/_groupe.html.twig' with {cle: 'openings', titre: 'Openings'} %}
+        {% block contenu %}
+            {% include 'layout/_messages.html.twig' with {messages: controles} only %}
+            {% include 'layout/_collection.html.twig' with {champ: form.ouvertures, ajout: 'Add an opening'} only %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

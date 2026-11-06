@@ -45,7 +45,12 @@ final class FormeSol
             throw new \InvalidArgumentException('The floor outline has no area.');
         }
 
-        return $aire < 0 ? array_reverse($points) : $points;
+        $points = $aire < 0 ? array_reverse($points) : $points;
+        if (!Polygone::depuisTableaux($points)->estSimple()) {
+            throw new \InvalidArgumentException('The floor outline crosses itself.');
+        }
+
+        return $points;
     }
 
     /**

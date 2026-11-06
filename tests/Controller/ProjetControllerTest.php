@@ -34,16 +34,17 @@ final class ProjetControllerTest extends WebTestCase
         self::assertInstanceOf(Projet::class, $projet);
 
         $client->request('GET', '/projets/'.$projet->getId().'/pieces/nouvelle');
-        $client->submitForm('Enregistrer', ['piece[nom]' => 'Salon', 'piece[hauteurSousPlafond]' => '2,5']);
+        $client->submitForm('Enregistrer', ['nouvelle_piece[nom]' => 'Salon', 'nouvelle_piece[hauteurSousPlafond]' => '2500']);
         self::assertResponseRedirects();
 
         $em->clear();
         $pieces = $em->getRepository(Piece::class)->findAll();
         self::assertCount(1, $pieces);
         self::assertSame(2500, $pieces[0]->getHauteurSousPlafond());
+        self::assertSame(['x' => 4000, 'y' => 3000], $pieces[0]->getFormeSol()[2]);
     }
 
-    public function testLeContourAuSolEstSaisiEnMetresEtStockeEnMillimetres(): void
+    public function testLeContourAuSolPeutEtreSaisiParSommets(): void
     {
         $client = static::createClient();
         $client->disableReboot();
@@ -54,17 +55,19 @@ final class ProjetControllerTest extends WebTestCase
         $em->flush();
 
         $client->request('GET', '/projets/'.$projet->getId().'/pieces/nouvelle');
-        $client->submitForm('Enregistrer', ['piece[nom]' => 'Salon', 'piece[formeSol]' => "0;0\n4,5;0\n4,5;3\n0;3"]);
+        $client->submitForm('Enregistrer', [
+            'nouvelle_piece[nom]' => 'Salon',
+            'nouvelle_piece[mode]' => 'sommets',
+            'nouvelle_piece[formeSol][0][x]' => '0', 'nouvelle_piece[formeSol][0][y]' => '0',
+            'nouvelle_piece[formeSol][1][x]' => '4500', 'nouvelle_piece[formeSol][1][y]' => '0',
+            'nouvelle_piece[formeSol][2][x]' => '4500', 'nouvelle_piece[formeSol][2][y]' => '3000',
+            'nouvelle_piece[formeSol][3][x]' => '0', 'nouvelle_piece[formeSol][3][y]' => '3000',
+        ]);
         self::assertResponseRedirects();
 
         $em->clear();
         $piece = $em->getRepository(Piece::class)->findOneBy(['nom' => 'Salon']);
         self::assertSame(['x' => 4500, 'y' => 3000], $piece?->getFormeSol()[2]);
-
-        $client->request('GET', '/pieces/'.$piece->getId().'/modifier');
-        $client->submitForm('Enregistrer', ['piece[formeSol]' => "0;0\n1;1"]);
-        self::assertResponseStatusCodeSame(422);
-        self::assertSelectorTextContains('body', 'au moins 3 sommets');
     }
 
     public function testLaSuppressionDUnProjetSupprimeToutEnCascade(): void

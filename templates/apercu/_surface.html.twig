@@ -1,0 +1,19 @@
+{# Aperçu SVG d'une surface dans son repère (1 unité = 1 mm, axe v inversé). Variable : apercu (VueSurface). #}
+<svg class="apercu" viewBox="{{ apercu.viewBox }}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="{{ 'Surface preview'|trans }}">
+    {% if apercu.sommets|length > 0 %}
+        <polygon class="surface-contour" points="{{ apercu.contour }}" stroke-width="{{ apercu.trait }}"/>
+    {% endif %}
+    {% for o in apercu.ouvertures %}
+        <g class="ouverture{{ o.tunnel ? ' ouverture-tunnel' : '' }}{{ o.porte ? ' ouverture-porte' : ' ouverture-fenetre' }}"{% if o.id %} data-highlight-key="opening-{{ o.id }}"{% endif %}>
+            <polygon class="ouverture-forme" points="{{ o.points }}" stroke-width="{{ apercu.trait }}"/>
+            {% for r in o.retours %}
+                <rect class="retour" x="{{ r.x }}" y="{{ r.y }}" width="{{ r.largeur }}" height="{{ r.hauteur }}"/>
+            {% endfor %}
+            <text x="{{ o.x + o.largeur // 2 }}" y="{{ o.y + o.hauteur // 2 }}" font-size="{{ apercu.police }}" text-anchor="middle" dominant-baseline="middle">{{ o.libelle }}</text>
+        </g>
+    {% endfor %}
+    {% for s in apercu.sommets %}
+        <circle class="sommet" cx="{{ s.x }}" cy="{{ s.y }}" r="{{ apercu.trait * 1.2 }}"/>
+        <text class="sommet-nom" x="{{ s.x }}" y="{{ s.y - apercu.police }}" font-size="{{ apercu.police * 0.8 }}" text-anchor="middle">{{ s.id }}</text>
+    {% endfor %}
+</svg>

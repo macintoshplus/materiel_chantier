@@ -1,3 +1,45 @@
 body {
     background-color: skyblue;
 }
+
+/* Éditeur : fil d'Ariane, aperçu, groupes repliables, barre d'enregistrement */
+.editeur { padding-bottom: 5rem; }
+.fil-ariane { margin: 0.5rem 0; font-size: 0.9rem; }
+.editeur-grille { display: grid; grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr); gap: 1rem; align-items: start; }
+@media (max-width: 900px) { .editeur-grille { grid-template-columns: 1fr; } }
+.editeur-centre, .editeur-droite { background: #fff; border-radius: 0.5rem; padding: 1rem; }
+.apercu { width: 100%; height: auto; max-height: 70vh; background: #fafafa; border: 1px solid #ccc; }
+.navigation-surface, .selecteur-cote { display: flex; gap: 0.5rem; margin-bottom: 0.5rem; }
+.groupe { border: 1px solid #ccd; border-radius: 0.4rem; margin-bottom: 0.75rem; }
+.groupe > summary { cursor: pointer; padding: 0.4rem 0.75rem; font-weight: 600; background: #eef; }
+.groupe-corps { padding: 0.75rem; }
+.collection-ligne { border: 1px solid #dde; border-radius: 0.3rem; padding: 0.5rem; margin-bottom: 0.5rem; }
+.grille-champs { display: grid; grid-template-columns: 1fr 1fr; gap: 0 0.5rem; }
+.liste-selection { list-style: none; padding: 0; margin: 0 0 0.5rem; }
+.liste-selection li { padding: 0.2rem 0.4rem; border-radius: 0.25rem; }
+.barre-enregistrer { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; display: flex; align-items: center; gap: 1rem; padding: 0.6rem 1rem; background: #fff; border-top: 1px solid #aab; }
+.etat-modifie { color: #a60; font-weight: 600; }
+.dialogue-modifications { border: 1px solid #889; border-radius: 0.5rem; padding: 1rem; }
+.dialogue-boutons { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.flash-warning { background: #fff3cd; padding: 0.5rem; border-radius: 0.3rem; }
+.controles { list-style: disc inside; }
+.suppression { margin-top: 1rem; }
+
+/* Éléments SVG des aperçus */
+.surface-contour { fill: #fff; stroke: #333; }
+.sol { fill: #f1efe6; stroke: none; }
+.mur-ligne { stroke: #555; stroke-linecap: round; }
+.cloison-ligne { stroke: #8a6d3b; stroke-linecap: butt; }
+.plan-ouverture { stroke-linecap: butt; }
+.plan-fenetre { stroke: #4a9fd8; }
+.plan-porte { stroke: #c0883a; }
+.ouverture-forme { fill: #dff0fb; stroke: #4a9fd8; }
+.ouverture-porte .ouverture-forme { fill: #f7e6d0; stroke: #c0883a; }
+.retour { fill: rgba(60, 60, 60, 0.35); }
+.sommet { fill: #333; }
+.sommet-nom { fill: #666; }
+.apercu text { fill: #222; pointer-events: none; }
+.element-plan { cursor: pointer; }
+.is-highlighted { background: #ffe9a8; }
+.element-plan.is-highlighted .mur-ligne, .element-plan.is-highlighted .cloison-ligne { stroke: #e08a00; }
+.ouverture.is-highlighted .ouverture-forme { stroke: #e08a00; stroke-width: 24; }

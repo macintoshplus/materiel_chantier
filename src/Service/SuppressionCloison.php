@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Entity\Cloison;
 use App\Enum\TypeAncrage;
+use App\Geometrie\Avertissement;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -48,6 +49,26 @@ final readonly class SuppressionCloison
         $this->em->flush();
 
         return $liberees;
+    }
+
+    /**
+     * Supprime la cloison et renvoie un avertissement typé par cloison devenue libre.
+     *
+     * @return list<Avertissement>
+     */
+    public function supprimerAvecAvertissements(Cloison $cloison): array
+    {
+        $piece = $cloison->getPiece();
+        foreach ($piece->getJonctions()->toArray() as $jonction) {
+            if ($jonction->getSurfaceA()->getCloison() === $cloison || $jonction->getSurfaceB()?->getCloison() === $cloison) {
+                $piece->getJonctions()->removeElement($jonction);
+            }
+        }
+
+        return array_map(
+            static fn (Cloison $autre): Avertissement => new Avertissement('partition_anchor_released', ['partition' => $autre->getNom()]),
+            $this->supprimer($cloison),
+        );
     }
 
     /**

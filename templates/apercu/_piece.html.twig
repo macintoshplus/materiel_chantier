@@ -1,0 +1,24 @@
+{# Vue de dessus de la pièce. Variables : apercu (VuePiece), piece, liens (bool : murs et cloisons cliquables). #}
+<svg class="apercu apercu-piece" viewBox="{{ apercu.viewBox }}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="{{ 'Room top view'|trans }}" data-plan-picker-target="svg">
+    {% if not apercu.vide %}
+        <polygon class="sol" points="{{ apercu.sol }}"/>
+        {% for mur in apercu.murs %}
+            {% if liens %}<a href="{{ path('surface_show', {piece: piece.id, surface: mur.id}) }}" class="element-plan" data-highlight-key="wall-{{ mur.id }}">{% else %}<g class="element-plan">{% endif %}
+                <line class="mur-ligne" x1="{{ mur.x1 }}" y1="{{ mur.y1 }}" x2="{{ mur.x2 }}" y2="{{ mur.y2 }}" stroke-width="{{ apercu.trait }}"/>
+                {% for o in mur.ouvertures %}
+                    <line class="plan-ouverture{{ o.porte ? ' plan-porte' : ' plan-fenetre' }}" x1="{{ o.x1 }}" y1="{{ o.y1 }}" x2="{{ o.x2 }}" y2="{{ o.y2 }}" stroke-width="{{ apercu.trait * 2 }}"/>
+                {% endfor %}
+                <text x="{{ mur.lx }}" y="{{ mur.ly }}" font-size="{{ apercu.police }}" text-anchor="middle" dominant-baseline="middle">{{ mur.nom }}</text>
+            {% if liens %}</a>{% else %}</g>{% endif %}
+        {% endfor %}
+        {% for c in apercu.cloisons %}
+            {% if liens %}<a href="{{ path('partition_show', {piece: piece.id, cloison: c.id}) }}" class="element-plan" data-highlight-key="partition-{{ c.id }}">{% else %}<g class="element-plan">{% endif %}
+                <line class="cloison-ligne" x1="{{ c.x1 }}" y1="{{ c.y1 }}" x2="{{ c.x2 }}" y2="{{ c.y2 }}" stroke-width="{{ c.epaisseur }}"/>
+                {% for o in c.ouvertures %}
+                    <line class="plan-ouverture{{ o.porte ? ' plan-porte' : ' plan-fenetre' }}" x1="{{ o.x1 }}" y1="{{ o.y1 }}" x2="{{ o.x2 }}" y2="{{ o.y2 }}" stroke-width="{{ c.epaisseur }}"/>
+                {% endfor %}
+                <text x="{{ c.lx }}" y="{{ c.ly }}" font-size="{{ apercu.police }}" text-anchor="middle" dominant-baseline="middle">{{ c.nom }}</text>
+            {% if liens %}</a>{% else %}</g>{% endif %}
+        {% endfor %}
+    {% endif %}
+</svg>

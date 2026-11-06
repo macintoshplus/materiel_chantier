@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Enum\TypePose;
+use App\Geometrie\Point2D;
+use App\Geometrie\Polygone;
+use App\Geometrie\Rectangle;
 use App\Repository\OuvertureRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -204,5 +207,37 @@ final class Ouverture
     public function setParametres(array $parametres): void
     {
         $this->parametres = $parametres;
+    }
+
+    public function getRectangle(): Rectangle
+    {
+        return new Rectangle($this->u, $this->v, $this->largeur, $this->hauteur);
+    }
+
+    /**
+     * Forme réelle dans le repère du parent : le contour non rectangulaire s'il existe, sinon le rectangle.
+     */
+    public function getForme(): Polygone
+    {
+        if (null === $this->polygone || [] === $this->polygone) {
+            return $this->getRectangle()->polygone();
+        }
+
+        return new Polygone(array_map(static fn (array $p): Point2D => new Point2D($p['u'], $p['v']), $this->polygone));
+    }
+
+    public function libelle(): string
+    {
+        return null !== $this->nom && '' !== $this->nom ? $this->nom : $this->type;
+    }
+
+    /**
+     * Rattache l'ouverture à une autre surface (fusion de murs) sans toucher à sa position.
+     */
+    public function deplacerVers(Surface $surface): void
+    {
+        $this->surface?->retirerOuverture($this);
+        $this->surface = $surface;
+        $surface->ajouterOuverture($this);
     }
 }

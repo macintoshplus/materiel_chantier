@@ -65,6 +65,154 @@
         <source>The floor outline is not valid.</source>
         <target>Le contour au sol n'est pas valide.</target>
       </trans-unit>
+      <trans-unit id="g00" resname="The outline crosses itself or has no area.">
+        <source>The outline crosses itself or has no area.</source>
+        <target>Le contour se croise lui-même ou n'a pas d'aire.</target>
+      </trans-unit>
+      <trans-unit id="g01" resname="Vertex &quot;{{ vertex }}&quot; is defined by more than one constraint.">
+        <source>Vertex "{{ vertex }}" is defined by more than one constraint.</source>
+        <target>Le sommet « {{ vertex }} » est défini par plusieurs contraintes.</target>
+      </trans-unit>
+      <trans-unit id="g02" resname="Vertex &quot;{{ vertex }}&quot; refers to the unknown vertex &quot;{{ reference }}&quot;.">
+        <source>Vertex "{{ vertex }}" refers to the unknown vertex "{{ reference }}".</source>
+        <target>Le sommet « {{ vertex }} » fait référence au sommet inconnu « {{ reference }} ».</target>
+      </trans-unit>
+      <trans-unit id="g03" resname="The constraint of vertex &quot;{{ vertex }}&quot; has an invalid value.">
+        <source>The constraint of vertex "{{ vertex }}" has an invalid value.</source>
+        <target>La contrainte du sommet « {{ vertex }} » a une valeur invalide.</target>
+      </trans-unit>
+      <trans-unit id="g04" resname="The distance between &quot;{{ from }}&quot; and &quot;{{ to }}&quot; is {{ actual }} mm instead of {{ expected }} mm.">
+        <source>The distance between "{{ from }}" and "{{ to }}" is {{ actual }} mm instead of {{ expected }} mm.</source>
+        <target>La distance entre « {{ from }} » et « {{ to }} » est de {{ actual }} mm au lieu de {{ expected }} mm.</target>
+      </trans-unit>
+      <trans-unit id="g05" resname="A surface needs at least 3 vertices.">
+        <source>A surface needs at least 3 vertices.</source>
+        <target>Une surface a besoin d'au moins 3 sommets.</target>
+      </trans-unit>
+      <trans-unit id="g06" resname="The constraints give an outline that crosses itself or has no area.">
+        <source>The constraints give an outline that crosses itself or has no area.</source>
+        <target>Les contraintes donnent un contour qui se croise ou n'a pas d'aire.</target>
+      </trans-unit>
+      <trans-unit id="g07" resname="The constraint of vertex &quot;{{ vertex }}&quot; is malformed.">
+        <source>The constraint of vertex "{{ vertex }}" is malformed.</source>
+        <target>La contrainte du sommet « {{ vertex }} » est mal formée.</target>
+      </trans-unit>
+      <trans-unit id="g08" resname="A double-slope ceiling needs a rectangular floor aligned with the axes.">
+        <source>A double-slope ceiling needs a rectangular floor aligned with the axes.</source>
+        <target>Un plafond à double pente exige un sol rectangulaire aligné sur les axes.</target>
+      </trans-unit>
+      <trans-unit id="g09" resname="The ridge must be higher than the eaves, and both must be positive.">
+        <source>The ridge must be higher than the eaves, and both must be positive.</source>
+        <target>Le faîtage doit être plus haut que l'égout, et les deux doivent être positifs.</target>
+      </trans-unit>
+      <trans-unit id="g10" resname="The joined edges of &quot;{{ a }}&quot; and &quot;{{ b }}&quot; have different lengths ({{ lengthA }} mm and {{ lengthB }} mm).">
+        <source>The joined edges of "{{ a }}" and "{{ b }}" have different lengths ({{ lengthA }} mm and {{ lengthB }} mm).</source>
+        <target>Les arêtes jointes de « {{ a }} » et « {{ b }} » ont des longueurs différentes ({{ lengthA }} mm et {{ lengthB }} mm).</target>
+      </trans-unit>
+      <trans-unit id="g11" resname="The opening &quot;{{ opening }}&quot; is outside the surface.">
+        <source>The opening "{{ opening }}" is outside the surface.</source>
+        <target>L'ouverture « {{ opening }} » sort de la surface.</target>
+      </trans-unit>
+      <trans-unit id="g12" resname="The openings &quot;{{ opening }}&quot; and &quot;{{ other }}&quot; overlap.">
+        <source>The openings "{{ opening }}" and "{{ other }}" overlap.</source>
+        <target>Les ouvertures « {{ opening }} » et « {{ other }} » se chevauchent.</target>
+      </trans-unit>
+      <trans-unit id="g13" resname="The opening &quot;{{ opening }}&quot; is {{ distance }} mm from an edge (minimum {{ minimum }} mm).">
+        <source>The opening "{{ opening }}" is {{ distance }} mm from an edge (minimum {{ minimum }} mm).</source>
+        <target>L'ouverture « {{ opening }} » est à {{ distance }} mm d'une arête (minimum {{ minimum }} mm).</target>
+      </trans-unit>
+      <trans-unit id="g14" resname="The opening &quot;{{ opening }}&quot; straddles the new vertex.">
+        <source>The opening "{{ opening }}" straddles the new vertex.</source>
+        <target>L'ouverture « {{ opening }} » est à cheval sur le nouveau sommet.</target>
+      </trans-unit>
+      <trans-unit id="g15" resname="The partition has no length or no thickness.">
+        <source>The partition has no length or no thickness.</source>
+        <target>La cloison n'a ni longueur ni épaisseur.</target>
+      </trans-unit>
+      <trans-unit id="g16" resname="There is no ceiling above the partition.">
+        <source>There is no ceiling above the partition.</source>
+        <target>Il n'y a pas de plafond au-dessus de la cloison.</target>
+      </trans-unit>
+      <trans-unit id="g17" resname="An end of the partition is outside the room.">
+        <source>An end of the partition is outside the room.</source>
+        <target>Une extrémité de la cloison est hors de la pièce.</target>
+      </trans-unit>
+      <trans-unit id="g18" resname="The anchoring of the partition &quot;{{ partition }}&quot; ({{ end }} end) was recomputed.">
+        <source>The anchoring of the partition "{{ partition }}" ({{ end }} end) was recomputed.</source>
+        <target>L'ancrage de la cloison « {{ partition }} » (extrémité {{ end }}) a été recalculé.</target>
+      </trans-unit>
+      <trans-unit id="g19" resname="The partition &quot;{{ partition }}&quot; is no longer anchored at its {{ end }} end: it is now free.">
+        <source>The partition "{{ partition }}" is no longer anchored at its {{ end }} end: it is now free.</source>
+        <target>La cloison « {{ partition }} » n'est plus ancrée à son extrémité {{ end }} : elle est maintenant libre.</target>
+      </trans-unit>
+      <trans-unit id="g20" resname="The partition &quot;{{ partition }}&quot; was anchored on the deleted partition: it is now free.">
+        <source>The partition "{{ partition }}" was anchored on the deleted partition: it is now free.</source>
+        <target>La cloison « {{ partition }} » était ancrée sur la cloison supprimée : elle est maintenant libre.</target>
+      </trans-unit>
+      <trans-unit id="g21" resname="The partition &quot;{{ partition }}&quot; is no longer valid after the change.">
+        <source>The partition "{{ partition }}" is no longer valid after the change.</source>
+        <target>La cloison « {{ partition }} » n'est plus valide après la modification.</target>
+      </trans-unit>
+      <trans-unit id="g22" resname="A floor needs at least 3 vertices.">
+        <source>A floor needs at least 3 vertices.</source>
+        <target>Un sol a besoin d'au moins 3 sommets.</target>
+      </trans-unit>
+      <trans-unit id="g23" resname="This vertex does not exist.">
+        <source>This vertex does not exist.</source>
+        <target>Ce sommet n'existe pas.</target>
+      </trans-unit>
+      <trans-unit id="g24" resname="The new vertex must lie inside the edge, away from its ends.">
+        <source>The new vertex must lie inside the edge, away from its ends.</source>
+        <target>Le nouveau sommet doit se trouver à l'intérieur de l'arête, loin de ses extrémités.</target>
+      </trans-unit>
+      <trans-unit id="g25" resname="The new floor outline crosses itself or is clockwise.">
+        <source>The new floor outline crosses itself or is clockwise.</source>
+        <target>Le nouveau contour du sol se croise ou est horaire.</target>
+      </trans-unit>
+      <trans-unit id="g26" resname="The ceiling panes are not updated: check them.">
+        <source>The ceiling panes are not updated: check them.</source>
+        <target>Les pans de plafond ne sont pas mis à jour : vérifiez-les.</target>
+      </trans-unit>
+      <trans-unit id="g27" resname="Only the width of the wall &quot;{{ wall }}&quot; was updated: check its other constraints.">
+        <source>Only the width of the wall "{{ wall }}" was updated: check its other constraints.</source>
+        <target>Seule la largeur du mur « {{ wall }} » a été mise à jour : vérifiez ses autres contraintes.</target>
+      </trans-unit>
+      <trans-unit id="g28" resname="The walls &quot;{{ first }}&quot; and &quot;{{ second }}&quot; have different names: the first name is kept.">
+        <source>The walls "{{ first }}" and "{{ second }}" have different names: the first name is kept.</source>
+        <target>Les murs « {{ first }} » et « {{ second }} » ont des noms différents : le premier nom est conservé.</target>
+      </trans-unit>
+      <trans-unit id="g29" resname="The opening &quot;{{ opening }}&quot; was moved to the merged wall.">
+        <source>The opening "{{ opening }}" was moved to the merged wall.</source>
+        <target>L'ouverture « {{ opening }} » a été déplacée sur le mur fusionné.</target>
+      </trans-unit>
+      <trans-unit id="g30" resname="The partition &quot;{{ partition }}&quot; is anchored on the modified element.">
+        <source>The partition "{{ partition }}" is anchored on the modified element.</source>
+        <target>La cloison « {{ partition }} » est ancrée sur l'élément modifié.</target>
+      </trans-unit>
+      <trans-unit id="g31" resname="The partition &quot;{{ partition }}&quot; was freed.">
+        <source>The partition "{{ partition }}" was freed.</source>
+        <target>La cloison « {{ partition }} » a été libérée.</target>
+      </trans-unit>
+      <trans-unit id="gy0" resname="Change only one vertex at a time: move, add or remove one vertex, then save again.">
+        <source>Change only one vertex at a time: move, add or remove one vertex, then save again.</source>
+        <target>Ne modifiez qu'un sommet à la fois : déplacez, ajoutez ou supprimez un seul sommet, puis enregistrez à nouveau.</target>
+      </trans-unit>
+      <trans-unit id="gy1" resname="The chosen anchoring target does not exist.">
+        <source>The chosen anchoring target does not exist.</source>
+        <target>La cible d'ancrage choisie n'existe pas.</target>
+      </trans-unit>
+      <trans-unit id="gy2" resname="Give the end point, or the length and the angle.">
+        <source>Give the end point, or the length and the angle.</source>
+        <target>Indiquez le point de fin, ou la longueur et l'angle.</target>
+      </trans-unit>
+      <trans-unit id="gx0" resname="The floor outline crosses itself.">
+        <source>The floor outline crosses itself.</source>
+        <target>Le contour du sol se croise lui-même.</target>
+      </trans-unit>
+      <trans-unit id="gx1" resname="The constraints of this surface are not valid.">
+        <source>The constraints of this surface are not valid.</source>
+        <target>Les contraintes de cette surface ne sont pas valides.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

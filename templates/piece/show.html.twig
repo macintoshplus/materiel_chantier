@@ -1,0 +1,71 @@
+{% extends 'layout/editeur.html.twig' %}
+
+{% block title %}{{ piece.nom }}{% endblock %}
+
+{% block fil %}
+    <a href="{{ path('projet_index') }}">{{ 'Projects'|trans }}</a> &rsaquo;
+    <a href="{{ path('projet_show', {id: piece.projet.id}) }}">{{ piece.projet.nom }}</a> &rsaquo;
+    <span aria-current="page">{{ piece.nom }}</span>
+{% endblock %}
+
+{% block centre %}
+    <h1>{{ piece.nom }}</h1>
+    {% include 'apercu/_piece.html.twig' with {apercu: apercu, piece: piece, liens: true} only %}
+{% endblock %}
+
+{% block droite %}
+    {% embed 'layout/_groupe.html.twig' with {cle: 'room', titre: 'Room'} %}
+        {% block contenu %}
+            {{ form_row(form.nom) }}
+            {{ form_row(form.hauteurSousPlafond) }}
+        {% endblock %}
+    {% endembed %}
+
+    {% embed 'layout/_groupe.html.twig' with {cle: 'floor-vertices', titre: 'Floor vertices'} %}
+        {% block contenu %}
+            <p class="text-muted small">{{ 'One vertex change per save: move, add or remove a single vertex.'|trans }}</p>
+            {% for sommet in form.sommets %}
+                <div class="collection-ligne">
+                    <strong>{{ sommet.vars.value.id }}</strong>
+                    {{ form_widget(sommet) }}
+                </div>
+            {% endfor %}
+            {% do form.sommets.setRendered %}
+            {{ form_row(form.ajoutArete) }}
+            {{ form_row(form.ajoutDistance) }}
+        {% endblock %}
+    {% endembed %}
+
+    {% embed 'layout/_groupe.html.twig' with {cle: 'walls', titre: 'Walls'} %}
+        {% block contenu %}
+            <ul class="liste-selection">
+                {% for mur in murs %}
+                    <li data-highlight-key="wall-{{ mur.id }}"><a href="{{ path('surface_show', {piece: piece.id, surface: mur.id}) }}">{{ mur.nom }}</a></li>
+                {% else %}
+                    <li class="text-muted">{{ 'No wall.'|trans }}</li>
+                {% endfor %}
+            </ul>
+            {% if piece.pans|length > 0 %}
+                <h3 class="h6">{{ 'Ceiling'|trans }}</h3>
+                <ul class="liste-selection">
+                    {% for pan in piece.pans %}
+                        <li data-highlight-key="wall-{{ pan.id }}"><a href="{{ path('surface_show', {piece: piece.id, surface: pan.id}) }}">{{ pan.nom }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
+
+    {% embed 'layout/_groupe.html.twig' with {cle: 'partitions', titre: 'Partitions'} %}
+        {% block contenu %}
+            <ul class="liste-selection">
+                {% for cloison in piece.cloisons %}
+                    <li data-highlight-key="partition-{{ cloison.id }}"><a href="{{ path('partition_show', {piece: piece.id, cloison: cloison.id}) }}">{{ cloison.nom }}</a></li>
+                {% else %}
+                    <li class="text-muted">{{ 'No partition.'|trans }}</li>
+                {% endfor %}
+            </ul>
+            <a class="btn btn-outline-secondary btn-sm" href="{{ path('partition_new', {piece: piece.id}) }}">{{ 'Add partition'|trans }}</a>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

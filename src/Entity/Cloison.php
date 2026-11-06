@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Geometrie\Point2D;
+use App\Geometrie\TraceCloison;
 use App\Repository\CloisonRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -204,5 +206,21 @@ final class Cloison
         if (!$this->ouvertures->contains($ouverture)) {
             $this->ouvertures->add($ouverture);
         }
+    }
+
+    public function retirerOuverture(Ouverture $ouverture): void
+    {
+        $this->ouvertures->removeElement($ouverture);
+    }
+
+    public function getTrace(): TraceCloison
+    {
+        return new TraceCloison(Point2D::depuisTableau($this->debut), Point2D::depuisTableau($this->fin));
+    }
+
+    public function definirTrace(TraceCloison $trace): void
+    {
+        $this->debut = $trace->debut->versTableau();
+        $this->fin = $trace->fin->versTableau();
     }
 }

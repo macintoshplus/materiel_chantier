@@ -1,0 +1,6 @@
+{# Contrôles non bloquants : liste de TranslatableMessage. #}
+{% if messages|length > 0 %}
+    <ul class="alert alert-warning controles" data-testid="controles">
+        {% for message in messages %}<li>{{ message|trans }}</li>{% endfor %}
+    </ul>
+{% endif %}

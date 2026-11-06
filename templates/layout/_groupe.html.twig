@@ -1,0 +1,7 @@
+{# Groupe repliable de la colonne de droite (état mémorisé par le contrôleur Stimulus). Usage : embed avec `cle` et `titre`. #}
+<details class="groupe" open data-controller="collapsible-group" data-collapsible-group-key-value="{{ cle }}" data-action="toggle->collapsible-group#sauver">
+    <summary>{{ titre|trans }}</summary>
+    <div class="groupe-corps">
+        {% block contenu %}{% endblock %}
+    </div>
+</details>

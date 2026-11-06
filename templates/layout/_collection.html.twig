@@ -1,0 +1,17 @@
+{# Liste éditable (ajout/retrait de lignes côté navigateur ; rien n'est enregistré avant « Save »). #}
+{# Variables : champ (CollectionType), ajout (libellé du bouton) #}
+{% set retirer %}<button type="button" class="btn btn-outline-danger btn-sm" data-action="collection#retirer">{{ 'Remove'|trans }}</button>{% endset %}
+{% set modele %}<div class="collection-ligne" data-collection-item>{{ form_widget(champ.vars.prototype) }}{{ retirer }}</div>{% endset %}
+<div data-controller="collection" data-collection-prototype-value="{{ modele|e('html_attr') }}" data-collection-index-value="{{ champ|length }}">
+    <div data-collection-target="liste">
+        {% for ligne in champ %}
+            {% set idLigne = ligne.id is defined ? ligne.id.vars.value : '' %}
+            <div class="collection-ligne" data-collection-item{% if idLigne %} data-highlight-key="opening-{{ idLigne }}"{% endif %}>
+                {{ form_widget(ligne) }}
+                {{ retirer }}
+            </div>
+        {% endfor %}
+    </div>
+    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="collection#ajouter">{{ ajout|trans }}</button>
+    {% do champ.setRendered %}
+</div>

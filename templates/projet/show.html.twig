@@ -22,11 +22,11 @@
         <tbody>
         {% for piece in projet.pieces %}
             <tr>
-                <td>{{ piece.nom }}</td>
+                <td><a href="{{ path('piece_show', {id: piece.id}) }}">{{ piece.nom }}</a></td>
                 <td>{{ piece.hauteurSousPlafond is not null ? (piece.hauteurSousPlafond / 1000)|number_format(3, ',', ' ') : '' }}</td>
                 <td>{{ ('measurement_source.' ~ piece.sourceMesures.value)|trans }}</td>
                 <td>
-                    <a href="{{ path('piece_edit', {id: piece.id}) }}">{{ 'Edit'|trans }}</a>
+                    <a href="{{ path('piece_show', {id: piece.id}) }}">{{ 'Edit'|trans }}</a>
                     <form method="post" action="{{ path('piece_delete', {id: piece.id}) }}" style="display:inline">
                         <input type="hidden" name="_token" value="{{ csrf_token('supprimer-piece' ~ piece.id) }}">
                         <button type="submit">{{ 'Delete'|trans }}</button>
