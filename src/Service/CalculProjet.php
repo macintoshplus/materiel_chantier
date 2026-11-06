@@ -43,10 +43,39 @@ final class CalculProjet
     public function calculer(Projet $projet, PorteeAgregation $portee = PorteeAgregation::Projet, ?Fournisseur $fournisseur = null, ?\DateTimeImmutable $date = null): ResultatCalculProjet
     {
         $agregateur = new AgregateurMateriaux(new ResolveurMarge($this->categories, ConfigurationMarges::depuis($projet->getParametres())));
-        $avertissements = [];
-        $erreurs = [];
+        $preparation = $this->preparer($projet);
         /** @var array<string, array{nom: string, besoins: BesoinsProjet}> $groupes */
         $groupes = [];
+        foreach ($preparation->supports as $support) {
+            [$cle, $nom] = match ($portee) {
+                PorteeAgregation::Projet => ['projet', $projet->getNom()],
+                PorteeAgregation::Piece => ['p'.spl_object_id($support->piece), $support->piece->getNom()],
+                PorteeAgregation::Surface => ['s'.spl_object_id($support->support), $support->nom()],
+            };
+            $groupes[$cle]['nom'] = $nom;
+            $groupes[$cle]['besoins'] ??= new BesoinsProjet();
+            $groupes[$cle]['besoins']->reunir($support->besoins);
+        }
+
+        $specifications = $preparation->specifications;
+        $substitution = null !== $fournisseur ? $this->substitution($fournisseur, $date ?? new \DateTimeImmutable(), static fn (MaterielLisible $a): ?MaterielSpecification => $specifications[spl_object_id($a)] ?? null) : null;
+
+        $resultats = [];
+        foreach ($groupes as $groupe) {
+            $resultats[] = new GroupeAchats($groupe['nom'], $agregateur->calculer($groupe['besoins'], $substitution));
+        }
+
+        return new ResultatCalculProjet($portee, $resultats, $preparation->avertissements, $preparation->erreurs);
+    }
+
+    /**
+     * Besoins bruts du système actif de chaque surface et cloison, sans agrégation (partagé avec le chiffrage).
+     */
+    public function preparer(Projet $projet): PreparationCalcul
+    {
+        $avertissements = [];
+        $erreurs = [];
+        $supportsCalcules = [];
         /** @var array<int, MaterielSpecification> $specifications */
         $specifications = [];
 
@@ -76,25 +105,13 @@ final class CalculProjet
                     }
                 }
 
-                [$cle, $nom] = match ($portee) {
-                    PorteeAgregation::Projet => ['projet', $projet->getNom()],
-                    PorteeAgregation::Piece => ['p'.spl_object_id($piece), $piece->getNom()],
-                    PorteeAgregation::Surface => ['s'.spl_object_id($support), $piece->getNom().' / '.$support->getNom()],
-                };
-                $groupes[$cle]['nom'] = $nom;
-                $groupes[$cle]['besoins'] ??= new BesoinsProjet();
-                $groupes[$cle]['besoins']->ajouter(array_map(static fn ($l) => $l->ligne, $resultat->lignes), $piece->getNom().' / '.$support->getNom());
+                $besoins = new BesoinsProjet();
+                $besoins->ajouter(array_map(static fn ($l) => $l->ligne, $resultat->lignes), $piece->getNom().' / '.$support->getNom());
+                $supportsCalcules[] = new BesoinsSupport($piece, $support, $besoins);
             }
         }
 
-        $substitution = null !== $fournisseur ? $this->substitution($fournisseur, $date ?? new \DateTimeImmutable(), static fn (MaterielLisible $a): ?MaterielSpecification => $specifications[spl_object_id($a)] ?? null) : null;
-
-        $resultats = [];
-        foreach ($groupes as $groupe) {
-            $resultats[] = new GroupeAchats($groupe['nom'], $agregateur->calculer($groupe['besoins'], $substitution));
-        }
-
-        return new ResultatCalculProjet($portee, $resultats, array_values($avertissements), array_values($erreurs));
+        return new PreparationCalcul($supportsCalcules, $specifications, array_values($avertissements), array_values($erreurs));
     }
 
     /**

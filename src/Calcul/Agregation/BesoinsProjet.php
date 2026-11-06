@@ -37,6 +37,28 @@ final class BesoinsProjet
     }
 
     /**
+     * Ajoute un besoin déjà cumulé (même clé : article et type de besoin), sans perdre ses origines.
+     */
+    public function ajouterBesoin(BesoinArticle $besoin): void
+    {
+        $cle = spl_object_id($besoin->article).'|'.$besoin->type->value;
+        $this->articles[$cle] = isset($this->articles[$cle]) ? $this->articles[$cle]->fusionner($besoin) : $besoin;
+    }
+
+    /**
+     * Réunit les besoins d'un autre cumul (par exemple celui d'une surface) à celui-ci.
+     */
+    public function reunir(self $autre): void
+    {
+        foreach ($autre->articles as $besoin) {
+            $this->ajouterBesoin($besoin);
+        }
+        foreach ($autre->sansArticle as $cle => $sans) {
+            $this->sansArticle[$cle] = new BesoinSansArticle($sans->cle, $sans->categorie, $sans->type, ($this->sansArticle[$cle]->quantite ?? 0) + $sans->quantite);
+        }
+    }
+
+    /**
      * @return list<BesoinArticle>
      */
     public function articles(): array

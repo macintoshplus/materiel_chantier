@@ -109,7 +109,7 @@ active) décale l'extrémité de la cloison ancrée ; activer une autre variante
 
 - L'utilisateur crée une variante (copie du système actif, modifiable) et la nomme.
 - Écran de comparaison pour une surface, une pièce ou un projet : par variante, R/U, coût (selon un
-  fournisseur ou le meilleur prix, voir `06-chiffrage-exports.md`), épaisseur totale.
+  fournisseur ou le meilleur prix, voir `06-chiffrage-exports.DONE.md`), épaisseur totale.
 - Le calcul global, le chiffrage et les exports utilisent **la variante active** de chaque surface.
 - `ServiceVariantes::comparer(Surface|Piece|Projet): list<ComparaisonVariantes>` calcule sans modifier
   l'état actif ; activer une variante est une action explicite.

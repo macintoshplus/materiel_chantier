@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Exports'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'Exports'|trans }} - {{ chiffrage.libelle }}</h1>
+    <form method="get" action="{{ path('export_liste', {id: projet.id, chiffrage: chiffrage.id}) }}" target="_blank">
+        <p><label>{{ 'Export type'|trans }}
+            <select name="type">
+                <option value="projet">{{ 'export_type.projet'|trans }}</option>
+                <option value="piece">{{ 'export_type.piece'|trans }}</option>
+                <option value="fournisseur">{{ 'export_type.fournisseur'|trans }}</option>
+            </select></label></p>
+        <p><label>{{ 'Room (room export or supplier export limited to a room)'|trans }}
+            <select name="piece">
+                <option value=""></option>
+                {% for piece in pieces %}<option value="{{ piece }}">{{ piece }}</option>{% endfor %}
+            </select></label></p>
+        <p><label>{{ 'Supplier'|trans }}
+            <select name="cible">
+                <option value=""></option>
+                {% for fournisseur in fournisseurs %}<option value="{{ fournisseur }}">{{ fournisseur }}</option>{% endfor %}
+            </select></label></p>
+        <p><label>{{ 'Grouping'|trans }}
+            <select name="regroupement">
+                <option value="categorie">{{ 'grouping.categorie'|trans }}</option>
+                <option value="piece">{{ 'grouping.piece'|trans }}</option>
+            </select></label></p>
+        <p><label>{{ 'Prices'|trans }}
+            <select name="prix">
+                <option value="1">{{ 'With prices'|trans }}</option>
+                <option value="0">{{ 'Without prices'|trans }}</option>
+            </select></label></p>
+        <p><label>{{ 'Format'|trans }}
+            <select name="format">
+                <option value="html">{{ 'Preview (HTML)'|trans }}</option>
+                <option value="pdf">PDF</option>
+            </select></label></p>
+        <button type="submit">{{ 'Export'|trans }}</button>
+    </form>
+    <p><a href="{{ path('chiffrage_show', {id: projet.id, chiffrage: chiffrage.id}) }}">{{ 'Back to the quote'|trans }}</a></p>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ chiffrage.libelle }}{% endblock %}
+
+{% block body %}
+    <h1>{{ chiffrage.libelle }}</h1>
+    <p>{{ chiffrage.dateCreation|date('d/m/Y H:i') }} - {{ ('supplier_strategy.' ~ chiffrage.strategieFournisseur.value)|trans }}</p>
+    {% include 'layout/_messages.html.twig' with {messages: messages} only %}
+    <table data-testid="lignes-chiffrage">
+        <thead>
+            <tr>
+                <th>{{ 'Article'|trans }}</th>
+                <th>{{ 'Supplier'|trans }}</th>
+                <th>{{ 'Lots'|trans }}</th>
+                <th>{{ 'Units bought'|trans }}</th>
+                <th>{{ 'Lot price'|trans }}</th>
+                <th>{{ 'Total'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ligne in chiffrage.lignes|filter(l => l.type.value != 'repartition') %}
+            <tr>
+                {% if ligne.type.value == 'livraison' %}
+                    <td colspan="2">{{ 'Delivery'|trans }} - {{ ligne.fournisseurNom }}</td>
+                    <td colspan="3"></td>
+                    <td>{{ (ligne.totalCentimes / 100)|number_format(2, ',', ' ') }} &euro;</td>
+                {% else %}
+                    <td>{{ ligne.materiauReference }} {{ ligne.materiauLibelle }}{% if ligne.referenceInitiale %} <small>({{ 'instead of'|trans }} {{ ligne.referenceInitiale }})</small>{% endif %}</td>
+                    <td>{{ ligne.fournisseurNom }}</td>
+                    <td>{{ ligne.nombreLots }}</td>
+                    <td>{{ ligne.quantiteAchetee }}</td>
+                    {% if ligne.prixManquant %}
+                        <td colspan="2"><span class="prix-manquant">{{ 'Missing price'|trans }}</span></td>
+                    {% else %}
+                        <td>{{ (ligne.prixLotCentimes / 100)|number_format(2, ',', ' ') }} &euro;</td>
+                        <td>{{ (ligne.totalCentimes / 100)|number_format(2, ',', ' ') }} &euro;</td>
+                    {% endif %}
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="5">{{ 'Total'|trans }}</th>
+                <th>{{ (chiffrage.totalTtcCentimes / 100)|number_format(2, ',', ' ') }} &euro;{% if chiffrage.aDesPrixManquants %} <span class="prix-manquant">{{ 'Partial total: some prices are missing.'|trans }}</span>{% endif %}</th>
+            </tr>
+        </tfoot>
+    </table>
+    <p><a href="{{ path('export_index', {id: projet.id, chiffrage: chiffrage.id}) }}">{{ 'Exports'|trans }}</a></p>
+    <form method="post" action="{{ path('chiffrage_delete', {id: projet.id, chiffrage: chiffrage.id}) }}">
+        <input type="hidden" name="_token" value="{{ csrf_token('supprimer-chiffrage' ~ chiffrage.id) }}">
+        <button type="submit">{{ 'Delete'|trans }}</button>
+    </form>
+    <p><a href="{{ path('chiffrage_index', {id: projet.id}) }}">{{ 'Back to the quotes'|trans }}</a></p>
+{% endblock %}

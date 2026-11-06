@@ -50,10 +50,16 @@ final class Projet
     #[ORM\OrderBy(['nom' => 'ASC'])]
     private Collection $pieces;
 
+    /** @var Collection<int, Chiffrage> */
+    #[ORM\OneToMany(targetEntity: Chiffrage::class, mappedBy: 'projet', cascade: ['remove'])]
+    #[ORM\OrderBy(['dateCreation' => 'DESC', 'id' => 'DESC'])]
+    private Collection $chiffrages;
+
     public function __construct()
     {
         $this->dateCreation = new \DateTimeImmutable();
         $this->pieces = new ArrayCollection();
+        $this->chiffrages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -145,5 +151,13 @@ final class Projet
         if (!$this->pieces->contains($piece)) {
             $this->pieces->add($piece);
         }
+    }
+
+    /**
+     * @return Collection<int, Chiffrage>
+     */
+    public function getChiffrages(): Collection
+    {
+        return $this->chiffrages;
     }
 }

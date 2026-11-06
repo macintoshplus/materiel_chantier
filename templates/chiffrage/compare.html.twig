@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Quote comparison'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'Quote comparison'|trans }}</h1>
+    <table data-testid="comparaison">
+        <thead>
+            <tr><th>{{ 'Article'|trans }}</th><th>A: {{ a.libelle }}</th><th>B: {{ b.libelle }}</th><th>{{ 'Difference'|trans }}</th></tr>
+        </thead>
+        <tbody>
+        {% for ligne in comparaison.lignes %}
+            <tr>
+                <td>{{ ligne.libelle }}</td>
+                <td>{{ ligne.totalA is not null ? (ligne.totalA / 100)|number_format(2, ',', ' ') : '' }}</td>
+                <td>{{ ligne.totalB is not null ? (ligne.totalB / 100)|number_format(2, ',', ' ') : '' }}</td>
+                <td>{{ (ligne.ecart / 100)|number_format(2, ',', ' ') }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>{{ 'Total'|trans }}</th>
+                <th>{{ (comparaison.totalA / 100)|number_format(2, ',', ' ') }}</th>
+                <th>{{ (comparaison.totalB / 100)|number_format(2, ',', ' ') }}</th>
+                <th>{{ (comparaison.ecart / 100)|number_format(2, ',', ' ') }}</th>
+            </tr>
+        </tfoot>
+    </table>
+    <p><a href="{{ path('chiffrage_index', {id: projet.id}) }}">{{ 'Back to the quotes'|trans }}</a></p>
+{% endblock %}

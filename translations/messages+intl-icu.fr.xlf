@@ -982,6 +982,51 @@
       <trans-unit id="v5e18" resname="aggregation_scope.piece"><source>aggregation_scope.piece</source><target>Par pièce</target></trans-unit>
       <trans-unit id="v5e19" resname="aggregation_scope.surface"><source>aggregation_scope.surface</source><target>Par surface</target></trans-unit>
       <trans-unit id="v5e20" resname="The active system raises no warning."><source>The active system raises no warning.</source><target>Le système actif ne signale aucun avertissement.</target></trans-unit>
+      <trans-unit id="v6000" resname="Back to the quote"><source>Back to the quote</source><target>Retour au chiffrage</target></trans-unit>
+      <trans-unit id="v6001" resname="Back to the quotes"><source>Back to the quotes</source><target>Retour aux chiffrages</target></trans-unit>
+      <trans-unit id="v6002" resname="Compare"><source>Compare</source><target>Comparer</target></trans-unit>
+      <trans-unit id="v6003" resname="Create the quote"><source>Create the quote</source><target>Créer le chiffrage</target></trans-unit>
+      <trans-unit id="v6004" resname="Date"><source>Date</source><target>Date</target></trans-unit>
+      <trans-unit id="v6005" resname="Delivery"><source>Delivery</source><target>Livraison</target></trans-unit>
+      <trans-unit id="v6006" resname="Difference"><source>Difference</source><target>Écart</target></trans-unit>
+      <trans-unit id="v6007" resname="Dimensions (mm)"><source>Dimensions (mm)</source><target>Dimensions (mm)</target></trans-unit>
+      <trans-unit id="v6008" resname="Existing quotes"><source>Existing quotes</source><target>Chiffrages existants</target></trans-unit>
+      <trans-unit id="v6009" resname="Export"><source>Export</source><target>Exporter</target></trans-unit>
+      <trans-unit id="v6010" resname="Export type"><source>Export type</source><target>Type d'export</target></trans-unit>
+      <trans-unit id="v6011" resname="Exports"><source>Exports</source><target>Exports</target></trans-unit>
+      <trans-unit id="v6012" resname="Format"><source>Format</source><target>Format</target></trans-unit>
+      <trans-unit id="v6013" resname="Grouping"><source>Grouping</source><target>Regroupement</target></trans-unit>
+      <trans-unit id="v6014" resname="Imposed supplier (single supplier strategy)"><source>Imposed supplier (single supplier strategy)</source><target>Fournisseur imposé (stratégie fournisseur unique)</target></trans-unit>
+      <trans-unit id="v6015" resname="Lot price"><source>Lot price</source><target>Prix du lot</target></trans-unit>
+      <trans-unit id="v6016" resname="Manual choice per article (manual strategy)"><source>Manual choice per article (manual strategy)</source><target>Choix par article (stratégie manuelle)</target></trans-unit>
+      <trans-unit id="v6017" resname="New quote"><source>New quote</source><target>Nouveau chiffrage</target></trans-unit>
+      <trans-unit id="v6018" resname="No line."><source>No line.</source><target>Aucune ligne.</target></trans-unit>
+      <trans-unit id="v6019" resname="No quote."><source>No quote.</source><target>Aucun chiffrage.</target></trans-unit>
+      <trans-unit id="v6020" resname="Partial total"><source>Partial total</source><target>Total partiel</target></trans-unit>
+      <trans-unit id="v6021" resname="Partial total: some prices are missing."><source>Partial total: some prices are missing.</source><target>Total partiel : certains prix sont manquants.</target></trans-unit>
+      <trans-unit id="v6022" resname="Preview (HTML)"><source>Preview (HTML)</source><target>Aperçu (HTML)</target></trans-unit>
+      <trans-unit id="v6023" resname="Prices incl. VAT as of {date}"><source>Prices incl. VAT as of {date}</source><target>Prix TTC à la date du {date}</target></trans-unit>
+      <trans-unit id="v6024" resname="Quantity"><source>Quantity</source><target>Quantité</target></trans-unit>
+      <trans-unit id="v6025" resname="Quote comparison"><source>Quote comparison</source><target>Comparaison de chiffrages</target></trans-unit>
+      <trans-unit id="v6026" resname="Quote created."><source>Quote created.</source><target>Chiffrage créé.</target></trans-unit>
+      <trans-unit id="v6027" resname="Quote deleted."><source>Quote deleted.</source><target>Chiffrage supprimé.</target></trans-unit>
+      <trans-unit id="v6028" resname="Quote of {date}"><source>Quote of {date}</source><target>Chiffrage du {date}</target></trans-unit>
+      <trans-unit id="v6029" resname="Quotes"><source>Quotes</source><target>Chiffrages</target></trans-unit>
+      <trans-unit id="v6030" resname="Room (room export or supplier export limited to a room)"><source>Room (room export or supplier export limited to a room)</source><target>Pièce (export par pièce, ou export fournisseur limité à une pièce)</target></trans-unit>
+      <trans-unit id="v6031" resname="Subtotal"><source>Subtotal</source><target>Sous-total</target></trans-unit>
+      <trans-unit id="v6032" resname="Supplier strategy"><source>Supplier strategy</source><target>Stratégie de fournisseur</target></trans-unit>
+      <trans-unit id="v6033" resname="Total"><source>Total</source><target>Total</target></trans-unit>
+      <trans-unit id="v6034" resname="With prices"><source>With prices</source><target>Avec prix</target></trans-unit>
+      <trans-unit id="v6035" resname="Without prices"><source>Without prices</source><target>Sans prix</target></trans-unit>
+      <trans-unit id="v6036" resname="export_type.fournisseur"><source>export_type.fournisseur</source><target>Par fournisseur</target></trans-unit>
+      <trans-unit id="v6037" resname="export_type.piece"><source>export_type.piece</source><target>Par pièce</target></trans-unit>
+      <trans-unit id="v6038" resname="export_type.projet"><source>export_type.projet</source><target>Récapitulatif du projet</target></trans-unit>
+      <trans-unit id="v6039" resname="grouping.categorie"><source>grouping.categorie</source><target>Par catégorie</target></trans-unit>
+      <trans-unit id="v6040" resname="grouping.piece"><source>grouping.piece</source><target>Par pièce</target></trans-unit>
+      <trans-unit id="v6041" resname="supplier_strategy.fournisseur_unique"><source>supplier_strategy.fournisseur_unique</source><target>Fournisseur unique</target></trans-unit>
+      <trans-unit id="v6042" resname="supplier_strategy.manuelle"><source>supplier_strategy.manuelle</source><target>Manuelle</target></trans-unit>
+      <trans-unit id="v6043" resname="supplier_strategy.meilleur_prix"><source>supplier_strategy.meilleur_prix</source><target>Meilleur prix</target></trans-unit>
+      <trans-unit id="v6044" resname="supplier_strategy.plus_proche"><source>supplier_strategy.plus_proche</source><target>Fournisseur le plus proche</target></trans-unit>
     </body>
   </file>
 </xliff>

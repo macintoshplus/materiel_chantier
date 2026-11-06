@@ -3,7 +3,7 @@
 Base : MariaDB via Doctrine ORM (attributs PHP). Entités dans `src/Entity`, repositories dans
 `src/Repository`. Valeurs géométriques en **millimètres entiers**. Le catalogue, les fournisseurs et les
 prix sont détaillés dans [01-catalogue.DONE.md](01-catalogue.DONE.md) ; chiffrage et exports dans
-[06-chiffrage-exports.md](06-chiffrage-exports.md).
+[06-chiffrage-exports.DONE.md](06-chiffrage-exports.DONE.md).
 
 ## Entités
 
@@ -52,7 +52,7 @@ sont des lignes `type = cloison_face` avec `cloison_id` et `cote` renseignés.
 | `Materiau`, `Fournisseur`, `PrixMateriau` | voir `01-catalogue.DONE.md` |
 | `Equipement` | id, piece, surface, famille (`electrique`, `plomberie`, `ventilation`), type, u, v (la hauteur sur un mur est `v`, pas de champ `hauteurPose`), reseau, parametres JSON |
 | `Reseau` | id, projet, nom, famille, type, parametres JSON (section, protection, diamètre…) |
-| `Chiffrage`, `LigneChiffrage` | voir `06-chiffrage-exports.md` |
+| `Chiffrage`, `LigneChiffrage` | voir `06-chiffrage-exports.DONE.md` |
 
 Choix : les polygones sont stockés en **JSON** (petits, jamais interrogés en SQL), manipulés dans le code
 par des objets valeur (`Polygone`, `Point2D`). Surface plane : un mur courbe n'est pas représentable

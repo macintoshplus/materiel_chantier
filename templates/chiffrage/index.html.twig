@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Quotes'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'Quotes'|trans }} - {{ projet.nom }}</h1>
+
+    <h2>{{ 'New quote'|trans }}</h2>
+    <form method="post" action="{{ path('chiffrage_index', {id: projet.id}) }}">
+        <input type="hidden" name="_token" value="{{ csrf_token('chiffrage' ~ projet.id) }}">
+        <p><label>{{ 'Label'|trans }} <input type="text" name="libelle" maxlength="255"></label></p>
+        <p><label>{{ 'Supplier strategy'|trans }}
+            <select name="strategie">
+                {% for strategie in strategies %}
+                    <option value="{{ strategie.value }}">{{ ('supplier_strategy.' ~ strategie.value)|trans }}</option>
+                {% endfor %}
+            </select></label></p>
+        <p><label>{{ 'Imposed supplier (single supplier strategy)'|trans }}
+            <select name="fournisseur">
+                <option value=""></option>
+                {% for fournisseur in fournisseurs %}
+                    <option value="{{ fournisseur.id }}">{{ fournisseur.nom }}</option>
+                {% endfor %}
+            </select></label></p>
+        <fieldset>
+            <legend>{{ 'Manual choice per article (manual strategy)'|trans }}</legend>
+            {% for article in articles %}
+                <p><label>{{ article.valeur('reference') }} {{ article.valeur('libelle') }}
+                    <select name="choix[{{ article.valeur('reference') }}]">
+                        <option value=""></option>
+                        {% for fournisseur in fournisseurs %}
+                            <option value="{{ fournisseur.id }}">{{ fournisseur.nom }}</option>
+                        {% endfor %}
+                    </select></label></p>
+            {% else %}
+                <p>{{ 'Nothing to buy.'|trans }}</p>
+            {% endfor %}
+        </fieldset>
+        <button type="submit">{{ 'Create the quote'|trans }}</button>
+    </form>
+
+    <h2>{{ 'Existing quotes'|trans }}</h2>
+    <form method="get" action="{{ path('chiffrage_compare', {id: projet.id}) }}">
+        <table>
+            <thead>
+                <tr><th>{{ 'Label'|trans }}</th><th>{{ 'Date'|trans }}</th><th>{{ 'Supplier strategy'|trans }}</th><th>{{ 'Total'|trans }}</th><th>A</th><th>B</th><th></th></tr>
+            </thead>
+            <tbody>
+            {% for chiffrage in projet.chiffrages %}
+                <tr>
+                    <td><a href="{{ path('chiffrage_show', {id: projet.id, chiffrage: chiffrage.id}) }}">{{ chiffrage.libelle }}</a></td>
+                    <td>{{ chiffrage.dateCreation|date('d/m/Y H:i') }}</td>
+                    <td>{{ ('supplier_strategy.' ~ chiffrage.strategieFournisseur.value)|trans }}</td>
+                    <td>{{ (chiffrage.totalTtcCentimes / 100)|number_format(2, ',', ' ') }} &euro;{% if chiffrage.aDesPrixManquants %} <span class="prix-manquant">{{ 'Partial total'|trans }}</span>{% endif %}</td>
+                    <td><input type="radio" name="a" value="{{ chiffrage.id }}"></td>
+                    <td><input type="radio" name="b" value="{{ chiffrage.id }}"></td>
+                    <td><a href="{{ path('export_index', {id: projet.id, chiffrage: chiffrage.id}) }}">{{ 'Exports'|trans }}</a></td>
+                </tr>
+            {% else %}
+                <tr><td colspan="7">{{ 'No quote.'|trans }}</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit">{{ 'Compare'|trans }}</button>
+    </form>
+    <p><a href="{{ path('projet_show', {id: projet.id}) }}">{{ 'Back to the project'|trans }}</a></p>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% macro euros(centimes) %}{{ (centimes / 100)|number_format(2, ',', ' ') }} &euro;{% endmacro %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>{{ chiffrage.libelle }}</title>
+    <style>
+        body { font-family: "DejaVu Sans", sans-serif; font-size: 10px; color: #222; }
+        h1 { font-size: 16px; margin: 0 0 4px; }
+        h2 { font-size: 13px; margin: 16px 0 2px; }
+        h3 { font-size: 11px; margin: 8px 0 2px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 6px; }
+        th, td { border-bottom: 1px solid #ccc; padding: 2px 4px; text-align: left; }
+        td.nombre, th.nombre { text-align: right; }
+        .adresse { white-space: pre-line; color: #555; }
+        .manquant { color: #b00020; font-weight: bold; }
+        .partiel { color: #b00020; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>{{ chiffrage.libelle }}</h1>
+        <p>{{ 'Quote of {date}'|trans({'{date}': chiffrage.dateCreation|date('d/m/Y')}) }}
+            {% if avecPrix %}- {{ 'Prices incl. VAT as of {date}'|trans({'{date}': chiffrage.dateCreation|date('d/m/Y')}) }}{% endif %}</p>
+        <p>{{ chiffrage.projet.nom }} - {{ ('export_type.' ~ portee.type.value)|trans }}</p>
+    </header>
+
+    {% for section in sections %}
+        <section class="section">
+            {% if section.titre is not null %}<h2>{{ section.titre }}</h2>{% endif %}
+            {% if section.adresse %}<p class="adresse">{{ section.adresse }}</p>{% endif %}
+            {% for groupe in section.groupes %}
+                <h3>{{ groupe.titre }}</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>{{ 'Reference'|trans }}</th>
+                            <th>{{ 'Label'|trans }}</th>
+                            <th>{{ 'Dimensions (mm)'|trans }}</th>
+                            <th class="nombre">{{ 'Quantity'|trans }}</th>
+                            {% if avecPrix %}
+                                <th class="nombre">{{ 'Lots'|trans }}</th>
+                                <th class="nombre">{{ 'Lot price'|trans }}</th>
+                                <th class="nombre">{{ 'Total'|trans }}</th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in groupe.items %}
+                        <tr>
+                            <td>{{ item.referenceFournisseur ?? item.reference }}</td>
+                            <td>{{ item.libelle }}</td>
+                            <td>{{ item.dimensions }}</td>
+                            <td class="nombre">{{ item.quantite }}</td>
+                            {% if avecPrix %}
+                                {% if item.manquant %}
+                                    <td colspan="3" class="nombre manquant">{{ 'Missing price'|trans }}</td>
+                                {% else %}
+                                    <td class="nombre">{{ item.lots }}</td>
+                                    <td class="nombre">{{ item.prixLot is not null ? _self.euros(item.prixLot) : '' }}</td>
+                                    <td class="nombre">{{ _self.euros(item.total) }}</td>
+                                {% endif %}
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endfor %}
+            {% if avecPrix %}
+                {% for fournisseur, montant in section.livraisons %}
+                    <p>{{ 'Delivery'|trans }} - {{ fournisseur }} : {{ _self.euros(montant) }}</p>
+                {% endfor %}
+                {% if sections|length > 1 or section.titre is not null %}
+                    <p><strong>{{ 'Subtotal'|trans }} : {{ _self.euros(section.total) }}</strong></p>
+                {% endif %}
+            {% endif %}
+        </section>
+    {% else %}
+        <p>{{ 'No line.'|trans }}</p>
+    {% endfor %}
+
+    {% if avecPrix %}
+        <p><strong>{{ 'Total'|trans }} : {{ _self.euros(total) }}</strong>
+            {% if partiel %}<span class="partiel">{{ 'Partial total: some prices are missing.'|trans }}</span>{% endif %}</p>
+    {% endif %}
+</body>
+</html>

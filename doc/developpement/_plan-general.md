@@ -97,7 +97,7 @@ cocher, chacun vérifiable), Vérifications automatiques, Décisions et écarts.
 | [03](03-geometrie.DONE.md) | Géométrie, pièces, cloisons, interface d'édition |
 | [04](04-sources-mesures.DONE.md) | Sources de mesures (DXF, CSV, côtés/angles) |
 | [05a](05a-moteur-couches.DONE.md) → [05e](05e-agregation-substitution.DONE.md) | Systèmes et calcul : moteur, cloisons/doublages, plafond/pose/renforts, finitions/thermique, agrégation/substitution |
-| [06](06-chiffrage-exports.md) | Chiffrage et exports |
+| [06](06-chiffrage-exports.DONE.md) | Chiffrage et exports |
 | [07](07-electricite.md) | Électricité |
 | [08](08-plomberie-ventilation.md) | Plomberie et ventilation |
 | [09](09-vue-3d.md) | Vue 3D |

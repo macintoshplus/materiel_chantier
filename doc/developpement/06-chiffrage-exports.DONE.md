@@ -1,6 +1,6 @@
 # Étape 06 — Chiffrage, fournisseurs et exports PDF
 
-> Statut : à faire. Ce fichier est renommé en `.DONE.md` (même commit que le code) quand tous les critères ci-dessous sont cochés et les vérifications vertes. Règles : [_plan-general.md](_plan-general.md#règle-dune-étape).
+> Statut : terminée (vérifiée le 2026-11-06 : phpunit, phpstan niveau 8, schéma en phase). La mise en page du PDF et les écrans restent à voir en navigateur. Règles : [_plan-general.md](_plan-general.md#règle-dune-étape).
 
 ## Objectif
 
@@ -105,13 +105,13 @@ l'aperçu HTML.
 
 ## Critères d'acceptation
 
-- [ ] Un chiffrage créé aujourd'hui ne change pas si un prix est modifié demain.
-- [ ] Stratégie `MeilleurPrix` : comparaison sur le coût total de la quantité brute ; si A vend un lot de 5 à 12 € et B un lot de 1 à 3 €, pour un besoin de 5 unités A gagne (12 € contre 15 €) alors que le lot de B est le moins cher ; pour un besoin de 2 unités, B gagne (6 € contre 12 €).
-- [ ] Stratégie `PlusProche` : classement correct à partir de coordonnées de test (distance connue).
-- [ ] Article absent du fournisseur choisi : ligne « prix manquant » visible, total partiel signalé.
-- [ ] PDF par pièce avec et sans prix : mêmes articles, colonnes de prix présentes ou non.
-- [ ] PDF par fournisseur : un document par fournisseur (ou une section par fournisseur) avec son adresse.
-- [ ] Tests : stratégies (unitaire, prioritaire), service de chiffrage, rendu intermédiaire du PDF (gabarit, pas la bibliothèque PDF ; fichier non vide, texte attendu extrait ou rendu HTML intermédiaire vérifié).
+- [x] Un chiffrage créé aujourd'hui ne change pas si un prix est modifié demain.
+- [x] Stratégie `MeilleurPrix` : comparaison sur le coût total de la quantité brute ; si A vend un lot de 5 à 12 € et B un lot de 1 à 3 €, pour un besoin de 5 unités A gagne (12 € contre 15 €) alors que le lot de B est le moins cher ; pour un besoin de 2 unités, B gagne (6 € contre 12 €).
+- [x] Stratégie `PlusProche` : classement correct à partir de coordonnées de test (distance connue).
+- [x] Article absent du fournisseur choisi : ligne « prix manquant » visible, total partiel signalé.
+- [x] PDF par pièce avec et sans prix : mêmes articles, colonnes de prix présentes ou non.
+- [x] PDF par fournisseur : un document par fournisseur (ou une section par fournisseur) avec son adresse.
+- [x] Tests : stratégies (unitaire, prioritaire), service de chiffrage, rendu intermédiaire du PDF (gabarit, pas la bibliothèque PDF ; fichier non vide, texte attendu extrait ou rendu HTML intermédiaire vérifié).
 
 ## Vérifications automatiques
 
@@ -125,4 +125,12 @@ symfony console doctrine:schema:validate
 
 ## Décisions et écarts
 
-Aucun pour le moment.
+- **Montants** : entiers en centimes partout dans `Chiffrage`/`LigneChiffrage` (`Montant::centimes` convertit les prix décimaux du catalogue sans flottant) ; pourcentages en centièmes de pourcent, quantités avec marge en millièmes. `TypeStrategie` et `TypeLigneChiffrage` sont des enums PHP persistés par valeur.
+- **Trois types de lignes** : `article` (achat agrégé du projet, base du total), `repartition` (part d'un achat par pièce/surface, au prorata du besoin brut, plus fort reste : la somme des parts égale exactement la ligne agrégée ; non comptée dans le total) et `livraison` (un forfait par fournisseur effectivement utilisé, seulement si frais > 0).
+- **Moteur réutilisé, deux modifications minimes** : `BesoinsProjet` gagne `ajouterBesoin()` et `reunir()` ; `CalculProjet::calculer()` est découpé en `preparer(Projet): PreparationCalcul` (réutilisée par le chiffrage) puis regroupement. Résultats des étapes 05a-05e inchangés (tests existants verts).
+- **Un passage du moteur par fournisseur retenu** : évite qu'un même article équivalent proposé par deux fournisseurs ait deux prix dans un même passage. Un groupe `manquant` regroupe les articles sans prix (ligne « prix manquant », total 0, total du chiffrage partiel signalé).
+- **Dompdf ^3.1** installé (dépendance disponible malgré le pare-feu). Même gabarit Twig `export/liste.html.twig` pour l'aperçu HTML et le PDF (`ListeCoursesPdf::html()` et `generer()`). La signature `generer(Chiffrage, Portee, bool)` utilise `PorteeExport` (type piece/fournisseur/projet, cible, regroupement catégorie/pièce, pièce optionnelle pour l'export fournisseur).
+- **Stratégies** : `PlusProche` sans position de chantier ou fournisseur sans position : ordre alphabétique, sans position en dernier. `FournisseurUnique` sans repli sur un autre fournisseur. `Manuelle` : un fournisseur par référence d'article (liste déroulante par article, pas de saisie par surface). `MeilleurPrix` : recherche exhaustive jusqu'à 8 fournisseurs candidats, glouton au-delà.
+- **Simplifications d'interface** : marges du chiffrage non saisissables à l'écran (paramètre `marges` du service uniquement) ; adresse du chantier prise dans le projet ; `sansArticle` du calcul non persisté ; avertissements du calcul stockés en JSON dans `chiffrage.avertissements` (colonne ajoutée à la migration) et traduits à l'affichage.
+- **Non vérifié** : rendu visuel du PDF (mise en page, pagination, polices) et écrans dans un navigateur ; seuls le gabarit (HTML), l'en-tête `%PDF` et le code 200 des pages sont testés. Extensions PHP requises par Dompdf (mbstring, dom, gd) présentes en test.
+- **Migration** : `Version20261106194535` générée par `doctrine:migrations:diff`, appliquée à la base de développement.

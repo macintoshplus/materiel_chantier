@@ -6,7 +6,7 @@
     <h1>{{ projet.nom }}</h1>
     {% if projet.description %}<p>{{ projet.description }}</p>{% endif %}
     {% if projet.adresseChantier %}<p>{{ projet.adresseChantier }}</p>{% endif %}
-    <p><a href="{{ path('projet_edit', {id: projet.id}) }}">{{ 'Edit'|trans }}</a> <a href="{{ path('variantes_projet', {id: projet.id}) }}">{{ 'Variants comparison'|trans }}</a> <a href="{{ path('projet_calcul', {id: projet.id}) }}">{{ 'Calculate'|trans }}</a></p>
+    <p><a href="{{ path('projet_edit', {id: projet.id}) }}">{{ 'Edit'|trans }}</a> <a href="{{ path('variantes_projet', {id: projet.id}) }}">{{ 'Variants comparison'|trans }}</a> <a href="{{ path('projet_calcul', {id: projet.id}) }}">{{ 'Calculate'|trans }}</a> <a href="{{ path('chiffrage_index', {id: projet.id}) }}">{{ 'Quotes'|trans }}</a></p>
 
     <h2>{{ 'Rooms'|trans }}</h2>
     <p class="import-liste">

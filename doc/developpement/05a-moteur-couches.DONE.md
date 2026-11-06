@@ -46,7 +46,7 @@ Connaissances : [03-isolation-thermique.md](../connaissances/03-isolation-thermi
 | Lien catalogue → fournisseur | **Stratégie** + **chaîne de responsabilité** | Choix du fournisseur (unique, meilleur prix, plus proche) puis substitution par un équivalent |
 | Empilement des couches | **Pipeline** (composite ordonné) | Chaque couche reçoit le contexte des couches précédentes et le complète |
 | Lecture typée du catalogue | **Façade** (`IsolantView`, `ProfilView`…) | Les calculateurs ne lisent ni JSON brut ni prix |
-| Chiffrage figé | **Instantané** (Memento) | Voir `06-chiffrage-exports.md` |
+| Chiffrage figé | **Instantané** (Memento) | Voir `06-chiffrage-exports.DONE.md` |
 
 #### Spécification et résolution des matériaux
 
