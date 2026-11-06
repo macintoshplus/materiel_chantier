@@ -7,6 +7,73 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    # Types d'éléments électriques (étape 07) : code => libellé, famille, conducteurs actifs du tronçon entrant,
+    # navette (va-et-vient, permutateur), hauteur par défaut (mm), dérivation, matériaux associés (catégorie du catalogue
+    # + critères d'égalité). Ajouter un type ne demande ni code ni migration.
+    app.electricite.types:
+        tableau:
+            libelle: 'Distribution board'
+            famille: distribution
+            hauteur: 1800
+        boite_derivation:
+            libelle: 'Junction box'
+            famille: distribution
+            hauteur: 2200
+            derivation: true
+            boite: { categorie: electrique_boite }
+            connecteur: { categorie: electrique_connecteur, criteres: { type: wago } }
+        interrupteur:
+            libelle: 'Switch'
+            famille: commande
+            hauteur: 1100
+            boite: { categorie: electrique_boite }
+            mecanisme: { categorie: electrique_appareillage, criteres: { fonction: interrupteur } }
+            plaque: { categorie: electrique_appareillage, criteres: { fonction: plaque } }
+        va_et_vient:
+            libelle: 'Two-way switch'
+            famille: commande
+            navette: true
+            hauteur: 1100
+            boite: { categorie: electrique_boite }
+            mecanisme: { categorie: electrique_appareillage, criteres: { fonction: va_et_vient } }
+            plaque: { categorie: electrique_appareillage, criteres: { fonction: plaque } }
+        permutateur:
+            libelle: 'Intermediate switch'
+            famille: commande
+            navette: true
+            hauteur: 1100
+            boite: { categorie: electrique_boite }
+            mecanisme: { categorie: electrique_appareillage, criteres: { fonction: permutateur } }
+            plaque: { categorie: electrique_appareillage, criteres: { fonction: plaque } }
+        prise:
+            libelle: 'Socket outlet'
+            famille: prise
+            hauteur: 300
+            boite: { categorie: electrique_boite }
+            mecanisme: { categorie: electrique_appareillage, criteres: { fonction: prise } }
+            plaque: { categorie: electrique_appareillage, criteres: { fonction: plaque } }
+        prise_specialisee:
+            libelle: 'Dedicated outlet'
+            famille: prise
+            hauteur: 1100
+            boite: { categorie: electrique_boite }
+            mecanisme: { categorie: electrique_appareillage, criteres: { fonction: prise_specialisee } }
+            plaque: { categorie: electrique_appareillage, criteres: { fonction: plaque } }
+        point_lumineux:
+            libelle: 'Light point'
+            famille: luminaire
+            hauteur: 2500
+            boite: { categorie: electrique_boite }
+        applique:
+            libelle: 'Wall light'
+            famille: luminaire
+            hauteur: 1800
+            boite: { categorie: electrique_boite }
+        radiateur:
+            libelle: 'Heater'
+            famille: charge
+            hauteur: 1800
+            boite: { categorie: electrique_boite }
 
 services:
     # default configuration for services in *this* file
@@ -43,6 +110,11 @@ services:
         public: true
         arguments:
             $calculateurs: !tagged_iterator app.calculateur_couche
+
+    App\Calcul\Electricite\RegistreTypesElements:
+        public: true
+        arguments:
+            $definitions: '%app.electricite.types%'
 
     App\Calcul\Materiau\SpecificationSerialiseur:
         public: true

@@ -39,6 +39,8 @@ final class MessagesImport
         'import_closure_adjusted' => 'The closure gap of {{ gap }} mm was spread over the sides.',
         'import_side_invalid' => 'Row {{ number }}: the side must be positive and the angle between 1 and 359 degrees.',
         'import_session_expired' => 'The import session has expired: upload the file again.',
+        'import_equipment_created' => '{{ count }} equipment(s) created from blocks.',
+        'import_equipment_not_placed' => 'The equipment block {{ block }} is neither on a wall nor under the ceiling: no equipment created.',
     ];
 
     public static function existe(string $code): bool

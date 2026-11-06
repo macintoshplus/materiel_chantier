@@ -47,6 +47,20 @@ final class MessagesCalcul
         'offer_other_supplier_used' => 'The article "{{ article }}" is bought from another supplier.',
         'offer_missing' => 'No price found for the article "{{ article }}".',
         'article_dimension_missing' => 'The article "{{ article }}" has no usable dimension: its needs cannot be optimised.',
+        'electrical_start_missing' => 'The network {{ network }} has no valid starting point.',
+        'electrical_link_unknown' => 'A link of the network {{ network }} refers to an unknown element.',
+        'electrical_unreachable' => 'The element {{ element }} of the network {{ network }} is not connected to the starting point.',
+        'electrical_no_door' => 'The element {{ element }} of the network {{ network }} is in another room and no door gives access to it: its run is not counted.',
+        'electrical_no_conduit' => 'No conduit admits {{ count }} conductors of {{ section }} mm2 for the element {{ element }} of the network {{ network }}.',
+        'electrical_unknown_type' => 'The electrical element type {{ type }} is unknown: element ignored.',
+        'electrical_no_candidate' => 'No article of the category {{ category }} matches ({{ criteria }}).',
+        'electrical_min_sockets' => 'The room {{ room }} has {{ count }} socket(s), fewer than the minimum of {{ min }}.',
+        'electrical_min_lights' => 'The room {{ room }} has {{ count }} light point(s), fewer than the minimum of {{ min }}.',
+        'electrical_circuit_overload' => 'The load of the circuit {{ network }} is {{ load }} W, above the {{ max }} W allowed by its {{ protection }} A protection.',
+        'electrical_outside_surface' => 'The element {{ element }} is outside the surface {{ surface }}.',
+        'electrical_on_opening' => 'The element {{ element }} is on an opening of the surface {{ surface }}.',
+        'electrical_near_opening' => 'The element {{ element }} is {{ distance }} mm from an opening (minimum {{ min }} mm).',
+        'electrical_on_stud' => 'The box of the element {{ element }} falls on a framing stud of the surface {{ surface }}.',
     ];
 
     public static function existe(string $code): bool

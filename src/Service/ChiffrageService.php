@@ -321,7 +321,7 @@ final class ChiffrageService
                     piece: $supports[$k]->piece,
                     surface: $support instanceof Surface ? $support : null,
                     pieceNom: $supports[$k]->piece->getNom(),
-                    surfaceNom: $support->getNom(),
+                    surfaceNom: $supports[$k]->nomSupport(),
                     quantiteBesoin: $besoins[$i],
                     quantiteAvecMargeMilli: $milli[$i],
                     nombreLots: 0,

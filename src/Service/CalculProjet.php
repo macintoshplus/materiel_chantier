@@ -37,6 +37,7 @@ final class CalculProjet
         private readonly SpecificationSerialiseur $serialiseur,
         private readonly PrixService $prix,
         private readonly EntityManagerInterface $em,
+        private readonly ElectriciteProjet $electricite,
     ) {
     }
 
@@ -50,7 +51,7 @@ final class CalculProjet
             [$cle, $nom] = match ($portee) {
                 PorteeAgregation::Projet => ['projet', $projet->getNom()],
                 PorteeAgregation::Piece => ['p'.spl_object_id($support->piece), $support->piece->getNom()],
-                PorteeAgregation::Surface => ['s'.spl_object_id($support->support), $support->nom()],
+                PorteeAgregation::Surface => ['s'.spl_object_id($support->support ?? $support), $support->nom()],
             };
             $groupes[$cle]['nom'] = $nom;
             $groupes[$cle]['besoins'] ??= new BesoinsProjet();
@@ -109,6 +110,19 @@ final class CalculProjet
                 $besoins->ajouter(array_map(static fn ($l) => $l->ligne, $resultat->lignes), $piece->getNom().' / '.$support->getNom());
                 $supportsCalcules[] = new BesoinsSupport($piece, $support, $besoins);
             }
+        }
+
+        // Installation électrique : besoins annexes par pièce, dans la même nomenclature (étape 07).
+        $electricite = $this->electricite->analyser($projet);
+        foreach ($electricite->supports as $support) {
+            $supportsCalcules[] = $support;
+        }
+        $specifications += $electricite->specifications;
+        foreach ($electricite->avertissements as $a) {
+            $avertissements[json_encode([$a->code, $a->params], \JSON_THROW_ON_ERROR)] = $a;
+        }
+        foreach ($electricite->erreurs as $e) {
+            $erreurs[json_encode([$e->code, $e->params], \JSON_THROW_ON_ERROR)] = $e;
         }
 
         return new PreparationCalcul($supportsCalcules, $specifications, array_values($avertissements), array_values($erreurs));

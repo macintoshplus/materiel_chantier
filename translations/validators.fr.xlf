@@ -393,6 +393,70 @@
         <source>The article &quot;{{ article }}&quot; has no usable dimension: its needs cannot be optimised.</source>
         <target>L'article « {{ article }} » n'a pas de dimension utilisable : ses besoins ne peuvent pas être optimisés.</target>
       </trans-unit>
+      <trans-unit id="el0" resname="The network {{ network }} has no valid starting point.">
+        <source>The network {{ network }} has no valid starting point.</source>
+        <target>Le réseau {{ network }} n'a pas de point de départ valide.</target>
+      </trans-unit>
+      <trans-unit id="el1" resname="A link of the network {{ network }} refers to an unknown element.">
+        <source>A link of the network {{ network }} refers to an unknown element.</source>
+        <target>Une liaison du réseau {{ network }} désigne un élément inconnu.</target>
+      </trans-unit>
+      <trans-unit id="el2" resname="The element {{ element }} of the network {{ network }} is not connected to the starting point.">
+        <source>The element {{ element }} of the network {{ network }} is not connected to the starting point.</source>
+        <target>L'élément {{ element }} du réseau {{ network }} n'est pas relié au point de départ.</target>
+      </trans-unit>
+      <trans-unit id="el3" resname="The element {{ element }} of the network {{ network }} is in another room and no door gives access to it: its run is not counted.">
+        <source>The element {{ element }} of the network {{ network }} is in another room and no door gives access to it: its run is not counted.</source>
+        <target>L'élément {{ element }} du réseau {{ network }} est dans une autre pièce et aucune porte n'y donne accès : son cheminement n'est pas compté.</target>
+      </trans-unit>
+      <trans-unit id="el4" resname="No conduit admits {{ count }} conductors of {{ section }} mm2 for the element {{ element }} of the network {{ network }}.">
+        <source>No conduit admits {{ count }} conductors of {{ section }} mm2 for the element {{ element }} of the network {{ network }}.</source>
+        <target>Aucune gaine n'admet {{ count }} conducteurs de {{ section }} mm2 pour l'élément {{ element }} du réseau {{ network }}.</target>
+      </trans-unit>
+      <trans-unit id="el5" resname="The electrical element type {{ type }} is unknown: element ignored.">
+        <source>The electrical element type {{ type }} is unknown: element ignored.</source>
+        <target>Le type d'élément électrique {{ type }} est inconnu : élément ignoré.</target>
+      </trans-unit>
+      <trans-unit id="el6" resname="No article of the category {{ category }} matches ({{ criteria }}).">
+        <source>No article of the category {{ category }} matches ({{ criteria }}).</source>
+        <target>Aucun article de la catégorie {{ category }} ne correspond ({{ criteria }}).</target>
+      </trans-unit>
+      <trans-unit id="el7" resname="The room {{ room }} has {{ count }} socket(s), fewer than the minimum of {{ min }}.">
+        <source>The room {{ room }} has {{ count }} socket(s), fewer than the minimum of {{ min }}.</source>
+        <target>La pièce {{ room }} compte {{ count }} prise(s), moins que le minimum de {{ min }}.</target>
+      </trans-unit>
+      <trans-unit id="el8" resname="The room {{ room }} has {{ count }} light point(s), fewer than the minimum of {{ min }}.">
+        <source>The room {{ room }} has {{ count }} light point(s), fewer than the minimum of {{ min }}.</source>
+        <target>La pièce {{ room }} compte {{ count }} point(s) lumineux, moins que le minimum de {{ min }}.</target>
+      </trans-unit>
+      <trans-unit id="el9" resname="The load of the circuit {{ network }} is {{ load }} W, above the {{ max }} W allowed by its {{ protection }} A protection.">
+        <source>The load of the circuit {{ network }} is {{ load }} W, above the {{ max }} W allowed by its {{ protection }} A protection.</source>
+        <target>La charge du circuit {{ network }} est de {{ load }} W, au-dessus des {{ max }} W admis par sa protection de {{ protection }} A.</target>
+      </trans-unit>
+      <trans-unit id="el10" resname="The element {{ element }} is outside the surface {{ surface }}.">
+        <source>The element {{ element }} is outside the surface {{ surface }}.</source>
+        <target>L'élément {{ element }} est en dehors de la surface {{ surface }}.</target>
+      </trans-unit>
+      <trans-unit id="el11" resname="The element {{ element }} is on an opening of the surface {{ surface }}.">
+        <source>The element {{ element }} is on an opening of the surface {{ surface }}.</source>
+        <target>L'élément {{ element }} est sur une ouverture de la surface {{ surface }}.</target>
+      </trans-unit>
+      <trans-unit id="el12" resname="The element {{ element }} is {{ distance }} mm from an opening (minimum {{ min }} mm).">
+        <source>The element {{ element }} is {{ distance }} mm from an opening (minimum {{ min }} mm).</source>
+        <target>L'élément {{ element }} est à {{ distance }} mm d'une ouverture (minimum {{ min }} mm).</target>
+      </trans-unit>
+      <trans-unit id="el13" resname="The box of the element {{ element }} falls on a framing stud of the surface {{ surface }}.">
+        <source>The box of the element {{ element }} falls on a framing stud of the surface {{ surface }}.</source>
+        <target>La boîte de l'élément {{ element }} tombe sur un montant d'ossature de la surface {{ surface }}.</target>
+      </trans-unit>
+      <trans-unit id="el14" resname="{{ count }} equipment(s) created from blocks.">
+        <source>{{ count }} equipment(s) created from blocks.</source>
+        <target>{{ count }} équipement(s) créé(s) depuis les blocs.</target>
+      </trans-unit>
+      <trans-unit id="el15" resname="The equipment block {{ block }} is neither on a wall nor under the ceiling: no equipment created.">
+        <source>The equipment block {{ block }} is neither on a wall nor under the ceiling: no equipment created.</source>
+        <target>Le bloc d'équipement {{ block }} n'est ni sur un mur ni sous le plafond : aucun équipement créé.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

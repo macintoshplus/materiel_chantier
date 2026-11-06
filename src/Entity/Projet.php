@@ -55,8 +55,14 @@ final class Projet
     #[ORM\OrderBy(['dateCreation' => 'DESC', 'id' => 'DESC'])]
     private Collection $chiffrages;
 
+    /** @var Collection<int, Reseau> */
+    #[ORM\OneToMany(targetEntity: Reseau::class, mappedBy: 'projet', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OrderBy(['nom' => 'ASC'])]
+    private Collection $reseaux;
+
     public function __construct()
     {
+        $this->reseaux = new ArrayCollection();
         $this->dateCreation = new \DateTimeImmutable();
         $this->pieces = new ArrayCollection();
         $this->chiffrages = new ArrayCollection();
@@ -144,6 +150,21 @@ final class Projet
     public function getPieces(): Collection
     {
         return $this->pieces;
+    }
+
+    /**
+     * @return Collection<int, Reseau>
+     */
+    public function getReseaux(): Collection
+    {
+        return $this->reseaux;
+    }
+
+    public function ajouterReseau(Reseau $reseau): void
+    {
+        if (!$this->reseaux->contains($reseau)) {
+            $this->reseaux->add($reseau);
+        }
     }
 
     public function ajouterPiece(Piece $piece): void

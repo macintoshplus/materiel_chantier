@@ -1,6 +1,6 @@
 # Étape 07 — Réseaux : électricité
 
-> Statut : à faire. Ce fichier est renommé en `.DONE.md` (même commit que le code) quand tous les critères ci-dessous sont cochés et les vérifications vertes. Règles : [_plan-general.md](_plan-general.md#règle-dune-étape).
+> Statut : partiel (moteur, entités, contrôles, quantités annexes et intégration à la nomenclature faits et testés ; import DXF et écran Equipement non faits, voir « Décisions et écarts »). Ce fichier est renommé en `.DONE.md` (même commit que le code) quand tous les critères ci-dessous sont cochés et les vérifications vertes. Règles : [_plan-general.md](_plan-general.md#règle-dune-étape).
 
 ## Objectif
 
@@ -64,9 +64,9 @@ type à confirmer par l'utilisateur.
 
 ## Critères d'acceptation
 
-- [ ] Pièce rectangulaire avec 1 tableau, 1 interrupteur, 1 point lumineux : longueur de gaine/câble conforme au calcul manuel ± réserve.
-- [ ] Va-et-vient : le nombre de conducteurs entre commandes est de 3 + terre.
-- [ ] Les quantités annexes apparaissent dans la nomenclature du projet.
+- [x] Pièce rectangulaire avec 1 tableau, 1 interrupteur, 1 point lumineux : longueur de gaine/câble conforme au calcul manuel ± réserve.
+- [x] Va-et-vient : le nombre de conducteurs entre commandes est de 3 + terre.
+- [x] Les quantités annexes apparaissent dans la nomenclature du projet.
 
 ## Vérifications automatiques
 
@@ -80,4 +80,15 @@ symfony console doctrine:schema:validate
 
 ## Décisions et écarts
 
-Aucun pour le moment.
+Tests : `tests/Calcul/Electricite/CheminementCalculatorTest.php` (calcul pur), `tests/Integration/ElectriciteTest.php` (base : persistance, nomenclature, va-et-vient, chiffrage, contrôles).
+
+- **Cheminement v1 uniquement** (par pièce, orthogonal). Entre pièces : passage par le haut de la porte la plus proche dans chaque pièce, sans topologie (avertissement `electrical_no_door` s'il n'y en a pas). Le graphe (v2) n'est pas fait.
+- Câble = longueur x (100 + réserve) / 100 arrondie, + 2 x 200 mm de queue par tronçon ; la réserve est de 10 % (`reserve_pct` du réseau). La marge de catalogue de 5 % du moteur s'y ajoute (ex. une barre de gaine + 5 % = 2 lots achetés, comportement existant inchangé).
+- `taux_remplissage_max` est stocké à titre d'information ; le choix du diamètre ne s'appuie que sur `conducteurs_max` (déjà déduit de ce taux). Sans diamètre admissible : erreur bloquante `electrical_no_conduit`. Pas de partage de gaine entre tronçons.
+- Nombre de conducteurs = actifs + terre (3G1.5 = 3 ; va-et-vient entre commandes : 3 actifs + terre = 4).
+- Fixations : pas de catégorie dédiée, donc `electrique_connecteur` de type `fixation` (1 par 300 mm de gaine). Connecteurs `wago` : 1 par conducteur entrant d'une boîte de dérivation.
+- Seule modification du moteur : `BesoinsSupport::$support` devient nullable (support null = installation électrique de la pièce, libellé « Electrical installation »), `ChiffrageService` et `CalculProjet` adaptés. Résultats 05a-06 inchangés (suite complète verte).
+- Types d'éléments : paramètre `app.electricite.types` (config/services.yaml), extensible par données.
+- Contrôles : constantes de `ControleElectricite` (3 prises, 1 point lumineux, 230 V, 100 mm aux ouvertures, entraxe d'ossature 600 par défaut), surchargeables par `Projet.parametres['electricite']`.
+- **Non fait** : import des blocs DXF comme équipements (messages `import_equipment_*` préparés seulement) ; écran Equipement et libellés de types dans `messages+intl-icu.fr.xlf`. Les critères ne les couvrant pas restent hors liste cochée.
+- **Non vérifié par test** : contrôles « boîte sur montant » et « distance aux ouvertures » (code écrit, pas de test).

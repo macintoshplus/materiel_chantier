@@ -58,6 +58,11 @@ final class Piece
     #[ORM\OneToMany(targetEntity: Jonction::class, mappedBy: 'piece', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $jonctions;
 
+    /** @var Collection<int, Equipement> */
+    #[ORM\OneToMany(targetEntity: Equipement::class, mappedBy: 'piece', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OrderBy(['id' => 'ASC'])]
+    private Collection $equipements;
+
     public function __construct(
         #[ORM\ManyToOne(targetEntity: Projet::class, inversedBy: 'pieces')]
         #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
@@ -66,6 +71,7 @@ final class Piece
         $this->surfaces = new ArrayCollection();
         $this->cloisons = new ArrayCollection();
         $this->jonctions = new ArrayCollection();
+        $this->equipements = new ArrayCollection();
         $projet->ajouterPiece($this);
     }
 
@@ -160,6 +166,21 @@ final class Piece
     {
         if (!$this->cloisons->contains($cloison)) {
             $this->cloisons->add($cloison);
+        }
+    }
+
+    /**
+     * @return Collection<int, Equipement>
+     */
+    public function getEquipements(): Collection
+    {
+        return $this->equipements;
+    }
+
+    public function ajouterEquipement(Equipement $equipement): void
+    {
+        if (!$this->equipements->contains($equipement)) {
+            $this->equipements->add($equipement);
         }
     }
 
