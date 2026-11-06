@@ -61,7 +61,7 @@ Projet
 ```
 
 Les calculs géométriques d'ossature utilisent les coupes `Surface::coupes()` dans le repère de la
-surface (voir `03-geometrie.md`), donc valables pour les plafonds à pans. Les besoins de plusieurs
+surface (voir `03-geometrie.DONE.md`), donc valables pour les plafonds à pans. Les besoins de plusieurs
 surfaces du même matériau sont **agrégés avant optimisation**, pour que les chutes d'un mur servent à
 un autre (option : calcul par surface ou par projet).
 

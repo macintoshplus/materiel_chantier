@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Check and create the room'|trans }}{% endblock %}
+
+{% block body %}
+    {% include 'import/_entete.html.twig' with {projet: projet, titre: 'Check and create the room', etape: 4} only %}
+    {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+        {{ form_errors(form) }}
+        <dl data-testid="resume-import">
+            <dt>{{ 'Name'|trans }}</dt><dd>{{ etat.nom }}</dd>
+            <dt>{{ 'Floor area'|trans }}</dt><dd>{{ (aire / 1000000)|number_format(2, '.', '') }} m²</dd>
+            <dt>{{ 'Ceiling height (mm)'|trans }}</dt><dd>{{ etat.hauteur }}</dd>
+            <dt>{{ 'Doors'|trans }}</dt><dd>{{ compte.porte }}</dd>
+            <dt>{{ 'Windows'|trans }}</dt><dd>{{ compte.fenetre }}</dd>
+            <dt>{{ 'Equipment (kept in the report only)'|trans }}</dt><dd>{{ compte.equipement }}</dd>
+        </dl>
+        {% include 'import/_apercu.html.twig' with {vue: vue} only %}
+        {% include 'import/_rapport.html.twig' with {messages: messages, ignores: ignores} only %}
+        {% set premier = true %}
+        {% for champ in form %}
+            {% if champ.vars.name starts with 'bloc_' %}
+                {% if premier %}<h2 class="h6">{{ 'Role of each block'|trans }}</h2>{% set premier = false %}{% endif %}
+                {{ form_row(champ) }}
+            {% endif %}
+        {% endfor %}
+        <p>
+            {{ form_widget(form.appliquer) }}
+            {{ form_widget(form.creer) }}
+        </p>
+    {{ form_end(form) }}
+    <p><a href="{{ path('import_contour', {id: projet.id, jeton: jeton}) }}">{{ 'Back to the outline'|trans }}</a></p>
+    {% include 'import/_annuler.html.twig' with {projet: projet, jeton: jeton} only %}
+{% endblock %}

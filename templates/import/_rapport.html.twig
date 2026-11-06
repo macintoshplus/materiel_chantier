@@ -1,0 +1,7 @@
+{# Messages du plan (avertissements) et entités ignorées. Variables : messages, ignores. #}
+{% if messages|length or ignores|length %}
+    <ul class="controles" data-testid="rapport-import">
+        {% for m in messages %}<li>{{ m|trans }}</li>{% endfor %}
+        {% for type, nombre in ignores %}<li>{{ '{count} {type} entity(ies) ignored.'|trans({'{count}': nombre, '{type}': type}) }}</li>{% endfor %}
+    </ul>
+{% endif %}

@@ -84,7 +84,7 @@ Une définition de système peut autoriser **plusieurs couches du même rôle** 
 
 Chaque couche posée porte :
 - **`orientation`** (degrés, **relative à la direction de l'ossature de la surface** : `0` = parallèle, `90` = perpendiculaire ; direction définie par `Surface::coupes()`) : détermine la direction des
-  coupes de la couche (voir `Surface::coupes()` dans `03-geometrie.md`). Une 2ᵉ couche d'isolant à 90° est
+  coupes de la couche (voir `Surface::coupes()` dans `03-geometrie.DONE.md`). Une 2ᵉ couche d'isolant à 90° est
   croisée ; à 0° elle est simplement doublée.
 - **`position`** par rapport à l'ossature : `entre_ossature` (l'isolant remplit la cavité, surface isolée
   = surface nette − ossature, pont thermique), `continue` (passe devant l'ossature) ou `sur_ossature`

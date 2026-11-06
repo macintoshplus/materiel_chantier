@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ (source == 'dxf' ? 'Import a DXF file' : 'Import a laser CSV')|trans }}{% endblock %}
+
+{% block body %}
+    {% include 'import/_entete.html.twig' with {projet: projet, titre: (source == 'dxf' ? 'Import a DXF file' : 'Import a laser CSV'), etape: 1} only %}
+    {% if source == 'dxf' %}
+        <p class="text-muted">{{ 'Upload an ASCII DXF plan (maximum 10 MB). Nothing is created before you have seen the preview and confirmed.'|trans }}</p>
+    {% else %}
+        <p class="text-muted">{{ 'Upload a CSV export of a laser distance meter: columns x;y or side;angle (maximum 10 MB). Nothing is created before you have seen the preview and confirmed.'|trans }}</p>
+    {% endif %}
+    {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+        {{ form_errors(form) }}
+        {{ form_row(form.fichier, {attr: {accept: source == 'dxf' ? '.dxf' : '.csv,.txt'}}) }}
+        <button type="submit" class="btn btn-primary">{{ 'Upload'|trans }}</button>
+    {{ form_end(form) }}
+    <p><a href="{{ path('projet_show', {id: projet.id}) }}">{{ 'Cancel'|trans }}</a></p>
+{% endblock %}

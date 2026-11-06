@@ -886,6 +886,70 @@
       <trans-unit id="m45f4ce6" resname="Angle"><source>Angle</source><target>Angle</target></trans-unit>
       <trans-unit id="mdfd0a82" resname="Offset"><source>Offset</source><target>Décalage</target></trans-unit>
       <trans-unit id="mfv0001" resname="Floor vertices (mm)"><source>Floor vertices (mm)</source><target>Sommets du sol (mm)</target></trans-unit>
+      <trans-unit id="i4329c6a" resname="Start from scratch"><source>Start from scratch</source><target>Partir de zéro</target></trans-unit>
+      <trans-unit id="i410d046" resname="Import a DXF file"><source>Import a DXF file</source><target>Importer un fichier DXF</target></trans-unit>
+      <trans-unit id="i4765e76" resname="Import a laser CSV"><source>Import a laser CSV</source><target>Importer un CSV de télémètre laser</target></trans-unit>
+      <trans-unit id="i4ca28d0" resname="Sides and angles"><source>Sides and angles</source><target>Côtés et angles</target></trans-unit>
+      <trans-unit id="i43a0563" resname="Step {n} of 4"><source>Step {n} of 4</source><target>Étape {n} sur 4</target></trans-unit>
+      <trans-unit id="i4ba8ad6" resname="Cancel the import"><source>Cancel the import</source><target>Annuler l'import</target></trans-unit>
+      <trans-unit id="i4fabb5c" resname="Import preview"><source>Import preview</source><target>Aperçu de l'import</target></trans-unit>
+      <trans-unit id="i4954635" resname="{count} {type} entity(ies) ignored."><source>{count} {type} entity(ies) ignored.</source><target>{count} entité(s) {type} ignorée(s).</target></trans-unit>
+      <trans-unit id="i477d8a7" resname="Upload an ASCII DXF plan (maximum 10 MB). Nothing is created before you have seen the preview and confirmed."><source>Upload an ASCII DXF plan (maximum 10 MB). Nothing is created before you have seen the preview and confirmed.</source><target>Envoyez un plan DXF au format ASCII (10 Mo maximum). Rien n'est créé avant que vous ayez vu l'aperçu et confirmé.</target></trans-unit>
+      <trans-unit id="i44e638c" resname="Upload a CSV export of a laser distance meter: columns x;y or side;angle (maximum 10 MB). Nothing is created before you have seen the preview and confirmed."><source>Upload a CSV export of a laser distance meter: columns x;y or side;angle (maximum 10 MB). Nothing is created before you have seen the preview and confirmed.</source><target>Envoyez un export CSV de télémètre laser : colonnes x;y ou côté;angle (10 Mo maximum). Rien n'est créé avant que vous ayez vu l'aperçu et confirmé.</target></trans-unit>
+      <trans-unit id="i48bdf05" resname="Upload"><source>Upload</source><target>Envoyer</target></trans-unit>
+      <trans-unit id="i42c3caf" resname="File"><source>File</source><target>Fichier</target></trans-unit>
+      <trans-unit id="i428f9b8" resname="File: {name}"><source>File: {name}</source><target>Fichier : {name}</target></trans-unit>
+      <trans-unit id="i41408ba" resname="Unit and layers"><source>Unit and layers</source><target>Unité et calques</target></trans-unit>
+      <trans-unit id="i47f3f33" resname="The file does not state its unit: check it below."><source>The file does not state its unit: check it below.</source><target>Le fichier n'indique pas son unité : vérifiez-la ci-dessous.</target></trans-unit>
+      <trans-unit id="i472004d" resname="Role of each layer"><source>Role of each layer</source><target>Rôle de chaque calque</target></trans-unit>
+      <trans-unit id="i4fbb562" resname="Detected outlines"><source>Detected outlines</source><target>Contours détectés</target></trans-unit>
+      <trans-unit id="i44da5dd" resname="Unit of the file"><source>Unit of the file</source><target>Unité du fichier</target></trans-unit>
+      <trans-unit id="i4058b97" resname="Change the unit if the sizes look wrong: the file is not uploaded again."><source>Change the unit if the sizes look wrong: the file is not uploaded again.</source><target>Changez l'unité si les dimensions semblent fausses : le fichier n'est pas renvoyé.</target></trans-unit>
+      <trans-unit id="i4cf723c" resname="Columns"><source>Columns</source><target>Colonnes</target></trans-unit>
+      <trans-unit id="i4b87002" resname="Detect from the header"><source>Detect from the header</source><target>Détecter d'après l'en-tête</target></trans-unit>
+      <trans-unit id="i4fa155b" resname="x ; y (points)"><source>x ; y (points)</source><target>x ; y (points)</target></trans-unit>
+      <trans-unit id="i4365b9b" resname="side ; angle"><source>side ; angle</source><target>côté ; angle</target></trans-unit>
+      <trans-unit id="i4c45acf" resname="Millimetres (mm)"><source>Millimetres (mm)</source><target>Millimètres (mm)</target></trans-unit>
+      <trans-unit id="i4e48b27" resname="Centimetres (cm)"><source>Centimetres (cm)</source><target>Centimètres (cm)</target></trans-unit>
+      <trans-unit id="i468c785" resname="Metres (m)"><source>Metres (m)</source><target>Mètres (m)</target></trans-unit>
+      <trans-unit id="i4e481ce" resname="Inches (in)"><source>Inches (in)</source><target>Pouces (in)</target></trans-unit>
+      <trans-unit id="i47d5c63" resname="Feet (ft)"><source>Feet (ft)</source><target>Pieds (ft)</target></trans-unit>
+      <trans-unit id="i485b324" resname="Room outline"><source>Room outline</source><target>Contour de pièce</target></trans-unit>
+      <trans-unit id="i436155d" resname="Equipment"><source>Equipment</source><target>Équipement</target></trans-unit>
+      <trans-unit id="i498f55d" resname="Ignore"><source>Ignore</source><target>Ignorer</target></trans-unit>
+      <trans-unit id="i4cfea41" resname="Apply"><source>Apply</source><target>Appliquer</target></trans-unit>
+      <trans-unit id="i42e0262" resname="Continue"><source>Continue</source><target>Continuer</target></trans-unit>
+      <trans-unit id="i4f80695" resname="Update the preview"><source>Update the preview</source><target>Mettre à jour l'aperçu</target></trans-unit>
+      <trans-unit id="i4486d5c" resname="Create the room"><source>Create the room</source><target>Créer la pièce</target></trans-unit>
+      <trans-unit id="i45f4b7d" resname="Choose the outline"><source>Choose the outline</source><target>Choisir le contour</target></trans-unit>
+      <trans-unit id="i4259b66" resname="Back to the unit and layers"><source>Back to the unit and layers</source><target>Retour à l'unité et aux calques</target></trans-unit>
+      <trans-unit id="i4b9d653" resname="Blue: chosen outline. Green: room outline after moving it inward. Red dashed: rejected outline."><source>Blue: chosen outline. Green: room outline after moving it inward. Red dashed: rejected outline.</source><target>Bleu : contour choisi. Vert : contour de la pièce après décalage vers l'intérieur. Rouge en pointillés : contour rejeté.</target></trans-unit>
+      <trans-unit id="i40ec1df" resname="Rejected outlines"><source>Rejected outlines</source><target>Contours rejetés</target></trans-unit>
+      <trans-unit id="i4cdd629" resname="Outline"><source>Outline</source><target>Contour</target></trans-unit>
+      <trans-unit id="i4891d26" resname="The outline follows"><source>The outline follows</source><target>Le contour suit</target></trans-unit>
+      <trans-unit id="i4d64cb3" resname="the inside face of the walls"><source>the inside face of the walls</source><target>le nu intérieur des murs</target></trans-unit>
+      <trans-unit id="i48626da" resname="the wall axis"><source>the wall axis</source><target>l'axe des murs</target></trans-unit>
+      <trans-unit id="i4da46b0" resname="the outside face of the walls"><source>the outside face of the walls</source><target>le nu extérieur des murs</target></trans-unit>
+      <trans-unit id="i48582d9" resname="The room is created inside: the outline is moved inward by half the thickness (axis) or the whole thickness (outside face)."><source>The room is created inside: the outline is moved inward by half the thickness (axis) or the whole thickness (outside face).</source><target>La pièce est créée à l'intérieur : le contour est décalé vers l'intérieur de la moitié de l'épaisseur (axe) ou de l'épaisseur entière (nu extérieur).</target></trans-unit>
+      <trans-unit id="i4e75b3f" resname="Wall thickness (mm)"><source>Wall thickness (mm)</source><target>Épaisseur des murs (mm)</target></trans-unit>
+      <trans-unit id="i4fa68ea" resname="Check and create the room"><source>Check and create the room</source><target>Vérifier et créer la pièce</target></trans-unit>
+      <trans-unit id="i4c1f07a" resname="Floor area"><source>Floor area</source><target>Surface au sol</target></trans-unit>
+      <trans-unit id="i4a3818a" resname="Doors"><source>Doors</source><target>Portes</target></trans-unit>
+      <trans-unit id="i426d9c2" resname="Windows"><source>Windows</source><target>Fenêtres</target></trans-unit>
+      <trans-unit id="i4cc0c2f" resname="Equipment (kept in the report only)"><source>Equipment (kept in the report only)</source><target>Équipements (conservés dans le rapport seulement)</target></trans-unit>
+      <trans-unit id="i4803263" resname="Role of each block"><source>Role of each block</source><target>Rôle de chaque bloc</target></trans-unit>
+      <trans-unit id="i4ebc366" resname="Back to the outline"><source>Back to the outline</source><target>Retour au contour</target></trans-unit>
+      <trans-unit id="i44cc5cc" resname="Room created from the import."><source>Room created from the import.</source><target>Pièce créée depuis l'import.</target></trans-unit>
+      <trans-unit id="i451621e" resname="Walk around the room counter-clockwise: for each side, enter its length and the interior angle measured at its end. Save refreshes the preview and the closure gap."><source>Walk around the room counter-clockwise: for each side, enter its length and the interior angle measured at its end. Save refreshes the preview and the closure gap.</source><target>Faites le tour de la pièce dans le sens antihoraire : pour chaque côté, saisissez sa longueur et l'angle intérieur mesuré à son extrémité. Enregistrer actualise l'aperçu et l'écart de fermeture.</target></trans-unit>
+      <trans-unit id="i4cb2d37" resname="Sides, counter-clockwise"><source>Sides, counter-clockwise</source><target>Côtés, dans le sens antihoraire</target></trans-unit>
+      <trans-unit id="i472281e" resname="Add a side"><source>Add a side</source><target>Ajouter un côté</target></trans-unit>
+      <trans-unit id="i478f83e" resname="The outline is closed (gap: {gap} mm)."><source>The outline is closed (gap: {gap} mm).</source><target>Le contour est fermé (écart : {gap} mm).</target></trans-unit>
+      <trans-unit id="i4580ea7" resname="The outline is not closed: gap of {gap} mm."><source>The outline is not closed: gap of {gap} mm.</source><target>Le contour n'est pas fermé : écart de {gap} mm.</target></trans-unit>
+      <trans-unit id="i495299e" resname="Save to see the preview and the closure gap."><source>Save to see the preview and the closure gap.</source><target>Enregistrez pour voir l'aperçu et l'écart de fermeture.</target></trans-unit>
+      <trans-unit id="i466e81e" resname="Side (mm)"><source>Side (mm)</source><target>Côté (mm)</target></trans-unit>
+      <trans-unit id="i495e18b" resname="Angle at the end of the side (degrees)"><source>Angle at the end of the side (degrees)</source><target>Angle à l'extrémité du côté (degrés)</target></trans-unit>
+      <trans-unit id="i49bb94b" resname="Close automatically when the gap is small"><source>Close automatically when the gap is small</source><target>Fermer automatiquement si l'écart est faible</target></trans-unit>
+      <trans-unit id="i4766014" resname="The gap is spread over the sides when it is under 20 mm."><source>The gap is spread over the sides when it is under 20 mm.</source><target>L'écart est réparti sur les côtés lorsqu'il est inférieur à 20 mm.</target></trans-unit>
     </body>
   </file>
 </xliff>

@@ -1,6 +1,6 @@
 # Étape 03 — Géométrie, pièces, cloisons et édition
 
-> Statut : à faire. Ce fichier est renommé en `.DONE.md` (même commit que le code) quand tous les critères ci-dessous sont cochés et les vérifications vertes. Règles : [_plan-general.md](_plan-general.md#règle-dune-étape).
+> Statut : terminée (vérifiée le 2026-11-06 : phpunit, phpstan niveau 8, schéma en phase), deux critères d'interface reportés (voir « Décisions et écarts »). Ce fichier est renommé en `.DONE.md` (même commit que le code) quand tous les critères ci-dessous sont cochés et les vérifications vertes. Règles : [_plan-general.md](_plan-general.md#règle-dune-étape).
 
 ## Objectif
 
@@ -165,7 +165,7 @@ Une pièce et un mur sont **deux pages distinctes** :
   - *Openings* : liste de la cloison (visibles sur les deux faces) avec mode de pose ;
   - *Common layers* : ossature, isolant ;
   - *Side A layers*, *Side B layers* : parements propres à chaque face.
-- Le **tracé est modifiable à tout moment** (voir `03-geometrie.md`). Comme partout, l'aperçu est mis à jour
+- Le **tracé est modifiable à tout moment** (voir `03-geometrie.DONE.md`). Comme partout, l'aperçu est mis à jour
   **après enregistrement** ; le bouton « Save » est toujours visible.
 - Un doublage de mur se règle dans la page du mur (système, type de profilé périphérique rail ou lisse).
 
@@ -173,7 +173,7 @@ Une pièce et un mur sont **deux pages distinctes** :
 
 Écran « New room » avec **deux entrées**, qui mènent au **même éditeur de pièce** :
 
-1. **Import a DXF file** : assistant d'import (voir `03-geometrie.md`) → éditeur de pièce prérempli.
+1. **Import a DXF file** : assistant d'import (voir `03-geometrie.DONE.md`) → éditeur de pièce prérempli.
 2. **Start from scratch** : saisie manuelle. Au choix : rectangle rapide (largeur, longueur, hauteur, disponible dès la phase 3),
    côtés et angles (phase 4), ou tableau de sommets (phase 3). Les murs sont générés ; l'éditeur s'ouvre.
 
@@ -183,7 +183,7 @@ l'éditeur.
 #### Modifier une pièce à tout moment
 Qu'elle vienne d'un import ou d'une saisie, **la pièce reste entièrement modifiable** à tout moment :
 nom, hauteur, sommets du sol (déplacer, ajouter, supprimer un sommet), type de plafond.
-Règles (voir aussi `03-geometrie.md`, « Édition d'une pièce existante ») :
+Règles (voir aussi `03-geometrie.DONE.md`, « Édition d'une pièce existante ») :
 - les murs gardent leur **identité** quand un sommet bouge : nom, ouvertures, système et couches restent ;
 - ajouter un sommet **scinde** un mur (les ouvertures sont réparties selon leur position) ; supprimer un
   sommet **fusionne** deux murs (avertissement si les noms/systèmes diffèrent) ;
@@ -249,8 +249,6 @@ Cloisons et édition :
 - [x] Création d'une pièce à partir de zéro (rectangle rapide ou tableau de sommets) puis édition dans le même éditeur ; l'entrée « Import a DXF file » est ajoutée à l'étape 04 sans modifier l'éditeur.
 - [x] Un mur peut être renommé ; une ouverture peut être ajoutée, modifiée, supprimée ; son mode de pose applique/tunnel (et le champ « Recess depth ») change l'aperçu (retour de parement) ; les quantités correspondantes sont traitées à l'étape 05d.
 - [x] Une cloison est accessible depuis le plan ou la liste « Partitions » ; sa page a un sélecteur « Side A / Side B » et les groupes « Layout » et « Openings ».
-- [ ] Le bouton « Save » est visible en permanence ; rien n'est enregistré sans lui ; l'aperçu est mis à jour après enregistrement, pas pendant la saisie ; quitter avec des modifications non enregistrées demande « Save and continue » / « Discard » / « Cancel ».
-- [ ] Les groupes de la colonne de droite se replient/déplient et l'état est mémorisé.
 - [x] Sélectionner un mur sur le plan **ou** dans la liste de droite ouvre la page de ce mur ; retour à la pièce et mur précédent/suivant possibles ; chaque page a son URL propre.
 - [x] Un pan incliné et un plafond plat s'éditent avec la même page et les mêmes groupes qu'un mur ; les sommets se règlent par distance ou par angle.
 - [x] Aperçus SVG côté serveur : mur/pan (contour, ouvertures, retour en tunnel), pièce vue de dessus (sol, murs nommés, ouvertures, cloisons).
@@ -285,4 +283,6 @@ symfony console doctrine:schema:validate
 - Partie 2 (écrans) : routes `piece_new` (`/projets/{id}/pieces/nouvelle`), `piece_show` (`/rooms/{id}`), `surface_show` (`/rooms/{piece}/walls/{surface}`, commune aux murs, pans de plafond et sol), `partition_new`, `partition_show` (`?side=A|B`, défaut B), `partition_delete`. L'ancienne route `/pieces/{id}/modifier` est supprimée (même éditeur pour création et édition). Services : `EditionPieceSaisie`, `EditionCloisonSaisie`, `SurfaceEditionService`, `OuvertureEditionService`, `ControlePlacement`, `OrdreSurfaces` ; aperçus `App\Apercu\ApercuSurface` / `ApercuPiece` ; contrôleurs Stimulus `collapsible-group`, `unsaved-changes`, `collection`, `highlight`, `mode-switch`, `plan-picker`.
 - Écarts : saisie en mm (plus en mètres) ; une seule page `surface_show` pour mur/pan/sol (pas de route `/walls` distincte du plafond) ; un seul changement de sommet par enregistrement de pièce (`edit_one_vertex_at_a_time`) ; confirmation de `PlanModification` en deux temps (réaffichage 422 avec `_confirmer`) ; création d'une cloison par deux clics sur le plan (`plan-picker`) ou saisie numérique ; pas d'entrée DXF (étape 04). `CloisonEditionService::analyser` reconstruit désormais la cible d'un ancrage forcé depuis son identifiant (les ancrages forcés non libres produisent des jonctions).
 - Non vérifié en navigateur (aucun navigateur, pas de réseau) : le dialogue « Save and continue / Discard / Cancel », la mémorisation `localStorage` des groupes, la surbrillance au survol et le plan-picker. Leur code JS est contrôlé par `node --check` seulement ; critères 252 et 253 laissés non cochés. Les tests couvrent l'enregistrement explicite, la confirmation de plan et la redirection `_continue` côté serveur.
-- Le `.DONE` n'est pas appliqué (critères 252, 253 restants).
+- **Critères reportés sur décision de l'utilisateur (non bloquants pour la suite), à valider en navigateur plus tard** — le code existe, seul le contrôle manuel manque :
+  - [ ] Le bouton « Save » est visible en permanence ; rien n'est enregistré sans lui ; l'aperçu est mis à jour après enregistrement, pas pendant la saisie ; quitter avec des modifications non enregistrées demande « Save and continue » / « Discard » / « Cancel ».
+  - [ ] Les groupes de la colonne de droite se replient/déplient et l'état est mémorisé.

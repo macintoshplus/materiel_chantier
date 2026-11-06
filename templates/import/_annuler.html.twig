@@ -1,0 +1,5 @@
+{# Annulation : supprime le fichier temporaire. Variables : projet, jeton. #}
+<form method="post" action="{{ path('import_annuler', {id: projet.id, jeton: jeton}) }}" class="suppression">
+    <input type="hidden" name="_token" value="{{ csrf_token('import-annuler' ~ jeton) }}">
+    <button type="submit" class="btn btn-outline-secondary">{{ 'Cancel the import'|trans }}</button>
+</form>

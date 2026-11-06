@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Geometrie\Avertissement;
 use App\Geometrie\MessagesGeometrie;
+use App\Import\MessagesImport;
 use Symfony\Component\Translation\TranslatableMessage;
 
 /**
@@ -21,6 +22,10 @@ final class MessageAvertissement
             $parametres['{{ '.$nom.' }}'] = (string) $valeur;
         }
 
-        return new TranslatableMessage(MessagesGeometrie::message($avertissement->code), $parametres, 'validators');
+        return new TranslatableMessage(
+            MessagesImport::existe($avertissement->code) ? MessagesImport::message($avertissement->code) : MessagesGeometrie::message($avertissement->code),
+            $parametres,
+            'validators',
+        );
     }
 }

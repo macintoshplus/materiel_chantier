@@ -94,8 +94,8 @@ cocher, chacun vérifiable), Vérifications automatiques, Décisions et écarts.
 | [00](00-filet-securite.DONE.md) | Filet de sécurité |
 | [01](01-catalogue.DONE.md) | Catalogue, fournisseurs, prix |
 | [02](02-modele-persistance.DONE.md) | Modèle de domaine et persistance |
-| [03](03-geometrie.md) | Géométrie, pièces, cloisons, interface d'édition |
-| [04](04-sources-mesures.md) | Sources de mesures (DXF, CSV, côtés/angles) |
+| [03](03-geometrie.DONE.md) | Géométrie, pièces, cloisons, interface d'édition |
+| [04](04-sources-mesures.DONE.md) | Sources de mesures (DXF, CSV, côtés/angles) |
 | [05a](05a-moteur-couches.md) → [05e](05e-agregation-substitution.md) | Systèmes et calcul : moteur, cloisons/doublages, plafond/pose/renforts, finitions/thermique, agrégation/substitution |
 | [06](06-chiffrage-exports.md) | Chiffrage et exports |
 | [07](07-electricite.md) | Électricité |

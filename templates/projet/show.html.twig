@@ -9,7 +9,12 @@
     <p><a href="{{ path('projet_edit', {id: projet.id}) }}">{{ 'Edit'|trans }}</a></p>
 
     <h2>{{ 'Rooms'|trans }}</h2>
-    <p><a href="{{ path('piece_new', {id: projet.id}) }}">{{ 'New room'|trans }}</a></p>
+    <p class="import-liste">
+        <a href="{{ path('piece_new', {id: projet.id}) }}">{{ 'Start from scratch'|trans }}</a>
+        <a href="{{ path('import_upload', {id: projet.id, source: 'dxf'}) }}">{{ 'Import a DXF file'|trans }}</a>
+        <a href="{{ path('import_upload', {id: projet.id, source: 'csv'}) }}">{{ 'Import a laser CSV'|trans }}</a>
+        <a href="{{ path('piece_cotes', {id: projet.id}) }}">{{ 'Sides and angles'|trans }}</a>
+    </p>
     <table>
         <thead>
             <tr>

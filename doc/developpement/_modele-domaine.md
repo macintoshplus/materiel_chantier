@@ -96,7 +96,7 @@ enregistrés par tag (voir `05a-moteur-couches.md`).
 
 - Le sol est une surface dérivée du polygone au sol, créée avec la pièce par `GenerateurSol` ; il porte jonctions et système comme les autres surfaces.
 - Supprimer un projet supprime ses pièces, surfaces, ouvertures, équipements, chiffrages (cascade).
-- Une ouverture reste dans sa surface (validation Symfony, voir `03-geometrie.md`).
+- Une ouverture reste dans sa surface (validation Symfony, voir `03-geometrie.DONE.md`).
 - Une jonction relie deux arêtes (ou portions d'arêtes). Pour les jonctions entre surfaces de même contour (`angle_saillant`, `angle_rentrant`, `faitage`, `noue`, `plat`), les longueurs sont égales (± 1 mm). Les jonctions de cloison (`cloison_sur_*`) ne contraignent pas l'égalité des longueurs : la cloison s'appuie sur une portion de l'arête.
 - Ajouter ou supprimer un sommet ne décale rien : les jonctions référencent des identifiants de sommets stables, pas des index.
 - Une surface (ou une cloison, qui porte son propre système) a au plus un `SystemeApplique` actif.

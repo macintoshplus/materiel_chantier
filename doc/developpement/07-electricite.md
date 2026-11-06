@@ -59,7 +59,7 @@ boîte posée sur un montant d'ossature, distance mini aux ouvertures.
 
 ### Import DXF
 
-Les blocs électriques d'un DXF sont proposés comme éléments (voir `03-geometrie.md`) avec position ;
+Les blocs électriques d'un DXF sont proposés comme éléments (voir `03-geometrie.DONE.md`) avec position ;
 type à confirmer par l'utilisateur.
 
 ## Critères d'acceptation

@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Choose the outline'|trans }}{% endblock %}
+
+{% block body %}
+    {% include 'import/_entete.html.twig' with {projet: projet, titre: 'Choose the outline', etape: 3} only %}
+    {% if aucun %}
+        <p class="flash flash-warning" data-testid="aucun-contour">{{ 'No usable closed outline was found. Check the unit and the layers.'|trans({}, 'validators') }}</p>
+        <p><a href="{{ path('import_parametres', {id: projet.id, jeton: jeton}) }}">{{ 'Back to the unit and layers'|trans }}</a></p>
+    {% else %}
+        {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+            {{ form_errors(form) }}
+            <div class="import-liste">
+                <div>{{ form_row(form.contour) }}</div>
+                <div>
+                    {{ form_row(form.mode) }}
+                    {{ form_row(form.epaisseur) }}
+                    {{ form_row(form.hauteur) }}
+                    {{ form_row(form.nom) }}
+                </div>
+            </div>
+            {% include 'import/_apercu.html.twig' with {vue: vue} only %}
+            <p>{{ 'Blue: chosen outline. Green: room outline after moving it inward. Red dashed: rejected outline.'|trans }}</p>
+            <p>
+                {{ form_widget(form.appliquer) }}
+                {{ form_widget(form.continuer) }}
+            </p>
+        {{ form_end(form) }}
+    {% endif %}
+    {% if rejets|length %}
+        <h2 class="h6">{{ 'Rejected outlines'|trans }}</h2>
+        <ul class="controles" data-testid="contours-rejetes">
+            {% for r in rejets %}<li>{{ r.message|trans }}</li>{% endfor %}
+        </ul>
+    {% endif %}
+    <p><a href="{{ path('import_parametres', {id: projet.id, jeton: jeton}) }}">{{ 'Back to the unit and layers'|trans }}</a></p>
+    {% include 'import/_annuler.html.twig' with {projet: projet, jeton: jeton} only %}
+{% endblock %}

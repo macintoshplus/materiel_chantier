@@ -1,0 +1,8 @@
+{# Fil d'Ariane et titre des pages de l'assistant. Variables : projet, titre, etape (1-4). #}
+<nav class="fil-ariane" aria-label="{{ 'Breadcrumb'|trans }}">
+    <a href="{{ path('projet_index') }}">{{ 'Projects'|trans }}</a> &rsaquo;
+    <a href="{{ path('projet_show', {id: projet.id}) }}">{{ projet.nom }}</a> &rsaquo;
+    <span>{{ titre|trans }}</span>
+</nav>
+<h1>{{ titre|trans }}</h1>
+{% if etape is defined %}<p class="text-muted" data-testid="etape">{{ 'Step {n} of 4'|trans({'{n}': etape}) }}</p>{% endif %}

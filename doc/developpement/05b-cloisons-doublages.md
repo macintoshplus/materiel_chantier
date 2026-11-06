@@ -55,7 +55,7 @@ face** :
 isolant/ossature → parement(s) B. L'épaisseur cumulée est la somme des deux parements et de l'ossature
 (épaisseur de la cloison). Les calculs :
 1. **Planification** (sans polygone) : **profilé choisi sur la hauteur maximale** de la cloison à l'axe,
-   **épaisseur de la cloison** (publiée vers `Cloison.epaisseur`, voir `03-geometrie.md`), entraxe, renfort,
+   **épaisseur de la cloison** (publiée vers `Cloison.epaisseur`, voir `03-geometrie.DONE.md`), entraxe, renfort,
    profondeur de cavité (isolant), choix des vis **par face** (critère
    calculé sur l'épaisseur de parement de la face).
 2. **Ossature** : calculée **une fois** pour la cloison (rails, montants, renforts, linteaux d'ouverture),

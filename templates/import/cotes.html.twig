@@ -1,0 +1,39 @@
+{% extends 'layout/editeur.html.twig' %}
+
+{% block title %}{{ 'Sides and angles'|trans }}{% endblock %}
+
+{% block fil %}
+    <a href="{{ path('projet_index') }}">{{ 'Projects'|trans }}</a> &rsaquo;
+    <a href="{{ path('projet_show', {id: projet.id}) }}">{{ projet.nom }}</a> &rsaquo;
+    <span>{{ 'Sides and angles'|trans }}</span>
+{% endblock %}
+
+{% block centre %}
+    <h1>{{ 'Sides and angles'|trans }}</h1>
+    <p class="text-muted">{{ 'Walk around the room counter-clockwise: for each side, enter its length and the interior angle measured at its end. Save refreshes the preview and the closure gap.'|trans }}</p>
+    {{ form_row(form.nom) }}
+    {{ form_row(form.hauteur) }}
+    {{ form_row(form.fermerAuto) }}
+    <h2 class="h6">{{ 'Sides, counter-clockwise'|trans }}</h2>
+    {% include 'layout/_collection.html.twig' with {champ: form.lignes, ajout: 'Add a side'} only %}
+{% endblock %}
+
+{% block droite %}
+    {% if vue is not null %}
+        {% include 'import/_apercu.html.twig' with {vue: vue} only %}
+        <p data-testid="ecart-fermeture">
+            {% if resultat.ferme %}
+                {{ 'The outline is closed (gap: {gap} mm).'|trans({'{gap}': resultat.ecart|round(1)}) }}
+            {% else %}
+                {{ 'The outline is not closed: gap of {gap} mm.'|trans({'{gap}': resultat.ecart|round(1)}) }}
+            {% endif %}
+        </p>
+        {% if message is not null %}<p class="flash flash-warning">{{ message|trans }}</p>{% endif %}
+    {% else %}
+        <p class="text-muted">{{ 'Save to see the preview and the closure gap.'|trans }}</p>
+    {% endif %}
+{% endblock %}
+
+{% block actions_supplementaires %}
+    <button type="submit" name="_action" value="creer" class="btn btn-outline-primary">{{ 'Create the room'|trans }}</button>
+{% endblock %}

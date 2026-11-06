@@ -1,0 +1,23 @@
+{# Aperçu SVG de l'assistant d'import. Variable : vue (VueImport). #}
+<svg class="apercu apercu-import" viewBox="{{ vue.viewBox }}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="{{ 'Import preview'|trans }}" data-testid="apercu-import">
+    {% if not vue.vide %}
+        {% for c in vue.contours %}
+            <g class="import-contour import-{{ c.classe }}"{% if c.index is not null %} data-contour="{{ c.index }}"{% endif %}>
+                {% if c.ferme %}
+                    <polygon points="{{ c.points }}" stroke-width="{{ vue.trait }}"/>
+                {% else %}
+                    <polyline points="{{ c.points }}" fill="none" stroke-width="{{ vue.trait }}"/>
+                {% endif %}
+                {% for a in c.aretes %}
+                    <text x="{{ a.x }}" y="{{ a.y }}" font-size="{{ vue.police }}" text-anchor="middle">{{ a.texte }}</text>
+                {% endfor %}
+            </g>
+        {% endfor %}
+        {% for b in vue.blocs %}
+            <g class="import-bloc import-bloc-{{ b.role }}">
+                <circle cx="{{ b.x }}" cy="{{ -b.y }}" r="{{ vue.police }}"/>
+                <text x="{{ b.x }}" y="{{ -b.y - vue.police * 1.5 }}" font-size="{{ vue.police }}" text-anchor="middle">{{ b.nom }}</text>
+            </g>
+        {% endfor %}
+    {% endif %}
+</svg>

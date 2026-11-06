@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Unit and layers'|trans }}{% endblock %}
+
+{% block body %}
+    {% include 'import/_entete.html.twig' with {projet: projet, titre: 'Unit and layers', etape: 2} only %}
+    <p class="text-muted">{{ 'File: {name}'|trans({'{name}': etat.nomFichier}) }}</p>
+    {% if etat.uniteDevinee and not etat.parametresConfirmes %}
+        <p class="flash flash-warning" data-testid="unite-devinee">{{ 'The file does not state its unit: check it below.'|trans }}</p>
+    {% endif %}
+    {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+        {{ form_errors(form) }}
+        {% include 'import/_rapport.html.twig' with {messages: messages, ignores: ignores} only %}
+        {{ form_row(form.unite) }}
+        {% if form.format is defined %}{{ form_row(form.format) }}{% endif %}
+        {% set vueCalques = [] %}
+        {% for champ in form %}
+            {% if champ.vars.name starts with 'calque_' %}
+                {% if loop.first or not (vueCalques|length) %}<h2 class="h6">{{ 'Role of each layer'|trans }}</h2>{% endif %}
+                {% set vueCalques = vueCalques|merge([champ.vars.name]) %}
+                {{ form_row(champ) }}
+            {% endif %}
+        {% endfor %}
+        <h2 class="h6">{{ 'Detected outlines'|trans }}</h2>
+        {% include 'import/_apercu.html.twig' with {vue: vue} only %}
+        <p>
+            {{ form_widget(form.appliquer) }}
+            {{ form_widget(form.continuer) }}
+        </p>
+    {{ form_end(form) }}
+    {% include 'import/_annuler.html.twig' with {projet: projet, jeton: jeton} only %}
+{% endblock %}
