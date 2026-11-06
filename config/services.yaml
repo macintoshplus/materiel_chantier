@@ -50,6 +50,9 @@ services:
     App\Service\CalculSysteme:
         public: true
 
+    App\Service\ServiceVariantes:
+        public: true
+
     App\Calcul\Materiau\SourceCandidats: '@App\Repository\MateriauRepository'
 
 when@test:

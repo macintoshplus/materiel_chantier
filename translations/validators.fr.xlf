@@ -297,6 +297,22 @@
         <source>The insulation ({{ cavity }} mm) is deeper than the framing profile ({{ profile }} mm).</source>
         <target>L'isolant ({{ cavity }} mm) est plus épais que le profil d'ossature ({{ profile }} mm).</target>
       </trans-unit>
+      <trans-unit id="mc20" resname="The {{ end }} end of the partition is free: only the end stud is planned.">
+        <source>The {{ end }} end of the partition is free: only the end stud is planned.</source>
+        <target>L'extrémité {{ end }} de la cloison est libre : seul le montant d'extrémité est prévu.</target>
+      </trans-unit>
+      <trans-unit id="mc21" resname="No stud span of the profile ({{ profile }} mm) covers the height of {{ height }} mm.">
+        <source>No stud span of the profile ({{ profile }} mm) covers the height of {{ height }} mm.</source>
+        <target>Aucune portée du profil ({{ profile }} mm) ne couvre la hauteur de {{ height }} mm.</target>
+      </trans-unit>
+      <trans-unit id="mc22" resname="No catalogue profile of family &quot;{{ family }}&quot; and series {{ series }} found for the perimeter rails.">
+        <source>No catalogue profile of family &quot;{{ family }}&quot; and series {{ series }} found for the perimeter rails.</source>
+        <target>Aucun profil du catalogue de famille « {{ family }} » et de série {{ series }} pour les rails périphériques.</target>
+      </trans-unit>
+      <trans-unit id="mc23" resname="The partition needs its two faces to be calculated.">
+        <source>The partition needs its two faces to be calculated.</source>
+        <target>La cloison a besoin de ses deux faces pour être calculée.</target>
+      </trans-unit>
       <trans-unit id="mc14" resname="A system belongs to exactly one surface or one partition.">
         <source>A system belongs to exactly one surface or one partition.</source>
         <target>Un système appartient à exactement une surface ou une cloison.</target>

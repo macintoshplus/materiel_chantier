@@ -950,6 +950,18 @@
       <trans-unit id="i495e18b" resname="Angle at the end of the side (degrees)"><source>Angle at the end of the side (degrees)</source><target>Angle à l'extrémité du côté (degrés)</target></trans-unit>
       <trans-unit id="i49bb94b" resname="Close automatically when the gap is small"><source>Close automatically when the gap is small</source><target>Fermer automatiquement si l'écart est faible</target></trans-unit>
       <trans-unit id="i4766014" resname="The gap is spread over the sides when it is under 20 mm."><source>The gap is spread over the sides when it is under 20 mm.</source><target>L'écart est réparti sur les côtés lorsqu'il est inférieur à 20 mm.</target></trans-unit>
+      <trans-unit id="v5b00" resname="Variants comparison"><source>Variants comparison</source><target>Comparaison des variantes</target></trans-unit>
+      <trans-unit id="v5b01" resname="No variant to compare."><source>No variant to compare.</source><target>Aucune variante à comparer.</target></trans-unit>
+      <trans-unit id="v5b02" resname="System"><source>System</source><target>Système</target></trans-unit>
+      <trans-unit id="v5b03" resname="Variant"><source>Variant</source><target>Variante</target></trans-unit>
+      <trans-unit id="v5b04" resname="Total thermal resistance R (m2.K/W)"><source>Total thermal resistance R (m2.K/W)</source><target>Résistance thermique totale R (m².K/W)</target></trans-unit>
+      <trans-unit id="v5b05" resname="Thermal transmittance U (W/m2.K)"><source>Thermal transmittance U (W/m2.K)</source><target>Coefficient de transmission U (W/m².K)</target></trans-unit>
+      <trans-unit id="v5b06" resname="Total thickness (mm)"><source>Total thickness (mm)</source><target>Épaisseur totale (mm)</target></trans-unit>
+      <trans-unit id="v5b07" resname="Cost"><source>Cost</source><target>Coût</target></trans-unit>
+      <trans-unit id="v5b08" resname="This variant cannot be calculated."><source>This variant cannot be calculated.</source><target>Cette variante ne peut pas être calculée.</target></trans-unit>
+      <trans-unit id="v5b09" resname="Activate"><source>Activate</source><target>Activer</target></trans-unit>
+      <trans-unit id="v5b10" resname="Variant activated."><source>Variant activated.</source><target>Variante activée.</target></trans-unit>
+      <trans-unit id="v5b11" resname="Back"><source>Back</source><target>Retour</target></trans-unit>
     </body>
   </file>
 </xliff>

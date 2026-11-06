@@ -24,6 +24,10 @@ final class MessagesCalcul
         'layer_no_candidate' => 'No catalogue material satisfies the specification of the layer {{ order }} ({{ role }}).',
         'pinned_material_mismatch' => 'The pinned material of the layer {{ order }} ({{ role }}) does not satisfy its specification.',
         'layer_joints_too_close' => 'The joints of this skin are {{ actual }} mm from those of the previous one (minimum {{ minimum }} mm).',
+        'partition_faces_missing' => 'The partition needs its two faces to be calculated.',
+        'framing_free_end' => 'The {{ end }} end of the partition is free: only the end stud is planned.',
+        'framing_height_exceeded' => 'No stud span of the profile ({{ profile }} mm) covers the height of {{ height }} mm.',
+        'framing_rail_missing' => 'No catalogue profile of family "{{ family }}" and series {{ series }} found for the perimeter rails.',
         'insulation_deeper_than_framing' => 'The insulation ({{ cavity }} mm) is deeper than the framing profile ({{ profile }} mm).',
     ];
 

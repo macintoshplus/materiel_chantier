@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Variants comparison'|trans }}{% endblock %}
+
+{% block body %}
+    <p><a href="{{ retour }}">&larr; {{ 'Back'|trans }}</a></p>
+    <h1>{{ 'Variants comparison'|trans }}</h1>
+    <p class="text-muted">{{ titre }}</p>
+    {% if lignes is empty %}
+        <p>{{ 'No variant to compare.'|trans }}</p>
+    {% else %}
+        <table class="table" data-testid="variantes">
+            <thead>
+                <tr>
+                    <th>{{ 'Support'|trans }}</th>
+                    <th>{{ 'System'|trans }}</th>
+                    <th>{{ 'Variant'|trans }}</th>
+                    <th>{{ 'Total thermal resistance R (m2.K/W)'|trans }}</th>
+                    <th>{{ 'Thermal transmittance U (W/m2.K)'|trans }}</th>
+                    <th>{{ 'Total thickness (mm)'|trans }}</th>
+                    <th>{{ 'Cost'|trans }}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for l in lignes %}
+                <tr{% if l.actif %} class="table-active"{% endif %}>
+                    <td>{{ l.support }}</td>
+                    <td>{{ l.definition }}</td>
+                    <td>{{ l.variante }}{% if l.actif %} <span class="badge text-bg-success">{{ 'Active'|trans }}</span>{% endif %}</td>
+                    {% if l.valide %}
+                        <td>{{ (l.rTotaleMilli / 1000)|number_format(2, ',', ' ') }}</td>
+                        <td>{{ (l.uMilli / 1000)|number_format(2, ',', ' ') }}</td>
+                        <td>{{ l.epaisseurMm }}</td>
+                        <td>{{ l.coutCentimes is null ? '-' : (l.coutCentimes / 100)|number_format(2, ',', ' ') }}</td>
+                    {% else %}
+                        <td colspan="4" class="text-danger">{{ 'This variant cannot be calculated.'|trans }}</td>
+                    {% endif %}
+                    <td>
+                        {% if not l.actif %}
+                            <form method="post" action="{{ path('variantes_activer', {systeme: l.systemeId}) }}">
+                                <input type="hidden" name="_token" value="{{ csrf_token('activer-variante' ~ l.systemeId) }}">
+                                <input type="hidden" name="_retour" value="{{ app.request.requestUri }}">
+                                <button type="submit" class="btn btn-outline-primary btn-sm">{{ 'Activate'|trans }}</button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

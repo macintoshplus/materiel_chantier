@@ -75,6 +75,9 @@ final class Surface
     #[ORM\OneToMany(targetEntity: SystemeApplique::class, mappedBy: 'surface', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $systemes;
 
+    #[ORM\OneToOne(targetEntity: ParoiExistante::class, mappedBy: 'surface', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private ?ParoiExistante $paroiExistante = null;
+
     public function __construct(
         #[ORM\ManyToOne(targetEntity: Piece::class, inversedBy: 'surfaces')]
         #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
@@ -256,6 +259,16 @@ final class Surface
     public function getSystemes(): Collection
     {
         return $this->systemes;
+    }
+
+    public function getParoiExistante(): ?ParoiExistante
+    {
+        return $this->paroiExistante;
+    }
+
+    public function definirParoiExistante(?ParoiExistante $paroi): void
+    {
+        $this->paroiExistante = $paroi;
     }
 
     public function ajouterSysteme(SystemeApplique $systeme): void

@@ -1,6 +1,6 @@
 # Étape 05b — Cloisons, doublages, paroi existante et variantes
 
-> Statut : à faire. Ce fichier est renommé en `.DONE.md` (même commit que le code) quand tous les critères ci-dessous sont cochés et les vérifications vertes. Règles : [_plan-general.md](_plan-general.md#règle-dune-étape).
+> Statut : terminée (vérifiée le 2026-11-06 : phpunit, phpstan niveau 8, schéma en phase). L'écran de comparaison des variantes reste à voir en navigateur. Règles : [_plan-general.md](_plan-general.md#règle-dune-étape).
 
 ## Objectif
 
@@ -116,12 +116,12 @@ active) décale l'extrémité de la cloison ancrée ; activer une autre variante
 
 ## Critères d'acceptation
 
-- [ ] Deux variantes sur une surface se comparent sans changer la variante active.
-- [ ] Cloison à deux faces : l'ossature et l'isolant sont comptés une seule fois ; les parements sont comptés par face ; deux types de plaques différents sur les deux côtés produisent deux lignes.
-- [ ] Extrémité de cloison contre une autre cloison ou un doublage : un montant supplémentaire de raccordement est compté (1 par défaut, selon le fabricant) ; contre un mur existant : seulement le montant de rive.
-- [ ] Cloison sous un plafond rampant : hauteur de la face variable, longueur de rail haut = longueur réelle.
-- [ ] Une ouverture de cloison apparaît sur les deux faces ; son retour en tunnel couvre l'épaisseur totale.
-- [ ] Doublage avec un système cloison : rails haut et bas ; avec un système doublage : lisses haute et basse.
+- [x] Deux variantes sur une surface se comparent sans changer la variante active.
+- [x] Cloison à deux faces : l'ossature et l'isolant sont comptés une seule fois ; les parements sont comptés par face ; deux types de plaques différents sur les deux côtés produisent deux lignes.
+- [x] Extrémité de cloison contre une autre cloison ou un doublage : un montant supplémentaire de raccordement est compté (1 par défaut, selon le fabricant) ; contre un mur existant : seulement le montant de rive.
+- [x] Cloison sous un plafond rampant : hauteur de la face variable, longueur de rail haut = longueur réelle.
+- [x] Une ouverture de cloison apparaît sur les deux faces ; son retour en tunnel couvre l'épaisseur totale.
+- [x] Doublage avec un système cloison : rails haut et bas ; avec un système doublage : lisses haute et basse.
 
 ## Vérifications automatiques
 
@@ -135,4 +135,19 @@ symfony console doctrine:schema:validate
 
 ## Décisions et écarts
 
-Aucun pour le moment.
+Tests : `tests/Calcul/Cadre/PlanOssatureTest.php` (critères 3, 4), `tests/Integration/CloisonsDoublagesTest.php` (critères 1, 2, 5, 6), `tests/Calcul/Thermique/ResistanceThermiqueTest.php`. Le moteur 05a n'est pas modifié ; `CalculSysteme::calculer()` est inchangé, `calculerSysteme()` est ajouté. Les calculateurs historiques (`OssatureCloisonCalculator`, `OssatureDoublageCalculator`, `MateriauxCalculator`) ne sont pas touchés (caractérisation inchangée) ; la page `/doublage/mur` les utilise toujours.
+
+Écarts et choix :
+
+- Critère 1 : testé sur une surface (deux variantes de doublage) et sur une pièce (deux variantes de cloison). L'écran de comparaison n'est testé qu'au niveau service ; son rendu n'a pas été vérifié dans un navigateur.
+- Critère 3 : testé sur `PlanOssature` (calcul pur) ; la dérivation des paramètres `extremite_debut`/`extremite_fin` depuis les ancrages de la cloison n'a pas de test dédié (bout libre vérifié en intégration via l'avertissement `framing_free_end`).
+- Choix du profil selon la hauteur maximale : pas de recherche automatique parmi les profils ; le profil est résolu par la spécification de la couche et le calculateur vérifie les portées (renfort simple, puis double accolé, puis décalé) et avertit (`framing_height_exceeded`) si aucune ne convient.
+- Les valeurs par défaut des paramètres de système ne sont pas appliquées par le pipeline : les calculateurs gèrent leurs défauts.
+- L'épaisseur d'un doublage ne décale pas une cloison ancrée dessus (`cibles()` ne produit pas de cible doublage) : non implémenté.
+- Coût : `null` (affiché « - »), l'étape 06 n'est pas faite.
+- Non implémentés : contrôle de compatibilité avec le support existant, joints et consommables de parement, déduction des seuils de porte dans le rail bas (rails sur toute la longueur).
+- Appuis du doublage : `intdiv(longueur, 1200)` par montant, règle différente de l'historique ; pas d'écart de 48 mm ni de montant final dupliqué.
+- Épaisseur d'un doublage : série + parements (isolants continus non ajoutés). Rsi/Rse constants (mur 130/40, plafond 100/40, sol 170/40, en millièmes).
+- Positions de raccordement d'un doublage : décalage supposé depuis le bord gauche (`minX + position`).
+- Paroi existante : entités `ParoiExistante` / `CoucheExistante` (migration `Version20261106164715`), R = forfait ou `e / lambda` arrondi, U en millièmes de W/m².K.
+- Les messages `partition_faces_missing`, `framing_*` ont une traduction (`validators.fr.xlf`, mc20 à mc23).

@@ -8,7 +8,9 @@ use App\Calcul\Surface\OuvertureCalculable;
 use App\Calcul\Surface\SurfaceCalculable;
 use App\Entity\Ouverture;
 use App\Entity\Surface;
+use App\Enum\CoteCloison;
 use App\Enum\TypePose;
+use App\Geometrie\OuvertureCloison;
 use App\Model\Mur;
 
 /**
@@ -25,6 +27,29 @@ final class AdaptateurSurface
         }
 
         return new SurfaceCalculable($surface->getType(), $surface->getPlan(), $surface->getContour(), $ouvertures);
+    }
+
+    /**
+     * Face d'une cloison pour le moteur de couches : les ouvertures de la cloison, saisies dans le repère du tracé,
+     * sont projetées sur la face (telles quelles sur la face B, en miroir sur la face A).
+     */
+    public function versCalculableFace(Surface $face): SurfaceCalculable
+    {
+        $cloison = $face->getCloison();
+        if (null === $cloison) {
+            return $this->versCalculable($face);
+        }
+        $boite = $face->getContour()->polygone()->boiteEnglobante();
+        $longueur = $boite->minX + $boite->maxX;
+        $projeteur = new OuvertureCloison();
+        $ouvertures = [];
+        foreach ($cloison->getOuvertures() as $o) {
+            $projection = $projeteur->projeter($o->getForme(), $longueur);
+            $forme = CoteCloison::A === $face->getCote() ? $projection->faceA : $projection->faceB;
+            $ouvertures[] = new OuvertureCalculable($forme, $o->getType(), $o->getTypePose(), $o->getTypeContour(), $o->getRefoncement());
+        }
+
+        return new SurfaceCalculable($face->getType(), $face->getPlan(), $face->getContour(), $ouvertures);
     }
 
     /**
