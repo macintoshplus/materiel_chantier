@@ -1,6 +1,6 @@
 # Étape 02 — Modèle de domaine et persistance
 
-> Statut : à faire. Ce fichier est renommé en `.DONE.md` (même commit que le code) quand tous les critères ci-dessous sont cochés et les vérifications vertes. Règles : [_plan-general.md](_plan-general.md#règle-dune-étape).
+> Statut : terminée (vérifiée le 2026-11-06 : 66 tests, phpstan niveau 8, schéma en phase). Ce fichier est renommé en `.DONE.md` (même commit que le code) quand tous les critères ci-dessous sont cochés et les vérifications vertes. Règles : [_plan-general.md](_plan-general.md#règle-dune-étape).
 
 ## Objectif
 
@@ -29,8 +29,8 @@ Le détail des entités et des règles de cohérence est dans [_modele-domaine.m
 - [x] Une face de cloison exige `cloison` et `cote` ; un mur n'en porte pas ; une ouverture a exactement un parent ; le refoncement est ≥ 0 (tests de validation).
 - [x] On peut créer, lister, modifier et supprimer un projet ; supprimer un projet supprime ses pièces, surfaces, ouvertures et cloisons (cascade).
 - [x] On peut créer et modifier une pièce (nom, hauteur sous plafond) dans un projet.
-- [ ] Le formulaire de pièce permet de saisir `formeSol` (polygone au sol).
-- [ ] Supprimer une cloison rend `libre` les cloisons ancrées sur elle, avec avertissement.
+- [x] Le formulaire de pièce permet de saisir `formeSol` (un sommet « x;y » en mètres par ligne, stocké en mm entiers, remis en sens anti-horaire ; < 3 sommets, sommets confondus ou surface nulle refusés) — `FormeSol`, `FormeSolType`.
+- [x] Supprimer une cloison (`SuppressionCloison`) rend `libre` les cloisons ancrées sur elle et retourne la liste de celles-ci pour avertissement.
 
 ## Vérifications automatiques
 
@@ -44,6 +44,5 @@ symfony console doctrine:schema:validate
 
 ## Décisions et écarts
 
-- `formeSol` n'est pas saisissable dans le formulaire de pièce (reporté à l'étape 03, création de pièce) : critère non coché, l'étape n'est donc **pas** terminée tant qu'il est ouvert ou formellement reporté.
-- La règle « supprimer une cloison → cloisons ancrées deviennent `libre` » n'est pas implémentée (dépend de l'ancrage, étape 03).
-- Décider avec l'utilisateur : reporter ces deux critères à l'étape 03 (puis cocher/déplacer) ou les implémenter ici.
+- `formeSol` et la règle de suppression de cloison ont été implémentés dans cette étape (plus de report).
+- Reporté à l'étape 03 : la détection d'un contour auto-sécant (`Polygone::estSimple`) et, pour la suppression de cloison, la route/le bouton qui appelle `SuppressionCloison` et affiche l'avertissement (il n'y a pas encore d'écran de cloison).

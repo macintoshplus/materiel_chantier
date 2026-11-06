@@ -43,6 +43,30 @@ final class ProjetControllerTest extends WebTestCase
         self::assertSame(2500, $pieces[0]->getHauteurSousPlafond());
     }
 
+    public function testLeContourAuSolEstSaisiEnMetresEtStockeEnMillimetres(): void
+    {
+        $client = static::createClient();
+        $client->disableReboot();
+        $em = $this->creerSchema();
+        $projet = new Projet();
+        $projet->setNom('Maison');
+        $em->persist($projet);
+        $em->flush();
+
+        $client->request('GET', '/projets/'.$projet->getId().'/pieces/nouvelle');
+        $client->submitForm('Enregistrer', ['piece[nom]' => 'Salon', 'piece[formeSol]' => "0;0\n4,5;0\n4,5;3\n0;3"]);
+        self::assertResponseRedirects();
+
+        $em->clear();
+        $piece = $em->getRepository(Piece::class)->findOneBy(['nom' => 'Salon']);
+        self::assertSame(['x' => 4500, 'y' => 3000], $piece?->getFormeSol()[2]);
+
+        $client->request('GET', '/pieces/'.$piece->getId().'/modifier');
+        $client->submitForm('Enregistrer', ['piece[formeSol]' => "0;0\n1;1"]);
+        self::assertResponseStatusCodeSame(422);
+        self::assertSelectorTextContains('body', 'au moins 3 sommets');
+    }
+
     public function testLaSuppressionDUnProjetSupprimeToutEnCascade(): void
     {
         $client = static::createClient();

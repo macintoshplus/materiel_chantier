@@ -45,6 +45,26 @@
         <source>The line "{{ path }}" duplicates another one (same {{ key }}).</source>
         <target>La ligne « {{ path }} » en double une autre (même {{ key }}).</target>
       </trans-unit>
+      <trans-unit id="fs0" resname="Each line of the floor outline must look like &quot;x;y&quot; (metres).">
+        <source>Each line of the floor outline must look like &quot;x;y&quot; (metres).</source>
+        <target>Chaque ligne du contour doit être de la forme « x;y » (en mètres).</target>
+      </trans-unit>
+      <trans-unit id="fs1" resname="The floor outline needs at least 3 vertices.">
+        <source>The floor outline needs at least 3 vertices.</source>
+        <target>Le contour au sol demande au moins 3 sommets.</target>
+      </trans-unit>
+      <trans-unit id="fs2" resname="Two consecutive vertices of the floor outline are identical.">
+        <source>Two consecutive vertices of the floor outline are identical.</source>
+        <target>Deux sommets consécutifs du contour au sol sont identiques.</target>
+      </trans-unit>
+      <trans-unit id="fs3" resname="The floor outline has no area.">
+        <source>The floor outline has no area.</source>
+        <target>Le contour au sol n'a pas de surface.</target>
+      </trans-unit>
+      <trans-unit id="fs4" resname="The floor outline is not valid.">
+        <source>The floor outline is not valid.</source>
+        <target>Le contour au sol n'est pas valide.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

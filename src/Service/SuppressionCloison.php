@@ -1,0 +1,68 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Service;
+
+use App\Entity\Cloison;
+use App\Enum\TypeAncrage;
+use Doctrine\ORM\EntityManagerInterface;
+
+/**
+ * Supprime une cloison (faces, ouvertures et système par cascade) et libère les cloisons
+ * ancrées sur elle : leur ancrage devient `libre`.
+ */
+final readonly class SuppressionCloison
+{
+    public function __construct(private EntityManagerInterface $em)
+    {
+    }
+
+    /**
+     * @return list<Cloison> cloisons dont un ancrage est devenu libre (à signaler à l'utilisateur)
+     */
+    public function supprimer(Cloison $cloison): array
+    {
+        $id = $cloison->getId();
+        $piece = $cloison->getPiece();
+        $liberees = [];
+        foreach ($piece->getCloisons() as $autre) {
+            if ($autre === $cloison) {
+                continue;
+            }
+            $change = false;
+            if ($this->estAncreeSur($autre->getAncrageDebut(), $id)) {
+                $autre->setAncrageDebut(self::libre());
+                $change = true;
+            }
+            if ($this->estAncreeSur($autre->getAncrageFin(), $id)) {
+                $autre->setAncrageFin(self::libre());
+                $change = true;
+            }
+            if ($change) {
+                $liberees[] = $autre;
+            }
+        }
+        $piece->getCloisons()->removeElement($cloison);
+        $this->em->remove($cloison);
+        $this->em->flush();
+
+        return $liberees;
+    }
+
+    /**
+     * @param array{type: string, cible: int|null, position: int|null} $ancrage
+     */
+    private function estAncreeSur(array $ancrage, ?int $id): bool
+    {
+        return null !== $id && TypeAncrage::Cloison->value === $ancrage['type'] && $id === $ancrage['cible'];
+    }
+
+    /**
+     * @return array{type: string, cible: int|null, position: int|null}
+     */
+    private static function libre(): array
+    {
+        return ['type' => TypeAncrage::Libre->value, 'cible' => null, 'position' => null];
+    }
+}

@@ -797,6 +797,10 @@
         <source>Pose consommation par m2</source>
         <target>Pose : consommation par m²</target>
       </trans-unit>
+      <trans-unit id="fsl1" resname="Floor outline (x;y in m, one vertex per line)">
+        <source>Floor outline (x;y in m, one vertex per line)</source>
+        <target>Contour au sol (x;y en m, un sommet par ligne)</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

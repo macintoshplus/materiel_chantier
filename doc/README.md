@@ -32,7 +32,7 @@ Références permanentes (préfixe `_`, jamais « terminées ») :
 
 0. [Filet de sécurité](developpement/00-filet-securite.DONE.md)
 1. [Catalogue, fournisseurs et prix](developpement/01-catalogue.DONE.md)
-2. [Modèle de domaine et persistance](developpement/02-modele-persistance.md)
+2. [Modèle de domaine et persistance](developpement/02-modele-persistance.DONE.md)
 3. [Géométrie, pièces, cloisons, interface](developpement/03-geometrie.md)
 4. [Sources de mesures](developpement/04-sources-mesures.md)
 5. Systèmes et calcul : [a. moteur de couches](developpement/05a-moteur-couches.md), [b. cloisons et doublages](developpement/05b-cloisons-doublages.md), [c. plafond, pose, renforts](developpement/05c-plafond-pose-renforts.md), [d. finitions et thermique](developpement/05d-finitions-thermique.md), [e. agrégation et substitution](developpement/05e-agregation-substitution.md)
