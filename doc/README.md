@@ -35,7 +35,7 @@ Références permanentes (préfixe `_`, jamais « terminées ») :
 2. [Modèle de domaine et persistance](developpement/02-modele-persistance.DONE.md)
 3. [Géométrie, pièces, cloisons, interface](developpement/03-geometrie.DONE.md)
 4. [Sources de mesures](developpement/04-sources-mesures.DONE.md)
-5. Systèmes et calcul : [a. moteur de couches](developpement/05a-moteur-couches.DONE.md), [b. cloisons et doublages](developpement/05b-cloisons-doublages.DONE.md), [c. plafond, pose, renforts](developpement/05c-plafond-pose-renforts.DONE.md), [d. finitions et thermique](developpement/05d-finitions-thermique.md), [e. agrégation et substitution](developpement/05e-agregation-substitution.md)
+5. Systèmes et calcul : [a. moteur de couches](developpement/05a-moteur-couches.DONE.md), [b. cloisons et doublages](developpement/05b-cloisons-doublages.DONE.md), [c. plafond, pose, renforts](developpement/05c-plafond-pose-renforts.DONE.md), [d. finitions et thermique](developpement/05d-finitions-thermique.DONE.md), [e. agrégation et substitution](developpement/05e-agregation-substitution.md)
 6. [Chiffrage et exports](developpement/06-chiffrage-exports.md)
 7. [Électricité](developpement/07-electricite.md)
 8. [Plomberie et ventilation](developpement/08-plomberie-ventilation.md)

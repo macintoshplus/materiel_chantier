@@ -19,6 +19,7 @@ final readonly class ContexteCouches
 {
     /**
      * @param array<int, int> $pasVisParPeau pas de vis (mm) par ordre de couche de parement
+     * @param list<int>       $railsSupport  longueurs (mm) des rails ou lisses au contact du support (bas et haut), publiées par l'ossature
      */
     public function __construct(
         public Direction $directionOssature = Direction::Verticale,
@@ -34,6 +35,11 @@ final readonly class ContexteCouches
         public array $pasVisParPeau = [],
         public ?Renfort $renfort = null,
         public ?int $penetrationVis = null,
+        public int $profondeurOssature = 0,
+        public array $railsSupport = [],
+        public int $surfaceParementMm2 = 0,
+        public int $anglesSortantsMm = 0,
+        public int $anglesRentrantsMm = 0,
     ) {
     }
 
@@ -73,6 +79,28 @@ final readonly class ContexteCouches
     }
 
     /**
+     * Profondeur de l'ossature et longueurs de profilé au contact du support (rails ou lisses bas et haut).
+     *
+     * @param list<int> $railsSupport
+     */
+    public function avecOssature(int $profondeur, array $railsSupport): self
+    {
+        return $this->copie(profondeurOssature: $profondeur, railsSupport: $railsSupport);
+    }
+
+    /** Surface de parement posée (mm²) : surface nette de la dernière peau plus les retours des ouvertures en tunnel. */
+    public function avecSurfaceParement(int $surfaceMm2): self
+    {
+        return $this->copie(surfaceParementMm2: $surfaceMm2);
+    }
+
+    /** Longueurs (mm) d'angles des retours de parement : sortants (retour contre parement) et rentrants (retour contre retour). */
+    public function avecAnglesRetour(int $sortantsMm, int $rentrantsMm): self
+    {
+        return $this->copie(anglesSortantsMm: $sortantsMm, anglesRentrantsMm: $rentrantsMm);
+    }
+
+    /**
      * Paramètres de pose retenus par la planification.
      *
      * @param array<int, int> $pasVisParPeau
@@ -84,6 +112,7 @@ final readonly class ContexteCouches
 
     /**
      * @param array<int, int>|null $pasVisParPeau
+     * @param list<int>|null       $railsSupport
      */
     private function copie(
         ?int $epaisseurCumulee = null,
@@ -98,6 +127,11 @@ final readonly class ContexteCouches
         ?array $pasVisParPeau = null,
         ?Renfort $renfort = null,
         ?int $penetrationVis = null,
+        ?int $profondeurOssature = null,
+        ?array $railsSupport = null,
+        ?int $surfaceParementMm2 = null,
+        ?int $anglesSortantsMm = null,
+        ?int $anglesRentrantsMm = null,
     ): self {
         return new self(
             $this->directionOssature,
@@ -113,6 +147,11 @@ final readonly class ContexteCouches
             $pasVisParPeau ?? $this->pasVisParPeau,
             $renfort ?? $this->renfort,
             $penetrationVis ?? $this->penetrationVis,
+            $profondeurOssature ?? $this->profondeurOssature,
+            $railsSupport ?? $this->railsSupport,
+            $surfaceParementMm2 ?? $this->surfaceParementMm2,
+            $anglesSortantsMm ?? $this->anglesSortantsMm,
+            $anglesRentrantsMm ?? $this->anglesRentrantsMm,
         );
     }
 }

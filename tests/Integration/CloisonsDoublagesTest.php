@@ -225,9 +225,9 @@ final class CloisonsDoublagesTest extends KernelTestCase
         self::assertSame([true, false], array_map(static fn ($l): bool => $l->actif, $lignes));
         self::assertSame(96, $lignes[0]->epaisseurMm);
         self::assertSame(106, $lignes[1]->epaisseurMm);
-        // R système 2000 + Rsi 130 + Rse 40 (mur), U = 1 / 2,17 arrondi.
-        self::assertSame(2170, $lignes[0]->rTotaleMilli);
-        self::assertSame(461, $lignes[0]->uMilli);
+        // R système 2000 + Rsi 130 sur chaque face (cloison, 05d ; 40 avant), U = 1 / 2,26 arrondi.
+        self::assertSame(2260, $lignes[0]->rTotaleMilli);
+        self::assertSame(442, $lignes[0]->uMilli);
         self::assertNull($lignes[0]->coutCentimes);
 
         $service->activer($v2);

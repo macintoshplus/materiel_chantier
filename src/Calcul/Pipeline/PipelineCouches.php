@@ -92,6 +92,7 @@ final readonly class PipelineCouches
 
         // Calcul.
         $lignes = [];
+        $resistances = [];
         foreach ($couches as $couche) {
             $emplacement = $emplacements[$couche->emplacement];
             $materiau = $materiaux[$couche->ordre] ?? null;
@@ -102,10 +103,14 @@ final readonly class PipelineCouches
             if ([] !== $resultat->erreurs) {
                 return new ResultatPipeline([], $resultat->contexte, $avertissements, $resultat->erreurs, $materiaux);
             }
+            $apport = $resultat->contexte->rCumuleMilli - $contexte->rCumuleMilli;
+            if (0 !== $apport) {
+                $resistances[$couche->ordre] = $apport;
+            }
             $contexte = $resultat->contexte->avecEpaisseurCumulee($resultat->contexte->epaisseurCumulee + ($contexteCouche->epaisseur() ?? 0));
         }
 
-        return new ResultatPipeline($lignes, $contexte, $avertissements, [], $materiaux);
+        return new ResultatPipeline($lignes, $contexte, $avertissements, [], $materiaux, $resistances);
     }
 
     /**

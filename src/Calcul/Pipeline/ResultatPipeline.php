@@ -16,6 +16,7 @@ final readonly class ResultatPipeline
      * @param list<Avertissement>             $avertissements
      * @param list<Avertissement>             $erreurs        bloquantes : aucun calcul n'a été fait
      * @param array<int, MaterielLisible|null> $materiaux      matériau retenu par ordre de couche
+     * @param array<int, int>                 $resistances    résistance thermique (millièmes de m².K/W) apportée par chaque couche qui en a une, par ordre
      */
     public function __construct(
         public array $lignes,
@@ -23,6 +24,7 @@ final readonly class ResultatPipeline
         public array $avertissements = [],
         public array $erreurs = [],
         public array $materiaux = [],
+        public array $resistances = [],
     ) {
     }
 

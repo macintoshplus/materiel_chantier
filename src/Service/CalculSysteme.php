@@ -76,7 +76,7 @@ final class CalculSysteme
             }
             $lignes = array_map(static fn (LigneBesoin $l): LigneSysteme => new LigneSysteme(null, $l), $resultat->lignes);
 
-            return new ResultatSysteme($lignes, $resultat->contexte->rCumuleMilli, $this->serie($resultat) + $resultat->contexte->epaisseurParementPrevue, $resultat->avertissements);
+            return new ResultatSysteme($lignes, $resultat->contexte->rCumuleMilli, $this->serie($resultat) + $resultat->contexte->epaisseurParementPrevue, $resultat->avertissements, [], $resultat->resistances);
         }
 
         $cloison = $systeme->getCloison() ?? throw new \LogicException('The system has no support.');
@@ -129,7 +129,7 @@ final class CalculSysteme
             $uniques[json_encode([$a->code, $a->params], \JSON_THROW_ON_ERROR)] = $a;
         }
 
-        return new ResultatSysteme($lignes, $resultats['B']->contexte->rCumuleMilli, $epaisseur, array_values($uniques));
+        return new ResultatSysteme($lignes, $resultats['B']->contexte->rCumuleMilli, $epaisseur, array_values($uniques), [], $resultats['B']->resistances);
     }
 
     /**

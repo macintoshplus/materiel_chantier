@@ -122,7 +122,7 @@ final readonly class CalculateurOssature implements CalculateurCouche
             $avertissements[] = new Avertissement('insulation_deeper_than_framing', ['cavity' => $contexte->profondeurCavite, 'profile' => $profil->profondeur()]);
         }
 
-        return new ResultatCouche($lignes, $contexte->avecEntraxe($entraxe)->avecRenfort($renfort), $avertissements);
+        return new ResultatCouche($lignes, $contexte->avecEntraxe($entraxe)->avecRenfort($renfort)->avecOssature($profil->profondeur(), [...$plan->railsBas, ...$plan->railsHaut]), $avertissements);
     }
 
     /**

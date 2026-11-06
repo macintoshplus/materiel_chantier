@@ -18,6 +18,7 @@ final class ResistanceThermiqueTest extends TestCase
     {
         yield 'mur' => [TypeSurface::Mur, 500, 2000, 2670, 375];
         yield 'plafond' => [TypeSurface::PlafondPan, 0, 3000, 3140, 318];
+        yield 'cloison : Rsi des deux côtés' => [TypeSurface::CloisonFace, 0, 2000, 2260, 442];
         yield 'sol' => [TypeSurface::Sol, 0, 1000, 1210, 826];
     }
 

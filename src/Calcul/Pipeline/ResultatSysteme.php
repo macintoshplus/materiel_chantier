@@ -16,6 +16,7 @@ final readonly class ResultatSysteme
      * @param list<LigneSysteme>  $lignes
      * @param list<Avertissement> $avertissements
      * @param list<Avertissement> $erreurs
+     * @param array<int, int>     $resistancesCouches résistance (millièmes de m².K/W) de chaque couche qui en apporte une, par ordre de couche
      */
     public function __construct(
         public array $lignes,
@@ -23,6 +24,7 @@ final readonly class ResultatSysteme
         public ?int $epaisseurTotale,
         public array $avertissements = [],
         public array $erreurs = [],
+        public array $resistancesCouches = [],
     ) {
     }
 

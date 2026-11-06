@@ -38,12 +38,20 @@ final class SystemeDoublageOssature implements DefinitionSysteme
             new EmplacementCouche('attache', 'attache', 1, 1, 'appui_fixation', 'attache.appuis'),
             new EmplacementCouche('isolant', 'isolant', 1, 2, 'isolant', 'isolant.cadre', [PositionCouche::EntreOssature, PositionCouche::Continue], [0, 90]),
             new EmplacementCouche('parement', 'parement', 1, 2, 'plaque_platre', 'parement.plaques', [PositionCouche::SurOssature]),
+            new EmplacementCouche('enduit_joint', 'enduit', 0, 1, 'enduit', 'enduit.plaques'),
+            new EmplacementCouche('enduit_ratissage', 'enduit', 0, 1, 'enduit', 'enduit.plaques'),
+            new EmplacementCouche('membrane', 'membrane', 0, 1, 'membrane', 'membrane.rouleaux'),
+            new EmplacementCouche('bande_joint', 'bande_joint', 0, 2, 'bande_joint', 'bande.joint'),
+            new EmplacementCouche('fixation_support', 'fixation_support', 0, 1, 'fixation_support', 'fixation.support'),
+            new EmplacementCouche('bande_resiliente', 'bande_resiliente', 0, 1, 'bande_resiliente', 'bande.resiliente'),
         ];
     }
 
     public function parametres(): array
     {
         return [
+            new ParametreSysteme('retour_profondeur', 'int', null),
+            new ParametreSysteme('marge_bande_resiliente_pct', 'int', 0),
             new ParametreSysteme('type_profil_peripherique', 'string', 'rail'),
             new ParametreSysteme('montants_raccordement', 'int', 1),
             new ParametreSysteme('positions_raccordement', 'string', ''),

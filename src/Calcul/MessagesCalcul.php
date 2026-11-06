@@ -36,6 +36,13 @@ final class MessagesCalcul
         'framing_configuration_off_table' => 'The configuration {{ renfort }} at {{ spacing }} mm is not in the manufacturer table.',
         'screw_no_candidate' => 'No catalogue screw fits a skin thickness of {{ thickness }} mm with {{ penetration }} mm of penetration.',
         'ceiling_perimeter_profile_missing' => 'No catalogue profile of family "lisse" found for the ceiling perimeter.',
+        'membrane_roll_missing' => 'The membrane of the layer {{ order }} has no roll width or length.',
+        'reveal_deeper_than_framing' => 'The reveal depth ({{ depth }} mm) exceeds the available depth ({{ capacity }} mm).',
+        'roll_length_missing' => 'The article of the layer {{ order }} has no roll length.',
+        'plaster_usage_mismatch' => 'The plaster of the layer {{ order }} is intended for "{{ usage }}", not for this slot.',
+        'plaster_thickness_missing' => 'The plastering layer {{ order }} has no thickness.',
+        'plaster_consumption_missing' => 'The plaster of the layer {{ order }} has no consumption.',
+        'fixing_pitch_missing' => 'The support fixing of the layer {{ order }} has no pitch.',
     ];
 
     public static function existe(string $code): bool

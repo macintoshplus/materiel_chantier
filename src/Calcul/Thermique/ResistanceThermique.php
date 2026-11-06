@@ -22,9 +22,13 @@ final class ResistanceThermique
         };
     }
 
+    /**
+     * Résistance côté extérieur. Une cloison n'a pas d'extérieur : ses deux côtés sont des ambiances intérieures,
+     * le second côté prend donc aussi un Rsi.
+     */
     public static function rse(TypeSurface $type): int
     {
-        return 40;
+        return TypeSurface::CloisonFace === $type ? self::rsi($type) : 40;
     }
 
     public static function totale(TypeSurface $type, int $rParoiExistanteMilli, int $rSystemeMilli): int

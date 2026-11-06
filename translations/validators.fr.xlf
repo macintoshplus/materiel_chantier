@@ -349,6 +349,34 @@
         <source>Only one system can be active per support.</source>
         <target>Un seul système peut être actif par support.</target>
       </trans-unit>
+      <trans-unit id="mc31" resname="The membrane of the layer {{ order }} has no roll width or length.">
+        <source>The membrane of the layer {{ order }} has no roll width or length.</source>
+        <target>La membrane de la couche {{ order }} n'a ni largeur ni longueur de rouleau.</target>
+      </trans-unit>
+      <trans-unit id="mc32" resname="The reveal depth ({{ depth }} mm) exceeds the available depth ({{ capacity }} mm).">
+        <source>The reveal depth ({{ depth }} mm) exceeds the available depth ({{ capacity }} mm).</source>
+        <target>La profondeur du retour ({{ depth }} mm) dépasse la profondeur disponible ({{ capacity }} mm).</target>
+      </trans-unit>
+      <trans-unit id="mc33" resname="The article of the layer {{ order }} has no roll length.">
+        <source>The article of the layer {{ order }} has no roll length.</source>
+        <target>L'article de la couche {{ order }} n'a pas de longueur de rouleau.</target>
+      </trans-unit>
+      <trans-unit id="mc34" resname="The plaster of the layer {{ order }} is intended for &quot;{{ usage }}&quot;, not for this slot.">
+        <source>The plaster of the layer {{ order }} is intended for &quot;{{ usage }}&quot;, not for this slot.</source>
+        <target>L'enduit de la couche {{ order }} est prévu pour « {{ usage }} », pas pour cet emplacement.</target>
+      </trans-unit>
+      <trans-unit id="mc35" resname="The plastering layer {{ order }} has no thickness.">
+        <source>The plastering layer {{ order }} has no thickness.</source>
+        <target>La couche de ratissage {{ order }} n'a pas d'épaisseur.</target>
+      </trans-unit>
+      <trans-unit id="mc36" resname="The plaster of the layer {{ order }} has no consumption.">
+        <source>The plaster of the layer {{ order }} has no consumption.</source>
+        <target>L'enduit de la couche {{ order }} n'a pas de consommation.</target>
+      </trans-unit>
+      <trans-unit id="mc37" resname="The support fixing of the layer {{ order }} has no pitch.">
+        <source>The support fixing of the layer {{ order }} has no pitch.</source>
+        <target>La fixation au support de la couche {{ order }} n'a pas de pas.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
