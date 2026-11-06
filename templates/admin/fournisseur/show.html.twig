@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ fournisseur.nom }}{% endblock %}
+
+{% block body %}
+    <h1>{{ fournisseur.nom }}</h1>
+    <p>
+        {{ fournisseur.adresseLigne1 }} {{ fournisseur.adresseLigne2 }}<br>
+        {{ fournisseur.codePostal }} {{ fournisseur.ville }} {{ fournisseur.pays }}
+    </p>
+    {% if fournisseur.aUnePosition %}
+        <p>
+            {{ 'GPS position'|trans }} : {{ fournisseur.latitude }}, {{ fournisseur.longitude }}
+            (<a href="https://www.openstreetmap.org/?mlat={{ fournisseur.latitude }}&amp;mlon={{ fournisseur.longitude }}#map=15/{{ fournisseur.latitude }}/{{ fournisseur.longitude }}" rel="noopener" target="_blank">{{ 'Open map'|trans }}</a>)
+        </p>
+    {% endif %}
+
+    <h2>{{ 'Articles sold'|trans }}</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>{{ 'Reference'|trans }}</th>
+                <th>{{ 'Label'|trans }}</th>
+                <th>{{ 'Lot price (incl. VAT)'|trans }}</th>
+                <th>{{ 'Units per lot'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for p in prix %}
+            <tr>
+                <td><a href="{{ path('materiau_prix', {id: p.materiau.id}) }}">{{ p.materiau.reference }}</a></td>
+                <td>{{ p.materiau.libelle }}</td>
+                <td>{{ p.prixLotTtc }}</td>
+                <td>{{ p.unitesParLotEffectif }}</td>
+            </tr>
+        {% else %}
+            <tr><td colspan="4">{{ 'No article.'|trans }}</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <form method="post" action="{{ path('fournisseur_delete', {id: fournisseur.id}) }}">
+        <input type="hidden" name="_token" value="{{ csrf_token('supprimer' ~ fournisseur.id) }}">
+        <button type="submit">{{ 'Delete'|trans }}</button>
+    </form>
+    <p><a href="{{ path('fournisseur_index') }}">{{ 'Back to the list'|trans }}</a></p>
+{% endblock %}

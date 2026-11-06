@@ -12,8 +12,8 @@ namespace App\Model\Chantier;
 final class Appuis
 {
     public function __construct(
-        public readonly float $x,
-        public readonly float $y,
+        public readonly int $x,
+        public readonly int $y,
     ) {
     }
 }

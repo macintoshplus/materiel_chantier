@@ -26,7 +26,7 @@ final class MateriauxCalculator
      * @param ContientPrixInterface $appuisIntermediaire
      * @param array<string, ContientPrixInterface&LongueurInterface> $longueursStandard
      *        ex: ['montant' => $montantCatalogue, 'rail' => $railCatalogue]
-     * @return array<int|string, array{type: string, categorie: string, longueur_unitaire: float|int, elements: int, longueur_totale: float|int, barres_necessaires: int, longueur_achetee: float|int, nombre_lot: float|int, prix_total: float|int, chute: float|int, taux_perte: float|int}>
+     * @return array<int|string, array{type: string, categorie: string, longueur_unitaire: int, elements: int, longueur_totale: int, barres_necessaires: int, longueur_achetee: int, nombre_lot: int, prix_total: float|int, chute: int, taux_perte: float|int}>
      */
     public function calculer(
         array $appuis,
@@ -52,7 +52,7 @@ final class MateriauxCalculator
             $this->ajouterElement(
                 $groupes,
                 'rail',
-                $rail->longueur + ($rail->surOuverture ? 0.20 : 0) //Ajout de 20cm pour les rails des ouvertures pour la fixation.
+                $rail->longueur + ($rail->surOuverture ? 200 : 0) //Ajout de 20cm pour les rails des ouvertures pour la fixation.
             );
         }
 
@@ -61,7 +61,7 @@ final class MateriauxCalculator
 
         if (\count($appuis) > 0) {
             $nbAppuis = count($appuis);
-            $nblots = ceil($nbAppuis / $appuisIntermediaire->getUniteParLot());
+            $nblots = (int) ceil($nbAppuis / $appuisIntermediaire->getUniteParLot());
             $chute = ($appuisIntermediaire->getUniteParLot() * $nblots) - $nbAppuis;
             $tauxPerte = $chute > 0 ? ($chute / ($appuisIntermediaire->getUniteParLot() * $nblots)) * 100 : 0;
             $resultats[] = [
@@ -135,7 +135,7 @@ final class MateriauxCalculator
                 ? ($chute / $longueurAchetee) * 100
                 : 0;
 
-            $nbLots = ceil($barres / $materiel->getUniteParLot());
+            $nbLots = (int) ceil($barres / $materiel->getUniteParLot());
             $prixTotal = $nbLots * $materiel->getPrix();
 
             $resultats[$type] = [
@@ -143,12 +143,12 @@ final class MateriauxCalculator
                 'categorie' => $type,
                 'longueur_unitaire' => $materiel->getLongueur(),
                 'elements' => count($groupe['longueurs']),
-                'longueur_totale' => round($longueurTotale, 2),
+                'longueur_totale' => $longueurTotale,
                 'barres_necessaires' => $barres,
-                'longueur_achetee' => round($longueurAchetee, 2),
+                'longueur_achetee' => $longueurAchetee,
                 'nombre_lot' => $nbLots,
                 'prix_total' => round($prixTotal, 2),
-                'chute' => round($chute, 2),
+                'chute' => $chute,
                 'taux_perte' => round($tauxPerte, 1),
             ];
         }
@@ -159,12 +159,12 @@ final class MateriauxCalculator
     // ------------------------------------------------------------------
 
     /**
-     * @param array<string, array{longueurs: list<float>}> $groupes
+     * @param array<string, array{longueurs: list<int>}> $groupes
      */
     private function ajouterElement(
         array &$groupes,
         string $categorie,
-        float $longueur
+        int $longueur
     ): void {
 
         $groupes[$categorie]['longueurs'][] = $longueur;
@@ -176,9 +176,9 @@ final class MateriauxCalculator
      * - on remplit chaque barre séquentiellement
      */
     /**
-     * @param list<float> $longueurs
+     * @param list<int> $longueurs
      */
-    private function optimiserBarres(array $longueurs, float $barreStandard): int
+    private function optimiserBarres(array $longueurs, int $barreStandard): int
     {
         rsort($longueurs);
 
@@ -188,7 +188,7 @@ final class MateriauxCalculator
             $placee = false;
 
             foreach ($barres as &$reste) {
-                if ($longueur <= $reste + 0.0001) {
+                if ($longueur <= $reste) {
                     $reste -= $longueur;
                     $placee = true;
                     break;
@@ -197,12 +197,11 @@ final class MateriauxCalculator
 
             if (!$placee) {
                 if ($longueur > $barreStandard) {
-                    $nbBarres = floor($longueur / $barreStandard);
+                    $nbBarres = intdiv($longueur, $barreStandard);
                     $reste = $longueur - ($nbBarres * $barreStandard);
                     for ($i = 0; $i < $nbBarres; $i++) {
                         $barres[] = 0;
                     }
-                    //c'est un float du coup impossible de savoir si le reste === 0
                     if ($reste > 0) {
                         $longueur = $reste;
                     } else {

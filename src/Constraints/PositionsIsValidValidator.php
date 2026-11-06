@@ -38,12 +38,12 @@ final class PositionsIsValidValidator extends ConstraintValidator
         }
 
         foreach ($value->getOuvertures() as $key => $ouverture) {
-            if ($ouverture['distance_gauche'] < $value->getEcartDebutEnMetre()) {
+            if ($ouverture['distance_gauche'] < $value->getEcartDebut()) {
                 $this->context->buildViolation('L\'ouverture démarre en dehors du doublage',
                     ['%key%' => $key])->atPath('ouvertures[' . $key . '][distance_gauche]')->addViolation();
             }
 
-            if (($ouverture['distance_gauche'] + $ouverture['largeur']) > ($value->getLargeur() - $value->getEcartFinEnMetre())) {
+            if (($ouverture['distance_gauche'] + $ouverture['largeur']) > ($value->getLargeur() - $value->getEcartFin())) {
                 $this->context->buildViolation('L\'ouverture se termine en dehors du doublage')
                     ->atPath('ouvertures[' . $key . ']')->addViolation();
             }

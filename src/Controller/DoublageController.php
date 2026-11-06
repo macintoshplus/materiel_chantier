@@ -10,13 +10,8 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Form\DoublageType;
-use App\Model\Catalogue\AppuisIntermediaire;
-use App\Model\Catalogue\BandeAJointArmee;
-use App\Model\Catalogue\BandeAJointPlat;
-use App\Model\Catalogue\Montant;
-use App\Model\Catalogue\PlaquePlatre;
-use App\Model\Catalogue\Rail;
 use App\Model\Mur;
+use App\Service\CatalogueHeritage;
 use App\Service\MateriauxCalculator;
 use App\Service\OssatureCloisonCalculator;
 use App\Service\OssatureDoublageCalculator;
@@ -32,72 +27,44 @@ class DoublageController extends AbstractController
         Request $request,
         OssatureCloisonCalculator $ossatureCloisonCalculator,
         OssatureDoublageCalculator $ossatureDoublageCalculator,
-        MateriauxCalculator $materiauxCalculator
+        MateriauxCalculator $materiauxCalculator,
+        CatalogueHeritage $catalogueHeritage,
     ): Response {
         $mur = new Mur();
 
         //Data test
-        $mur->setLargeur(7);
-        $mur->setHauteur(2.5);
+        $mur->setLargeur(7000);
+        $mur->setHauteur(2500);
         $mur->addOuverture([
             'type' => 'fenetre',
-            'largeur' => 1,
-            'hauteur' => 1.2,
-            'distance_gauche' => 1,
-            'elevation' => 0.8,
+            'largeur' => 1000,
+            'hauteur' => 1200,
+            'distance_gauche' => 1000,
+            'elevation' => 800,
             'type_pose' => 'tunel',
             'type_contour' => 'plaque-platre',
-            'refoncement_ouvrant' => 0.5,
+            'refoncement_ouvrant' => 500,
         ]);
         $mur->addOuverture([
             'type' => 'porte',
-            'largeur' => 0.92,
-            'hauteur' => 2.05,
-            'distance_gauche' => 3,
+            'largeur' => 920,
+            'hauteur' => 2050,
+            'distance_gauche' => 3000,
             'elevation' => 0,
             'type_pose' => 'tunel',
             'type_contour' => 'plaque-platre',
-            'refoncement_ouvrant' => 0.5,
+            'refoncement_ouvrant' => 500,
         ]);
 
-        $montant = new Montant();
-        $montant->setEntraxe(0.6);
-        $montant->setLargeur(0.06);
-        $montant->setLongueur(3);
-        $montant->setPrix(3.9);
-        $rail = new Rail();
-        $rail->setLongueur(3);
-        $rail->setLargeur(0.045);
-        $rail->setPrix(3.8);
-        $appuisIntermediaire = new AppuisIntermediaire();
-        $appuisIntermediaire->setPrix(58.20);
-        $appuisIntermediaire->setUniteParLot(50);
+        $catalogue = $catalogueHeritage->charger(new \DateTimeImmutable());
+        $montant = $catalogue['montant'];
+        $rail = $catalogue['rail'];
+        $appuisIntermediaire = $catalogue['appuisIntermediaire'];
+        $bandeJoinPlat = $catalogue['bandeAJoinPlat'];
+        $bandeJoinArmee = $catalogue['bandeAJoinArmee'];
+        $plaquePlatre = $catalogue['plaquePlatre'];
 
-        $bandeJoinPlat = new BandeAJointPlat();
-        $bandeJoinPlat->setLongueur(75);
-        $bandeJoinPlat->setPrix(59.00);
-        $bandeJoinPlat->setUniteParLot(5);
-
-        $bandeJoinArmee = new BandeAJointArmee();
-        $bandeJoinArmee->setLongueur(30);
-        $bandeJoinArmee->setPrix(63.90);
-        $bandeJoinArmee->setUniteParLot(3);
-
-        $plaquePlatre = new PlaquePlatre();
-        $plaquePlatre->setLongueur(2.5);
-        $plaquePlatre->setLargeur(1.2);
-        $plaquePlatre->setType(PlaquePlatre::TYPE_STD);
-        $plaquePlatre->setPrix(7.95);
-        $plaquePlatre->setUniteParLot(1);
-
-        $mur->setCatalogue([
-            'montant' => $montant,
-            'rail' => $rail,
-            'appuisIntermediaire' => $appuisIntermediaire,
-            'bandeAJoinPlat' => $bandeJoinPlat,
-            'bandeAJoinArmee' => $bandeJoinArmee,
-            'plaquePlatre' => $plaquePlatre,
-        ]);
+        $mur->setCatalogue($catalogue);
 
         $form = $this->createForm(DoublageType::class, $mur);
         $form->handleRequest($request);

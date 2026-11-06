@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'New article'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'New article'|trans }}</h1>
+    <p>{{ 'Choose a category.'|trans }}</p>
+    <ul>
+        {% for code, c in categories %}
+            <li><a href="{{ path('materiau_new', {categorie: code}) }}">{{ c.libelle|trans }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

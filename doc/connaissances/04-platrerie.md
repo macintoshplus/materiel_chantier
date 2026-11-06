@@ -1,7 +1,6 @@
 # Plâtrerie : cloisons, doublages, plafonds
 
-Références : DTU 25.41 (ouvrages en plaques de plâtre), DTU 25.42 (doublages et habillages), DTU 25.51
-(plafonds), **à vérifier** avant de figer les règles.
+Références : NF DTU 25.41 (ouvrages en plaques de plâtre à faces cartonnées : cloisons **et plafonds**, suspendus ou fixés directement), NF DTU 25.42 (doublages et habillages). Le DTU 25.51 concerne le **staff** (pas les plaques) et le NF DTU 58.1 les plafonds suspendus **modulaires** (dalles) : aucun des deux ne s'applique ici. Vérifier l'indice en vigueur avant de figer les valeurs.
 
 ## Matériel courant
 
@@ -25,11 +24,11 @@ sur-longueur de fixation (le code ajoute 0,20 m).
 
 ### Doublage (sur ossature, contre un mur existant)
 Mêmes éléments, plus **appuis intermédiaires** (hauteur de référence 1,20 m dans le code) et rails
-porteurs d'appuis. Isolant entre ossature. Pour un doublage collé, il n'y a pas d'ossature : plots de colle
+porteurs d'appuis. Isolant entre ossature. Pour un doublage collé (hors v1), il n'y a pas d'ossature : plots de colle
 (mortier adhésif) ou complexe collé (voir catalogue).
 
 ### Plafond suspendu sous plaque
-Ossature de fourrures suspendues par suspentes ; primaires et secondaires selon fabricant.
+Ossature de fourrures suspendues par suspentes, avec lisse (profilé) sur la périphérie ; primaires et secondaires selon fabricant. Valable pour un plafond horizontal comme pour un pan sous rampant. Géré en v1.
 
 ### Plafond autoportant
 Pas de suspentes, rails et montants/fourrures rattachés aux murs, portée limitée (≈ 3–4 m selon profil

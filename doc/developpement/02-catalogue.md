@@ -77,7 +77,7 @@ dans le schéma de la catégorie (types et bornes validés comme les autres cham
 | `visserie` | `longueur` (information), `usage`, `epaisseur_fixable_min, `epaisseur_fixable_max`, `consommation_par_m2?` |
 | `accessoire_ossature` (éclisse de liaison, clip, vis d'assemblage) | `usage` (`liaison_montants_decales`, `liaison_montants_accoles`), `renfort_compatible` |
 
-Nouvelles catégories : `visserie`, `accessoire_ossature`, `fixation_support`, `bande_resiliente`, `enduit` (voir `connaissances/06-catalogue-materiaux.md` pour la liste complète). La table de portées est de la donnée, pas du
+Nouvelles catégories : `visserie`, `accessoire_ossature`, `fixation_support`, `bande_resiliente`, `enduit` (usages `joint` et `ratissage`) (voir `connaissances/06-catalogue-materiaux.md` pour la liste complète). La table de portées est de la donnée, pas du
 code : un fabricant différent ou un nouveau profilé = une nouvelle ligne de catalogue.
 
 Règle de lecture : `ProfilView::portees()`, `PlaqueView::pose()`, `VisserieView::fixable()` exposent ces

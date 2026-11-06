@@ -13,9 +13,9 @@ final class Montant
 {
     public function __construct(
         public string $id,
-        public float $x,
-        public float $y,
-        public float $hauteur,
+        public int $x,
+        public int $y,
+        public int $hauteur,
         public bool $appuis,
     ) {
     }

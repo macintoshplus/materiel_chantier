@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use App\Model\Catalogue\Montant;
@@ -12,7 +14,7 @@ use App\Model\Mur;
 class OssatureCloisonCalculator implements OssatureCalculatorInterface
 {
     /**
-     * @inheritDoc
+     * @return array{rails: list<Rail>, montants: list<MontantChantier>, contour_ouvrant: list<PlaquePlatreChantier>, plaque_platres: list<PlaquePlatreChantier>}
      */
     public function calculer(
         Mur $mur,
@@ -25,8 +27,8 @@ class OssatureCloisonCalculator implements OssatureCalculatorInterface
         $hauteurMur = $mur->getHauteur();
         $ouvertures = $mur->getOuvertures();
 
-        $ecartementGauche = $mur->getEcartDebutEnMetre();
-        $ecartementDroite = $mur->getEcartFinEnMetre();
+        $ecartementGauche = $mur->getEcartDebut();
+        $ecartementDroite = $mur->getEcartFin();
 
         $largeurMurADoubler = $largeurMur - $ecartementGauche - $ecartementDroite;
 
@@ -72,7 +74,7 @@ class OssatureCloisonCalculator implements OssatureCalculatorInterface
         $montants = [];
         $x = $ecartementGauche;
 
-        while ($x <= ($largeurMurADoubler) + 0.001) {
+        while ($x <= $largeurMurADoubler) {
             $o = $this->ouvertureA($x, $ouvertures);
             if ($o !== null) {
                 $montants[] = new MontantChantier(
@@ -198,8 +200,8 @@ class OssatureCloisonCalculator implements OssatureCalculatorInterface
 
         $plaquePlatres = $contourOuvrant;
 
-        $cols = ceil($largeurMurADoubler / $plaquePlatre->getLargeur());
-        $rows = ceil($mur->getHauteur() / $plaquePlatre->getLongueur());
+        $cols = (int) ceil($largeurMurADoubler / $plaquePlatre->getLargeur());
+        $rows = (int) ceil($mur->getHauteur() / $plaquePlatre->getLongueur());
 
         $id = 1;
 
@@ -219,10 +221,10 @@ class OssatureCloisonCalculator implements OssatureCalculatorInterface
 
                 $plaquePlatres[] = new PlaquePlatreChantier(
                     id: 'plaque ' . $id++ . ' ligne ' . ($r + 1) . ' colonne ' . ($c + 1),
-                    x: round($x1, 3),
-                    y: round($y1, 3),
-                    longeur: round($height, 3),
-                    largeur: round($width, 3),
+                    x: $x1,
+                    y: $y1,
+                    longeur: $height,
+                    largeur: $width,
                     typeJointGauche: $r > 0 ? PlaquePlatreChantier::TYPE_JOINT_ENTRANT : PlaquePlatreChantier::TYPE_JOINT_AUCUN,
                     typeJointDroit: $width < $plaquePlatre->getLargeur() ? PlaquePlatreChantier::TYPE_JOINT_AUCUN : PlaquePlatreChantier::TYPE_JOINT_ENTRANT,
                     typeJointHaut: $height < $plaquePlatre->getLongueur() ? PlaquePlatreChantier::TYPE_JOINT_AUCUN : PlaquePlatreChantier::TYPE_JOINT_ENTRANT,
@@ -241,10 +243,10 @@ class OssatureCloisonCalculator implements OssatureCalculatorInterface
     }
 
     /**
-     * @param list<array{type: string, largeur: float, hauteur: float, distance_gauche: float, elevation: float, type_pose: string, type_contour: string, refoncement_ouvrant: float}> $ouvertures
-     * @return array{type: string, largeur: float, hauteur: float, distance_gauche: float, elevation: float, type_pose: string, type_contour: string, refoncement_ouvrant: float}|null
+     * @param list<array{type: string, largeur: int, hauteur: int, distance_gauche: int, elevation: int, type_pose: string, type_contour: string, refoncement_ouvrant: int}> $ouvertures
+     * @return array{type: string, largeur: int, hauteur: int, distance_gauche: int, elevation: int, type_pose: string, type_contour: string, refoncement_ouvrant: int}|null
      */
-    private function ouvertureA(float $x, array $ouvertures): ?array
+    private function ouvertureA(int $x, array $ouvertures): ?array
     {
         foreach ($ouvertures as $o) {
             $xMin = $o['distance_gauche'];
@@ -261,11 +263,12 @@ class OssatureCloisonCalculator implements OssatureCalculatorInterface
     /**
      * @param list<MontantChantier> $montants
      */
-    private function checkMontantExists(array $montants, float $x, Montant $montant): bool
+    private function checkMontantExists(array $montants, int $x, Montant $montant): bool
     {
         foreach ($montants as $m) {
-            $montantMin = $m->x - ($montant->getLargeur() / 2);
-            $montantMax = $m->x + ($montant->getLargeur() / 2);
+            $demiLargeur = $montant->getLargeur() / 2;
+            $montantMin = $m->x - $demiLargeur;
+            $montantMax = $m->x + $demiLargeur;
             if ($x > $montantMin && $x < $montantMax) {
                 return true;
             }

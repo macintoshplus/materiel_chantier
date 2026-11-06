@@ -12,6 +12,16 @@
         {% endblock %}
     </head>
     <body class="container">
+        <nav>
+            <a href="{{ path('projet_index') }}">{{ 'Projects'|trans }}</a> |
+            <a href="{{ path('materiau_index') }}">{{ 'Articles'|trans }}</a> |
+            <a href="{{ path('fournisseur_index') }}">{{ 'Suppliers'|trans }}</a> |
+            <a href="{{ path('catalogue_import') }}">{{ 'CSV import'|trans }}</a> |
+            <a href="{{ path('doublage_mur') }}">{{ 'Wall calculation'|trans }}</a>
+        </nav>
+        {% for message in app.flashes('success') %}
+            <p class="flash">{{ message|trans }}</p>
+        {% endfor %}
         {% block body %}{% endblock %}
     </body>
 </html>

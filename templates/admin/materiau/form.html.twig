@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ titre|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ titre|trans }} : {{ categorie.libelle|trans }}</h1>
+
+    {{ form_start(form, {attr: {'data-turbo': 'false'}}) }}
+        {{ form_row(form.reference) }}
+        {{ form_row(form.libelle) }}
+        {{ form_row(form.uniteVente) }}
+        {{ form_row(form.unitesParLot) }}
+        {{ form_row(form.longueur) }}
+        {{ form_row(form.largeur) }}
+        {{ form_row(form.epaisseur) }}
+        {{ form_row(form.hauteur) }}
+        {{ form_row(form.poids) }}
+        {{ form_row(form.margeSecuritePct) }}
+        <p>{{ 'Default safety margin of the category'|trans }} : {{ categorie.margeDefautPct }} %</p>
+        {{ form_row(form.actif) }}
+        <fieldset>
+            <legend>{{ 'Characteristics'|trans }}</legend>
+            {{ form_widget(form.caracteristiques) }}
+        </fieldset>
+        <button type="submit">{{ 'Save'|trans }}</button>
+    {{ form_end(form) }}
+
+    <p><a href="{{ path('materiau_index', {categorie: materiau.categorie}) }}">{{ 'Back to the list'|trans }}</a></p>
+{% endblock %}

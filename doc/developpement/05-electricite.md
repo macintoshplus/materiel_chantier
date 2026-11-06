@@ -22,6 +22,8 @@ systèmes.
 3. Résultat : longueur de gaine par diamètre, longueur de câble par section et par nombre de conducteurs,
    avec réserve (paramètre, défaut 10 %) et queue de 0,20 m par boîte.
 
+**Choix du diamètre de gaine** : chaque diamètre de l'article porte un `taux_remplissage_max` (% de la section intérieure, donnée à valider) et, par section de conducteur, un nombre maximal de conducteurs (`conducteurs_max`, déduit de section intérieure × taux ÷ section du conducteur avec isolant). Le calcul retient le plus petit diamètre dont le total des conducteurs du tronçon respecte la limite ; sinon erreur bloquante.
+
 Version 1 (simple) : distance orthogonale pièce par pièce (tableau → plafond de la pièce → descente à
 chaque élément), sans graphe ; version 2 : graphe avec points de passage.
 

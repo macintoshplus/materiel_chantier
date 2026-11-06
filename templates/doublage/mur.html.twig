@@ -124,9 +124,9 @@
         <hr>
         <h2>Résultats</h2>
         <ul>
-            <li>Surface mur brute : {{ resultats.surface_mur }} m²</li>
-            <li>Surface ouvertures : {{ resultats.surface_ouvertures }} m²</li>
-            <li>Surface nette à doubler : {{ resultats.surface_nette }} m²</li>
+            <li>Surface mur brute : {{ (resultats.surface_mur / 1000000)|number_format(2, ',', ' ') }} m²</li>
+            <li>Surface ouvertures : {{ (resultats.surface_ouvertures / 1000000)|number_format(2, ',', ' ') }} m²</li>
+            <li>Surface nette à doubler : {{ (resultats.surface_nette / 1000000)|number_format(2, ',', ' ') }} m²</li>
         </ul>
     {% endif %}
 
@@ -134,7 +134,7 @@
         <hr>
         <h2>Vue du mur (plan)</h2>
 
-        {% set scale = 100 %} {# 100 px = 1 m #}
+        {% set scale = 0.1 %} {# 0,1 px = 1 mm : 100 px = 1 m #}
         {% set largeurPx = svg.mur.largeur * scale %}
         {% set hauteurPx = svg.mur.hauteur * scale %}
 
@@ -174,9 +174,9 @@
                     {% set x = m.x * scale %}
                     <line
                         x1="{{ x }}"
-                        y1="{{ 1.2 * scale }}"
+                        y1="{{ 1200 * scale }}"
                         x2="{{ x + (m.hauteur * scale) }}"
-                        y2="{{ 1.2 * scale }}"
+                        y2="{{ 1200 * scale }}"
                         stroke="#a87732"
                         stroke-width="4"
                     />
@@ -260,13 +260,14 @@
                     <td><strong>{{ ligne.type }}</strong></td>
                     <td>{{ ligne.categorie|capitalize }}</td>
                     <td class="text-end">{{ ligne.elements }}</td>
-                    <td class="text-end">{{ ligne.longueur_unitaire|number_format(2, ',', ' ') }}</td>
-                    <td class="text-end">{{ ligne.longueur_totale|number_format(2, ',', ' ') }}</td>
+                    <td class="text-end">{{ (ligne.longueur_unitaire / 1000)|number_format(2, ',', ' ') }}</td>
+                    <td class="text-end">{{ (ligne.longueur_totale / 1000)|number_format(2, ',', ' ') }}</td>
                     <td class="text-end">{{ ligne.barres_necessaires }}</td>
-                    <td class="text-end">{{ ligne.longueur_achetee|number_format(2, ',', ' ') }}</td>
+                    <td class="text-end">{{ (ligne.longueur_achetee / 1000)|number_format(2, ',', ' ') }}</td>
                     <td class="text-end">
                         {% if ligne.chute > 0 %}
-                            {{ ligne.chute|number_format(2, ',', ' ') }}
+                            {# la chute des appuis est un nombre de pièces, les autres sont en mm #}
+                            {{ (ligne.type == 'appuis-intermediaire' ? ligne.chute : ligne.chute / 1000)|number_format(2, ',', ' ') }}
                         {% else %}
                             0,00
                         {% endif %}
@@ -293,10 +294,10 @@
             <tr>
                 <th colspan="6" class="text-end">TOTAL</th>
                 <th class="text-end">
-                    {{ bom|reduce((carry, l) => carry + l.longueur_achetee, 0)|number_format(2, ',', ' ') }}
+                    {{ (bom|reduce((carry, l) => carry + l.longueur_achetee, 0) / 1000)|number_format(2, ',', ' ') }}
                 </th>
                 <th class="text-end">
-                    {{ bom|reduce((carry, l) => carry + l.chute, 0)|number_format(2, ',', ' ') }}
+                    {{ (bom|filter(l => l.type != 'appuis-intermediaire')|reduce((carry, l) => carry + l.chute, 0) / 1000)|number_format(2, ',', ' ') }}
                 </th>
                 <th></th>
                 <th></th>

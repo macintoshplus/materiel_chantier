@@ -15,32 +15,32 @@ final class OssatureCloisonCalculatorTest extends TestCase
     public function testMontantsAuDessusDeLOuvertureQuiLaContient(): void
     {
         $mur = new Mur();
-        $mur->setLargeur(6.0);
-        $mur->setHauteur(2.5);
+        $mur->setLargeur(6000);
+        $mur->setHauteur(2500);
         $mur->setEcartDebut(0);
         $mur->setEcartFin(0);
         // Fenêtre à gauche, puis porte à droite : les montants au-dessus de la fenêtre
         // ne doivent pas utiliser les dimensions de la porte (dernière ouverture).
-        $mur->addOuverture($this->ouverture('fenetre', 1.0, 1.2, 1.0, 0.8));
-        $mur->addOuverture($this->ouverture('porte', 0.9, 2.05, 4.0, 0.0));
+        $mur->addOuverture($this->ouverture('fenetre', 1000, 1200, 1000, 800));
+        $mur->addOuverture($this->ouverture('porte', 900, 2050, 4000, 0));
 
         $montant = new Montant();
-        $montant->setLargeur(0.06);
-        $montant->setEntraxe(0.6);
+        $montant->setLargeur(60);
+        $montant->setEntraxe(600);
         $plaque = new PlaquePlatre();
-        $plaque->setLongueur(2.5);
-        $plaque->setLargeur(1.2);
+        $plaque->setLongueur(2500);
+        $plaque->setLargeur(1200);
 
         $result = (new OssatureCloisonCalculator())->calculer($mur, $montant, $plaque);
 
         $auDessusFenetre = array_filter(
             $result['montants'],
-            static fn ($m) => $m->id === 'Au dessus d\'une ouverture' && $m->x > 1.0 && $m->x < 2.0,
+            static fn ($m) => $m->id === 'Au dessus d\'une ouverture' && $m->x > 1000 && $m->x < 2000,
         );
         self::assertNotEmpty($auDessusFenetre);
         foreach ($auDessusFenetre as $m) {
-            self::assertEqualsWithDelta(2.0, $m->y, 0.001);
-            self::assertEqualsWithDelta(0.5, $m->hauteur, 0.001);
+            self::assertSame(2000, $m->y);
+            self::assertSame(500, $m->hauteur);
         }
 
         $sousFenetre = array_filter($result['montants'], static fn ($m) => $m->id === 'sous une fenêtre');
@@ -48,9 +48,9 @@ final class OssatureCloisonCalculatorTest extends TestCase
     }
 
     /**
-     * @return array{type: string, largeur: float, hauteur: float, distance_gauche: float, elevation: float, type_pose: string, type_contour: string, refoncement_ouvrant: float}
+     * @return array{type: string, largeur: int, hauteur: int, distance_gauche: int, elevation: int, type_pose: string, type_contour: string, refoncement_ouvrant: int}
      */
-    private function ouverture(string $type, float $largeur, float $hauteur, float $gauche, float $elevation): array
+    private function ouverture(string $type, int $largeur, int $hauteur, int $gauche, int $elevation): array
     {
         return [
             'type' => $type,
@@ -60,7 +60,7 @@ final class OssatureCloisonCalculatorTest extends TestCase
             'elevation' => $elevation,
             'type_pose' => 'tunel',
             'type_contour' => 'plaque-platre',
-            'refoncement_ouvrant' => 0.5,
+            'refoncement_ouvrant' => 500,
         ];
     }
 }

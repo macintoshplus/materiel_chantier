@@ -13,9 +13,9 @@ final readonly class Rail
 {
     public function __construct(
         public string $id,
-        public float $x,
-        public float $y,
-        public float $longueur,
+        public int $x,
+        public int $y,
+        public int $longueur,
         public bool $surOuverture,
     ) {
     }

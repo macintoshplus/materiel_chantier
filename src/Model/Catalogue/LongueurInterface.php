@@ -10,5 +10,5 @@ namespace App\Model\Catalogue;
 
 interface LongueurInterface
 {
-    public function getLongueur(): float;
+    public function getLongueur(): int;
 }

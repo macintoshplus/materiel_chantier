@@ -12,7 +12,7 @@ namespace App\Service;
 final class OuvertureOverlapChecker
 {
     /**
-     * @param list<array{distance_gauche: float, largeur: float, elevation: float, hauteur: float}> $ouvertures
+     * @param list<array{distance_gauche: int, largeur: int, elevation: int, hauteur: int}> $ouvertures
      * @return array<array{int,int}> Liste des paires en conflit
      */
     public function detecterChevauchements(array $ouvertures): array

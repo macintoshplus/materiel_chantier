@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Suppliers'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'Suppliers'|trans }}</h1>
+    <p><a href="{{ path('fournisseur_new') }}">{{ 'New supplier'|trans }}</a></p>
+    <table>
+        <thead>
+            <tr>
+                <th>{{ 'Name'|trans }}</th>
+                <th>{{ 'City'|trans }}</th>
+                <th>{{ 'Delivery fee (incl. VAT)'|trans }}</th>
+                <th>{{ 'Active'|trans }}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for f in fournisseurs %}
+            <tr>
+                <td><a href="{{ path('fournisseur_show', {id: f.id}) }}">{{ f.nom }}</a></td>
+                <td>{{ f.ville }}</td>
+                <td>{{ f.fraisLivraisonTtc }}</td>
+                <td>{{ f.actif ? 'Yes'|trans : 'No'|trans }}</td>
+                <td><a href="{{ path('fournisseur_edit', {id: f.id}) }}">{{ 'Edit'|trans }}</a></td>
+            </tr>
+        {% else %}
+            <tr><td colspan="5">{{ 'No supplier.'|trans }}</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

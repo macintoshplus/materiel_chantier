@@ -54,11 +54,13 @@ Les phases 1 et 2 sont indépendantes et peuvent avancer en parallèle. L'interf
 | Épaisseur de cloison | Dérivée du système actif (planification sans polygone), profilé choisi sur la hauteur maximale ; changer de variante régénère les faces |
 | Brouillons | Pas d'entité brouillon : la pièce est créée tout de suite et modifiable à tout moment ; l'état de l'assistant DXF reste en session/fichier temporaire |
 | Enregistrement | Toujours explicite (bouton Save, Save and continue / Discard / Cancel) ; jamais d'enregistrement automatique |
+| Plafonds | Plafond suspendu (horizontal ou sous rampant) géré dès la v1 : lisses périphériques, fourrures, suspentes ; autoportant et doublage collé plus tard |
+| Cotes saisies | Mesurées au **nu brut** (avant doublage) ; case optionnelle pour déduire l'épaisseur d'un doublage |
 | Aperçu et calcul | L'enregistrement relance le pipeline de la surface (aperçu complet, avertissements) ; « Calculate » agrège le projet |
 
 ## Hors périmètre initial
 
-Comptes utilisateurs, murs courbes, DXF 3D, plafonds autoportants calculés en v1 (la table de portées et les renforts horizontaux sont prévus ; le système reste « à écrire »),
+Comptes utilisateurs, murs courbes, DXF 3D, plafonds autoportants et doublage collé (la table de portées et les renforts horizontaux sont prévus ; le système reste « à écrire »),
 chiffrage de main d'œuvre, TVA détaillée / prix HT (le modèle prévoit un champ pour plus tard),
 logistique (poids, voyages), import SVG/IFC.
 

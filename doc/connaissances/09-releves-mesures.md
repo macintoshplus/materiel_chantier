@@ -10,6 +10,7 @@ Un chantier n'a pas toujours un plan. Trois sources de mesures alimentent la mê
 
 ## Saisie par côtés et angles
 
+- Les cotes sont relevées au **nu brut** (avant doublage ou cloison) ; une option permet de déduire l'épaisseur d'un doublage existant.
 - On parcourt la pièce dans le sens anti-horaire en notant : longueur du côté 1, angle au sommet suivant
   (par défaut 90°), longueur du côté 2…
 - Un polygone se **ferme** si la somme des vecteurs est nulle ; les erreurs de relevé donnent un **écart de

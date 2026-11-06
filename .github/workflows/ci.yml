@@ -30,7 +30,8 @@ jobs:
       database:
         image: mariadb:11.4
         env:
-          MARIADB_DATABASE: app
+          # Le suffixe _test de l'env test donne app_test : MariaDB la crée et donne les droits à `app`
+          MARIADB_DATABASE: app_test
           MARIADB_USER: app
           MARIADB_PASSWORD: ChangeMe
           MARIADB_ROOT_PASSWORD: ChangeMeRoot

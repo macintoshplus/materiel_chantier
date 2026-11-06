@@ -121,8 +121,8 @@ calculateur de la couche « ossature » (et « attache » pour les appuis).
 |---|---|---|
 | `cloison_ossature` | cloison (deux faces) | `OssatureCloisonCalculator` (couche ossature) |
 | `doublage_ossature` | mur | `OssatureDoublageCalculator` (couche ossature + attaches) |
-| `doublage_colle` | mur | à écrire (complexe collé / plots de colle) |
-| `plafond_suspendu_placo` | plafond_pan | à écrire (fourrures, suspentes, plaques) |
+| `doublage_colle` | mur | **hors v1** (complexe collé / plots de colle, plus tard) |
+| `plafond_suspendu_placo` | plafond_pan | **v1** : lisses périphériques, fourrures, suspentes, plaques ; pan horizontal ou sous rampant (voir « Plafond suspendu ») |
 | `plafond_autoportant_placo` | plafond_pan | à écrire : ossature **horizontale**, portée = distance entre appuis ; utilise la table de portées en orientation `horizontale` et les renforts |
 | `lambris_sur_lattes` | mur, plafond_pan | à écrire |
 | `isolation_seule` | mur, plafond_pan | à écrire (isolant + membrane) |
@@ -184,6 +184,23 @@ restent propres au système.
 Un doublage peut recevoir une cloison (ancrage `doublage`) : le montant supplémentaire de raccordement est
 alors ajouté à l'ossature du doublage à la position de la jonction. L'épaisseur du doublage (variante
 active) décale l'extrémité de la cloison ancrée ; activer une autre variante régénère les faces de la cloison.
+
+## Plafond suspendu (pan horizontal ou sous rampant)
+
+Géré dès la v1 (système `plafond_suspendu_placo`). Un plafond horizontal et un pan sous rampant ont la même
+logique ; seules les longueurs réelles (pente) changent. Couches et calculs :
+
+| Élément | Règle |
+|---|---|
+| Lisse périphérique | Profilé (`profil_ossature`, famille `lisse`) sur **toute la périphérie** du pan (comme les rails/lisses d'un doublage), longueur réelle des arêtes ; pas posé sur les arêtes ouvertes (faîtage, jonction avec un autre pan) ni sur les ouvertures de trémie, selon le paramètre `peripherie` de chaque arête |
+| Fourrures | Profilé de famille `fourrure`, direction de l'ossature de la surface, `entraxe` (≈ 0,60 m, bornes de l'article et de la plaque), longueur réelle de chaque position (`Surface::coupes()`), aboutées avec éclisses si plus longues que la barre |
+| Suspentes | Catégorie `suspente`, une par `pas` le long de chaque fourrure (`pas` et `charge_max` de l'article, défaut ≈ 1 suspente par 0,60–1,20 m² selon charge) ; la longueur de suspente dépend de la hauteur de chute (plénum) saisie, paramètre du système |
+| Plaques, joints, visserie | Comme les autres systèmes (couche parement, vis par peau) |
+| Isolant | Dans le plénum, en position `continue` (ou `entre_ossature` selon le système) |
+
+La table de portées ne sert pas ici (pas de portée libre) ; en revanche le pas de suspente et l'entraxe de
+fourrure respectent les limites des articles (même règle de priorité que ci-dessous). Le plafond
+**autoportant** reste hors v1.
 
 ## Paramètres de mise en œuvre (entraxe, pas, portée, vis)
 
@@ -386,7 +403,28 @@ un autre (option : calcul par surface ou par projet).
 ## Membrane
 
 Surface = surface isolée ; rouleaux = `ceil(surface × (1 + recouvrement) / surface utile du rouleau)` ;
-adhésif en ml selon jonctions de lés et périphérie ; R = 0.
+adhésif en ml selon jonctions de lés et périphérie ; R = 0. La continuité du pare-vapeur (raccords aux
+jonctions, passages de gaines) n'est pas contrôlée en v1 : elle est couverte par la **marge de sécurité en
+% de surface**, comme pour les autres matériaux (voir « Marge de sécurité et arrondi aux lots »).
+
+## Enduit : joint et ratissage
+
+Deux usages distincts de la catégorie `enduit`, chacun avec sa propre consommation :
+- `joint` (obligatoire) : traitement des joints entre plaques ; consommation en kg par m² de plaque (ou par
+  ml de joint) donnée par l'article ;
+- `ratissage` (**facultatif**) : enduit sur toute la surface ; l'**épaisseur est choisie par l'utilisateur**
+  (paramètre de la couche, en mm) et la consommation vaut `épaisseur × consommation_kg_par_m2_par_mm` de l'article
+  (`consommation_kg_par_m2_par_mm`, plus élevée pour un ratissage épais).
+
+Quantité = surface de parement × consommation, puis marge et arrondi au lot (sacs). Le ratissage est une couche
+optionnelle (cardinalité `0..1`) ; sans elle, seul l'enduit de joint est compté.
+
+## Chevilles et bande résiliente
+
+- `fixation_support` (chevilles, vis à béton) : nombre = longueur de profilé fixé ÷ `pas` de l'article, plus
+  les fixations de périphérie ;
+- `bande_resiliente` : longueur = longueur de rail/lisse au contact du support ; rouleaux = `ceil(longueur ×
+  (1 + marge) / longueur_rouleau)`.
 
 ## Évolutions de l'existant
 

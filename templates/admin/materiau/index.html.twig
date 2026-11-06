@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Articles'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'Articles'|trans }}</h1>
+
+    <form method="get">
+        <label>{{ 'Category'|trans }}
+            <select name="categorie" onchange="this.form.submit()">
+                <option value="">{{ 'All'|trans }}</option>
+                {% for code, c in categories %}
+                    <option value="{{ code }}"{{ code == categorie ? ' selected' }}>{{ c.libelle|trans }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <noscript><button type="submit">{{ 'Filter'|trans }}</button></noscript>
+    </form>
+
+    <p><a href="{{ path('materiau_new', {categorie: categorie}) }}">{{ 'New article'|trans }}</a></p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>{{ 'Reference'|trans }}</th>
+                <th>{{ 'Label'|trans }}</th>
+                <th>{{ 'Category'|trans }}</th>
+                <th>{{ 'Active'|trans }}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for m in materiaux %}
+            <tr>
+                <td>{{ m.reference }}</td>
+                <td>{{ m.libelle }}</td>
+                <td>{{ m.categorie }}</td>
+                <td>{{ m.actif ? 'Yes'|trans : 'No'|trans }}</td>
+                <td>
+                    <a href="{{ path('materiau_edit', {id: m.id}) }}">{{ 'Edit'|trans }}</a>
+                    <a href="{{ path('materiau_prix', {id: m.id}) }}">{{ 'Prices'|trans }}</a>
+                    <form method="post" action="{{ path('materiau_duplicate', {id: m.id}) }}" style="display:inline">
+                        <input type="hidden" name="_token" value="{{ csrf_token('dupliquer' ~ m.id) }}">
+                        <button type="submit">{{ 'Duplicate'|trans }}</button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr><td colspan="5">{{ 'No article.'|trans }}</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

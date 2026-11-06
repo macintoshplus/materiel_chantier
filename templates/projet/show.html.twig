@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ projet.nom }}{% endblock %}
+
+{% block body %}
+    <h1>{{ projet.nom }}</h1>
+    {% if projet.description %}<p>{{ projet.description }}</p>{% endif %}
+    {% if projet.adresseChantier %}<p>{{ projet.adresseChantier }}</p>{% endif %}
+    <p><a href="{{ path('projet_edit', {id: projet.id}) }}">{{ 'Edit'|trans }}</a></p>
+
+    <h2>{{ 'Rooms'|trans }}</h2>
+    <p><a href="{{ path('piece_new', {id: projet.id}) }}">{{ 'New room'|trans }}</a></p>
+    <table>
+        <thead>
+            <tr>
+                <th>{{ 'Name'|trans }}</th>
+                <th>{{ 'Ceiling height (m)'|trans }}</th>
+                <th>{{ 'Measurement source'|trans }}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for piece in projet.pieces %}
+            <tr>
+                <td>{{ piece.nom }}</td>
+                <td>{{ piece.hauteurSousPlafond is not null ? (piece.hauteurSousPlafond / 1000)|number_format(3, ',', ' ') : '' }}</td>
+                <td>{{ ('measurement_source.' ~ piece.sourceMesures.value)|trans }}</td>
+                <td>
+                    <a href="{{ path('piece_edit', {id: piece.id}) }}">{{ 'Edit'|trans }}</a>
+                    <form method="post" action="{{ path('piece_delete', {id: piece.id}) }}" style="display:inline">
+                        <input type="hidden" name="_token" value="{{ csrf_token('supprimer-piece' ~ piece.id) }}">
+                        <button type="submit">{{ 'Delete'|trans }}</button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr><td colspan="4">{{ 'No room.'|trans }}</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <form method="post" action="{{ path('projet_delete', {id: projet.id}) }}">
+        <input type="hidden" name="_token" value="{{ csrf_token('supprimer' ~ projet.id) }}">
+        <button type="submit">{{ 'Delete project'|trans }}</button>
+    </form>
+    <p><a href="{{ path('projet_index') }}">{{ 'Back to the list'|trans }}</a></p>
+{% endblock %}

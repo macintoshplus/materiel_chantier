@@ -11,7 +11,7 @@ namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use App\Form\Type\MetreType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Range;
@@ -28,30 +28,30 @@ class OuvertureType extends AbstractType
                     'Porte' => 'porte',
                 ],
             ])
-            ->add('largeur', NumberType::class, [
+            ->add('largeur', MetreType::class, [
                 'label' => 'Largeur (m)',
-                'scale' => 2,
+                'scale' => 3,
                 'constraints' => [
                     new Range(min: 0)
                 ]
             ])
-            ->add('hauteur', NumberType::class, [
+            ->add('hauteur', MetreType::class, [
                 'label' => 'Hauteur (m)',
-                'scale' => 2,
+                'scale' => 3,
                 'constraints' => [
                     new Range(min: 0)
                 ]
             ])
-            ->add('distance_gauche', NumberType::class, [
+            ->add('distance_gauche', MetreType::class, [
                 'label' => 'Distance depuis le bord gauche (m)',
-                'scale' => 2,
+                'scale' => 3,
                 'constraints' => [
                     new Range(min: 0)
                 ]
             ])
-            ->add('elevation', NumberType::class, [
+            ->add('elevation', MetreType::class, [
                 'label' => 'Élévation (m)',
-                'scale' => 2,
+                'scale' => 3,
                 'help' => 'Toujours 0 pour une porte',
                 'constraints' => [
                     new Range(min: 0)
@@ -71,9 +71,9 @@ class OuvertureType extends AbstractType
                     'Retour en autre matière sans joint' => 'autre',
                 ]
             ])
-            ->add('refoncement_ouvrant', NumberType::class, [
+            ->add('refoncement_ouvrant', MetreType::class, [
                 'label' => 'Renfoncement (m)',
-                'scale' => 2,
+                'scale' => 3,
                 'help' => 'Pour une pose en applique, mettre 0. Sinon, c\'est la distance entre la fenêtre et le bord du mur.',
                 'constraints' => [
                     new Range(min: 0)

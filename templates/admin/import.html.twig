@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'CSV import'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'CSV import'|trans }}</h1>
+    <p>{{ 'Separator ";", UTF-8, header required. One line = one price of an article at a supplier.'|trans }}</p>
+    <p><code>{{ colonnes|join(';') }}</code></p>
+
+    {{ form_start(form, {attr: {'data-turbo': 'false'}}) }}
+        {{ form_widget(form) }}
+        <button type="submit">{{ 'Import'|trans }}</button>
+    {{ form_end(form) }}
+
+    {% if rapport %}
+        <h2>{{ 'Result'|trans }}</h2>
+        <ul>
+            <li>{{ 'Articles created'|trans }} : {{ rapport.articlesCrees }}</li>
+            <li>{{ 'Prices set'|trans }} : {{ rapport.prixDefinis }}</li>
+            <li>{{ 'Prices unchanged'|trans }} : {{ rapport.prixInchanges }}</li>
+        </ul>
+        {% if rapport.erreurs %}
+            <h3>{{ 'Errors'|trans }}</h3>
+            <ul>
+                {% for e in rapport.erreurs %}<li>{{ e|trans }}</li>{% endfor %}
+            </ul>
+        {% endif %}
+    {% endif %}
+{% endblock %}

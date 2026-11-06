@@ -34,7 +34,7 @@ du fournisseur.
 | `suspente` | `charge_max`, `pas` |
 | `electrique_cable` | `section`, `nb_conducteurs`, `usage` |
 | `electrique_appareillage` | `fonction` (interrupteur, prise, va-et-vient…), `type_boite` |
-| `electrique_gaine` | `diametre` |
+| `electrique_gaine` | `diametre`, `diametre_interieur`, `taux_remplissage_max` (% de la section intérieure, valeur à valider : 1/3 est couramment cité, guide UTE C 15-520), table `conducteurs_max` par section de conducteur |
 | `electrique_boite` | `type_boite` (encastrement, cloison creuse, saillie), `profondeur`, `diametre` |
 | `electrique_connecteur` | `type` (domino, wago…), `nb_entrees` |
 | `plomberie_tube`, `plomberie_raccord`, `plomberie_appareil` | `diametre`, `matiere`, `usage` (eau froide, chaude, évacuation) |
@@ -42,7 +42,7 @@ du fournisseur.
 | `paroi_existante` | `lambda`, `r_forfaitaire`, `masse_volumique` (parpaing, brique, pierre, béton, plâtre, bois…) |
 | `fixation_support` | `type` (cheville, vis à béton…), `support` (béton, parpaing, brique), `charge_max`, règle de quantité (pas ou nombre par m) |
 | `bande_resiliente` | `epaisseur`, `largeur`, `longueur_rouleau` ; quantité = longueur de rail/lisse au contact du support |
-| `enduit` | `usage` (joint, finition), `consommation_kg_par_m2` ; quantité = surface de plaques × consommation |
+| `enduit` | `usage` (`joint`, `ratissage`), `consommation_kg_par_m2` (joint) ou `consommation_kg_par_m2_par_mm` (ratissage, épaisseur choisie par l'utilisateur, facultatif) |
 
 Les clés sont décrites par un **schéma** par catégorie (liste des champs, type, obligatoire) : sert à
 valider l'import, générer le formulaire d'ajout et documenter ce que lit chaque calculateur.

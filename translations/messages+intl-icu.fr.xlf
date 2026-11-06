@@ -1,0 +1,802 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="ii5WO7t" resname="Unit: {unit}">
+        <source>Unit: {unit}</source>
+        <target>Unité : {unit}</target>
+      </trans-unit>
+      <trans-unit id="YeJxYX9" resname="JSON list">
+        <source>JSON list</source>
+        <target>Liste au format JSON</target>
+      </trans-unit>
+      <trans-unit id="BOKpcor" resname="Projects">
+        <source>Projects</source>
+        <target>Projets</target>
+      </trans-unit>
+      <trans-unit id="sUrHikb" resname="Articles">
+        <source>Articles</source>
+        <target>Articles</target>
+      </trans-unit>
+      <trans-unit id="zZQNZIb" resname="Suppliers">
+        <source>Suppliers</source>
+        <target>Fournisseurs</target>
+      </trans-unit>
+      <trans-unit id="FwAmuDL" resname="CSV import">
+        <source>CSV import</source>
+        <target>Import CSV</target>
+      </trans-unit>
+      <trans-unit id="BxzGp8p" resname="Wall calculation">
+        <source>Wall calculation</source>
+        <target>Calcul d'un mur</target>
+      </trans-unit>
+      <trans-unit id="FQn1YfJ" resname="Save">
+        <source>Save</source>
+        <target>Enregistrer</target>
+      </trans-unit>
+      <trans-unit id="cMmd2we" resname="Back to the project">
+        <source>Back to the project</source>
+        <target>Retour au projet</target>
+      </trans-unit>
+      <trans-unit id="ebbF_4f" resname="Back to the list">
+        <source>Back to the list</source>
+        <target>Retour à la liste</target>
+      </trans-unit>
+      <trans-unit id="pB6yv3J" resname="New project">
+        <source>New project</source>
+        <target>Nouveau projet</target>
+      </trans-unit>
+      <trans-unit id="pNw4M1c" resname="Edit project">
+        <source>Edit project</source>
+        <target>Modifier le projet</target>
+      </trans-unit>
+      <trans-unit id="3NHVIj9" resname="Name">
+        <source>Name</source>
+        <target>Nom</target>
+      </trans-unit>
+      <trans-unit id="Um4Ah8w" resname="Description">
+        <source>Description</source>
+        <target>Description</target>
+      </trans-unit>
+      <trans-unit id="ahSkone" resname="Site address">
+        <source>Site address</source>
+        <target>Adresse du chantier</target>
+      </trans-unit>
+      <trans-unit id="w_bTbls" resname="Created on">
+        <source>Created on</source>
+        <target>Créé le</target>
+      </trans-unit>
+      <trans-unit id="vTL2ztt" resname="Rooms">
+        <source>Rooms</source>
+        <target>Pièces</target>
+      </trans-unit>
+      <trans-unit id="t8SKvhm" resname="No project.">
+        <source>No project.</source>
+        <target>Aucun projet.</target>
+      </trans-unit>
+      <trans-unit id="RkxP_QG" resname="Edit">
+        <source>Edit</source>
+        <target>Modifier</target>
+      </trans-unit>
+      <trans-unit id="OqJniR6" resname="New room">
+        <source>New room</source>
+        <target>Nouvelle pièce</target>
+      </trans-unit>
+      <trans-unit id="KKKBd7l" resname="Edit room">
+        <source>Edit room</source>
+        <target>Modifier la pièce</target>
+      </trans-unit>
+      <trans-unit id="8jiyBhe" resname="Ceiling height (m)">
+        <source>Ceiling height (m)</source>
+        <target>Hauteur sous plafond (m)</target>
+      </trans-unit>
+      <trans-unit id="JX34Hu4" resname="Measurement source">
+        <source>Measurement source</source>
+        <target>Source des mesures</target>
+      </trans-unit>
+      <trans-unit id="4tClSWj" resname="Delete">
+        <source>Delete</source>
+        <target>Supprimer</target>
+      </trans-unit>
+      <trans-unit id="ong2AMh" resname="No room.">
+        <source>No room.</source>
+        <target>Aucune pièce.</target>
+      </trans-unit>
+      <trans-unit id="nAthfnn" resname="Delete project">
+        <source>Delete project</source>
+        <target>Supprimer le projet</target>
+      </trans-unit>
+      <trans-unit id="maQpN3S" resname="Project saved.">
+        <source>Project saved.</source>
+        <target>Projet enregistré.</target>
+      </trans-unit>
+      <trans-unit id="z7-Z8X6" resname="Project deleted.">
+        <source>Project deleted.</source>
+        <target>Projet supprimé.</target>
+      </trans-unit>
+      <trans-unit id="VzGb4jk" resname="Room saved.">
+        <source>Room saved.</source>
+        <target>Pièce enregistrée.</target>
+      </trans-unit>
+      <trans-unit id="vvNN6rD" resname="Room deleted.">
+        <source>Room deleted.</source>
+        <target>Pièce supprimée.</target>
+      </trans-unit>
+      <trans-unit id="JQ-eL2L" resname="measurement_source.saisie">
+        <source>measurement_source.saisie</source>
+        <target>Saisie</target>
+      </trans-unit>
+      <trans-unit id="n6SXBPJ" resname="measurement_source.dxf">
+        <source>measurement_source.dxf</source>
+        <target>Fichier DXF</target>
+      </trans-unit>
+      <trans-unit id="oeLg69r" resname="measurement_source.csv">
+        <source>measurement_source.csv</source>
+        <target>Fichier CSV</target>
+      </trans-unit>
+      <trans-unit id="I4pnbaR" resname="Latitude">
+        <source>Latitude</source>
+        <target>Latitude</target>
+      </trans-unit>
+      <trans-unit id="bYBFj9F" resname="Longitude">
+        <source>Longitude</source>
+        <target>Longitude</target>
+      </trans-unit>
+      <trans-unit id="f6fZfDc" resname="Separator &quot;;&quot;, UTF-8, header required. One line = one price of an article at a supplier.">
+        <source>Separator ";", UTF-8, header required. One line = one price of an article at a supplier.</source>
+        <target>Séparateur « ; », UTF-8, en-tête obligatoire. Une ligne = un prix d'un article chez un fournisseur.</target>
+      </trans-unit>
+      <trans-unit id="LP-bqr9" resname="Import">
+        <source>Import</source>
+        <target>Importer</target>
+      </trans-unit>
+      <trans-unit id="bn1Q6E9" resname="Result">
+        <source>Result</source>
+        <target>Résultat</target>
+      </trans-unit>
+      <trans-unit id="mTSwEBu" resname="Articles created">
+        <source>Articles created</source>
+        <target>Articles créés</target>
+      </trans-unit>
+      <trans-unit id="zSoSFKS" resname="Prices set">
+        <source>Prices set</source>
+        <target>Prix enregistrés</target>
+      </trans-unit>
+      <trans-unit id="oGe2_9B" resname="Prices unchanged">
+        <source>Prices unchanged</source>
+        <target>Prix inchangés</target>
+      </trans-unit>
+      <trans-unit id="y3AjePM" resname="Errors">
+        <source>Errors</source>
+        <target>Erreurs</target>
+      </trans-unit>
+      <trans-unit id="c6rVOlq" resname="CSV file">
+        <source>CSV file</source>
+        <target>Fichier CSV</target>
+      </trans-unit>
+      <trans-unit id="-qQMllx" resname="New supplier">
+        <source>New supplier</source>
+        <target>Nouveau fournisseur</target>
+      </trans-unit>
+      <trans-unit id="WGYqp5F" resname="Edit supplier">
+        <source>Edit supplier</source>
+        <target>Modifier le fournisseur</target>
+      </trans-unit>
+      <trans-unit id="_DP3Mkb" resname="City">
+        <source>City</source>
+        <target>Ville</target>
+      </trans-unit>
+      <trans-unit id="2Rs0Tpr" resname="Delivery fee (incl. VAT)">
+        <source>Delivery fee (incl. VAT)</source>
+        <target>Frais de livraison (TTC)</target>
+      </trans-unit>
+      <trans-unit id="kjQGlYm" resname="Active">
+        <source>Active</source>
+        <target>Actif</target>
+      </trans-unit>
+      <trans-unit id="haOas0X" resname="Yes">
+        <source>Yes</source>
+        <target>Oui</target>
+      </trans-unit>
+      <trans-unit id="HqRCoTS" resname="No">
+        <source>No</source>
+        <target>Non</target>
+      </trans-unit>
+      <trans-unit id="_xeFMcL" resname="No supplier.">
+        <source>No supplier.</source>
+        <target>Aucun fournisseur.</target>
+      </trans-unit>
+      <trans-unit id="o5rJIfa" resname="GPS position">
+        <source>GPS position</source>
+        <target>Position GPS</target>
+      </trans-unit>
+      <trans-unit id="6kiNJpP" resname="Open map">
+        <source>Open map</source>
+        <target>Ouvrir la carte</target>
+      </trans-unit>
+      <trans-unit id="WA3YARc" resname="Articles sold">
+        <source>Articles sold</source>
+        <target>Articles vendus</target>
+      </trans-unit>
+      <trans-unit id="cb-Qk1_" resname="Reference">
+        <source>Reference</source>
+        <target>Référence</target>
+      </trans-unit>
+      <trans-unit id="DmY3P0X" resname="Label">
+        <source>Label</source>
+        <target>Libellé</target>
+      </trans-unit>
+      <trans-unit id="TFQiASA" resname="Lot price (incl. VAT)">
+        <source>Lot price (incl. VAT)</source>
+        <target>Prix du lot (TTC)</target>
+      </trans-unit>
+      <trans-unit id="WZCPe_q" resname="Units per lot">
+        <source>Units per lot</source>
+        <target>Unités par lot</target>
+      </trans-unit>
+      <trans-unit id="0Jn7XjP" resname="No article.">
+        <source>No article.</source>
+        <target>Aucun article.</target>
+      </trans-unit>
+      <trans-unit id="FFXA3g7" resname="Default safety margin of the category">
+        <source>Default safety margin of the category</source>
+        <target>Marge de sécurité par défaut de la catégorie</target>
+      </trans-unit>
+      <trans-unit id="3XKcdk5" resname="Characteristics">
+        <source>Characteristics</source>
+        <target>Caractéristiques</target>
+      </trans-unit>
+      <trans-unit id="KSwG8AR" resname="Category">
+        <source>Category</source>
+        <target>Catégorie</target>
+      </trans-unit>
+      <trans-unit id="pSrOQg8" resname="All">
+        <source>All</source>
+        <target>Toutes</target>
+      </trans-unit>
+      <trans-unit id="Y44kn0o" resname="Filter">
+        <source>Filter</source>
+        <target>Filtrer</target>
+      </trans-unit>
+      <trans-unit id="VC5c7wa" resname="New article">
+        <source>New article</source>
+        <target>Nouvel article</target>
+      </trans-unit>
+      <trans-unit id="2kVltHY" resname="Edit article">
+        <source>Edit article</source>
+        <target>Modifier l'article</target>
+      </trans-unit>
+      <trans-unit id="Wm5PVsC" resname="Prices">
+        <source>Prices</source>
+        <target>Prix</target>
+      </trans-unit>
+      <trans-unit id="As2qv8q" resname="Duplicate">
+        <source>Duplicate</source>
+        <target>Dupliquer</target>
+      </trans-unit>
+      <trans-unit id="gYqRJo0" resname="Choose a category.">
+        <source>Choose a category.</source>
+        <target>Choisissez une catégorie.</target>
+      </trans-unit>
+      <trans-unit id="sXpdFoJ" resname="Current prices by supplier">
+        <source>Current prices by supplier</source>
+        <target>Prix courants par fournisseur</target>
+      </trans-unit>
+      <trans-unit id="cuLwM2f" resname="Supplier">
+        <source>Supplier</source>
+        <target>Fournisseur</target>
+      </trans-unit>
+      <trans-unit id="mK8e1hg" resname="Since">
+        <source>Since</source>
+        <target>Depuis</target>
+      </trans-unit>
+      <trans-unit id="y9jEI-9" resname="No price.">
+        <source>No price.</source>
+        <target>Aucun prix.</target>
+      </trans-unit>
+      <trans-unit id="5rQQ_bA" resname="New price">
+        <source>New price</source>
+        <target>Nouveau prix</target>
+      </trans-unit>
+      <trans-unit id="DnaWAJM" resname="History">
+        <source>History</source>
+        <target>Historique</target>
+      </trans-unit>
+      <trans-unit id="gWlpMQG" resname="Start date">
+        <source>Start date</source>
+        <target>Date de début</target>
+      </trans-unit>
+      <trans-unit id="FDA6oMS" resname="End date">
+        <source>End date</source>
+        <target>Date de fin</target>
+      </trans-unit>
+      <trans-unit id="DlcMpvq" resname="Source">
+        <source>Source</source>
+        <target>Source</target>
+      </trans-unit>
+      <trans-unit id="6jqrvte" resname="Supplier saved.">
+        <source>Supplier saved.</source>
+        <target>Fournisseur enregistré.</target>
+      </trans-unit>
+      <trans-unit id="LK7ICHE" resname="Supplier deleted.">
+        <source>Supplier deleted.</source>
+        <target>Fournisseur supprimé.</target>
+      </trans-unit>
+      <trans-unit id="VoUBBBL" resname="Price saved.">
+        <source>Price saved.</source>
+        <target>Prix enregistré.</target>
+      </trans-unit>
+      <trans-unit id="PegkSA5" resname="Article saved.">
+        <source>Article saved.</source>
+        <target>Article enregistré.</target>
+      </trans-unit>
+      <trans-unit id="fzlG6iL" resname="The new price cannot start before the current one.">
+        <source>The new price cannot start before the current one.</source>
+        <target>Le nouveau prix ne peut pas commencer avant le prix courant.</target>
+      </trans-unit>
+      <trans-unit id="7nYLboG" resname="Address line 1">
+        <source>Address line 1</source>
+        <target>Adresse (ligne 1)</target>
+      </trans-unit>
+      <trans-unit id="NQsrhcS" resname="Address line 2">
+        <source>Address line 2</source>
+        <target>Adresse (ligne 2)</target>
+      </trans-unit>
+      <trans-unit id="rlPOqCK" resname="Postal code">
+        <source>Postal code</source>
+        <target>Code postal</target>
+      </trans-unit>
+      <trans-unit id="cB0CHQj" resname="Country">
+        <source>Country</source>
+        <target>Pays</target>
+      </trans-unit>
+      <trans-unit id="taIprIv" resname="Website">
+        <source>Website</source>
+        <target>Site web</target>
+      </trans-unit>
+      <trans-unit id="Y9zriAC" resname="Phone">
+        <source>Phone</source>
+        <target>Téléphone</target>
+      </trans-unit>
+      <trans-unit id="JvoN8E9" resname="Sales unit">
+        <source>Sales unit</source>
+        <target>Unité de vente</target>
+      </trans-unit>
+      <trans-unit id="WWFV07Z" resname="Length (mm)">
+        <source>Length (mm)</source>
+        <target>Longueur (mm)</target>
+      </trans-unit>
+      <trans-unit id="ZhlMwxp" resname="Width (mm)">
+        <source>Width (mm)</source>
+        <target>Largeur (mm)</target>
+      </trans-unit>
+      <trans-unit id="lvW4a0p" resname="Thickness (mm)">
+        <source>Thickness (mm)</source>
+        <target>Épaisseur (mm)</target>
+      </trans-unit>
+      <trans-unit id="xSxX4Bl" resname="Height (mm)">
+        <source>Height (mm)</source>
+        <target>Hauteur (mm)</target>
+      </trans-unit>
+      <trans-unit id="j1OWZyt" resname="Weight (kg per unit)">
+        <source>Weight (kg per unit)</source>
+        <target>Poids (kg par unité)</target>
+      </trans-unit>
+      <trans-unit id="ozsApcc" resname="Safety margin (%)">
+        <source>Safety margin (%)</source>
+        <target>Marge de sécurité (%)</target>
+      </trans-unit>
+      <trans-unit id="KQTld1s" resname="Units per lot (blank: article default)">
+        <source>Units per lot (blank: article default)</source>
+        <target>Unités par lot (vide : valeur de l'article)</target>
+      </trans-unit>
+      <trans-unit id="HgdnljR" resname="Supplier reference">
+        <source>Supplier reference</source>
+        <target>Référence fournisseur</target>
+      </trans-unit>
+      <trans-unit id="cP3e9N1" resname="Invalid JSON.">
+        <source>Invalid JSON.</source>
+        <target>JSON invalide.</target>
+      </trans-unit>
+      <trans-unit id="Pex1Bpx" resname="The list must be valid JSON.">
+        <source>The list must be valid JSON.</source>
+        <target>La liste doit être un JSON valide.</target>
+      </trans-unit>
+      <trans-unit id="NCNaLFA" resname="piece">
+        <source>piece</source>
+        <target>pièce</target>
+      </trans-unit>
+      <trans-unit id="gd-20KH" resname="linear meter">
+        <source>linear meter</source>
+        <target>mètre linéaire</target>
+      </trans-unit>
+      <trans-unit id="_-IX1gT" resname="square meter">
+        <source>square meter</source>
+        <target>mètre carré</target>
+      </trans-unit>
+      <trans-unit id="rP4f7Nq" resname="roll">
+        <source>roll</source>
+        <target>rouleau</target>
+      </trans-unit>
+      <trans-unit id="JvhWfyV" resname="box">
+        <source>box</source>
+        <target>boîte</target>
+      </trans-unit>
+      <trans-unit id="FtsQsoS" resname="kilogram">
+        <source>kilogram</source>
+        <target>kilogramme</target>
+      </trans-unit>
+      <trans-unit id="caYMT0f" resname="Line {line}: the file is empty.">
+        <source>Line {line}: the file is empty.</source>
+        <target>Ligne {line} : le fichier est vide.</target>
+      </trans-unit>
+      <trans-unit id="DROrqhs" resname="Line {line}: missing columns: {detail}.">
+        <source>Line {line}: missing columns: {detail}.</source>
+        <target>Ligne {line} : colonnes manquantes : {detail}.</target>
+      </trans-unit>
+      <trans-unit id="515gWUk" resname="Line {line}: wrong number of columns.">
+        <source>Line {line}: wrong number of columns.</source>
+        <target>Ligne {line} : nombre de colonnes incorrect.</target>
+      </trans-unit>
+      <trans-unit id="mNqeyYI" resname="Line {line}: invalid characteristics JSON.">
+        <source>Line {line}: invalid characteristics JSON.</source>
+        <target>Ligne {line} : JSON des caractéristiques invalide.</target>
+      </trans-unit>
+      <trans-unit id="6_YQlSP" resname="Line {line}: invalid article &quot;{detail}&quot;.">
+        <source>Line {line}: invalid article "{detail}".</source>
+        <target>Ligne {line} : article « {detail} » invalide.</target>
+      </trans-unit>
+      <trans-unit id="jmecLAz" resname="Line {line}: unknown supplier &quot;{detail}&quot;.">
+        <source>Line {line}: unknown supplier "{detail}".</source>
+        <target>Ligne {line} : fournisseur « {detail} » inconnu.</target>
+      </trans-unit>
+      <trans-unit id="xjGKP1U" resname="Line {line}: invalid price &quot;{detail}&quot;.">
+        <source>Line {line}: invalid price "{detail}".</source>
+        <target>Ligne {line} : prix « {detail} » invalide.</target>
+      </trans-unit>
+      <trans-unit id="1AmAQbE" resname="Framing accessory">
+        <source>Framing accessory</source>
+        <target>Accessoire d'ossature</target>
+      </trans-unit>
+      <trans-unit id="jVmCnB4" resname="Usage">
+        <source>Usage</source>
+        <target>Usage</target>
+      </trans-unit>
+      <trans-unit id="cMQKv5J" resname="Renfort compatible">
+        <source>Renfort compatible</source>
+        <target>Renfort compatible</target>
+      </trans-unit>
+      <trans-unit id="XwSCRaJ" resname="Fixing support">
+        <source>Fixing support</source>
+        <target>Support de fixation</target>
+      </trans-unit>
+      <trans-unit id="1wGhBtz" resname="Pose pas defaut">
+        <source>Pose pas defaut</source>
+        <target>Pose : pas par défaut</target>
+      </trans-unit>
+      <trans-unit id="k6nm7mg" resname="Pose hauteur defaut">
+        <source>Pose hauteur defaut</source>
+        <target>Pose : hauteur par défaut</target>
+      </trans-unit>
+      <trans-unit id="jBs6fZ9" resname="Joint tape">
+        <source>Joint tape</source>
+        <target>Bande à joint</target>
+      </trans-unit>
+      <trans-unit id="uq3fcPt" resname="Type">
+        <source>Type</source>
+        <target>Type</target>
+      </trans-unit>
+      <trans-unit id="HHMBPaY" resname="Longueur rouleau">
+        <source>Longueur rouleau</source>
+        <target>Longueur du rouleau</target>
+      </trans-unit>
+      <trans-unit id="aP1iinp" resname="Resilient strip">
+        <source>Resilient strip</source>
+        <target>Bande résiliente</target>
+      </trans-unit>
+      <trans-unit id="tygu6hC" resname="Epaisseur">
+        <source>Epaisseur</source>
+        <target>Épaisseur</target>
+      </trans-unit>
+      <trans-unit id="7Ypc0tq" resname="Largeur">
+        <source>Largeur</source>
+        <target>Largeur</target>
+      </trans-unit>
+      <trans-unit id="WTR2Pq-" resname="Electrical device">
+        <source>Electrical device</source>
+        <target>Appareillage électrique</target>
+      </trans-unit>
+      <trans-unit id="Ii-d6ee" resname="Fonction">
+        <source>Fonction</source>
+        <target>Fonction</target>
+      </trans-unit>
+      <trans-unit id="XZbOWWq" resname="Type boite">
+        <source>Type boite</source>
+        <target>Type de boîte</target>
+      </trans-unit>
+      <trans-unit id="f1uDBQg" resname="Electrical box">
+        <source>Electrical box</source>
+        <target>Boîte électrique</target>
+      </trans-unit>
+      <trans-unit id="1Vs6IZG" resname="Profondeur">
+        <source>Profondeur</source>
+        <target>Profondeur</target>
+      </trans-unit>
+      <trans-unit id="fwiHAJe" resname="Diametre">
+        <source>Diametre</source>
+        <target>Diamètre</target>
+      </trans-unit>
+      <trans-unit id="HyPZnx_" resname="Electrical cable">
+        <source>Electrical cable</source>
+        <target>Câble électrique</target>
+      </trans-unit>
+      <trans-unit id="38pdpWu" resname="Section">
+        <source>Section</source>
+        <target>Section</target>
+      </trans-unit>
+      <trans-unit id="fQTu8BW" resname="Nb conducteurs">
+        <source>Nb conducteurs</source>
+        <target>Nombre de conducteurs</target>
+      </trans-unit>
+      <trans-unit id="Py4ttyU" resname="Electrical connector">
+        <source>Electrical connector</source>
+        <target>Connecteur électrique</target>
+      </trans-unit>
+      <trans-unit id="iHyXbhv" resname="Nb entrees">
+        <source>Nb entrees</source>
+        <target>Nombre d'entrées</target>
+      </trans-unit>
+      <trans-unit id="ldKD20y" resname="Electrical conduit">
+        <source>Electrical conduit</source>
+        <target>Gaine électrique</target>
+      </trans-unit>
+      <trans-unit id="FhZaV6X" resname="Plaster or joint compound">
+        <source>Plaster or joint compound</source>
+        <target>Enduit</target>
+      </trans-unit>
+      <trans-unit id="A9pozIG" resname="Consommation kg par m2">
+        <source>Consommation kg par m2</source>
+        <target>Consommation (kg par m²)</target>
+      </trans-unit>
+      <trans-unit id="UppexvL" resname="Consommation kg par m2 par mm">
+        <source>Consommation kg par m2 par mm</source>
+        <target>Consommation (kg par m² par mm)</target>
+      </trans-unit>
+      <trans-unit id="q2XhXng" resname="Support fixing">
+        <source>Support fixing</source>
+        <target>Fixation au support</target>
+      </trans-unit>
+      <trans-unit id="vpGUC3n" resname="Support">
+        <source>Support</source>
+        <target>Support</target>
+      </trans-unit>
+      <trans-unit id="L38pkts" resname="Charge max">
+        <source>Charge max</source>
+        <target>Charge maximale</target>
+      </trans-unit>
+      <trans-unit id="645ulUM" resname="Pose pas mm">
+        <source>Pose pas mm</source>
+        <target>Pose : pas (mm)</target>
+      </trans-unit>
+      <trans-unit id="9IOM6Ei" resname="Pose nombre par m">
+        <source>Pose nombre par m</source>
+        <target>Pose : nombre par mètre</target>
+      </trans-unit>
+      <trans-unit id="OAaOKAv" resname="Insulation">
+        <source>Insulation</source>
+        <target>Isolant</target>
+      </trans-unit>
+      <trans-unit id="hio_D8P" resname="Lambda">
+        <source>Lambda</source>
+        <target>Lambda</target>
+      </trans-unit>
+      <trans-unit id="TRZWN4N" resname="R certifie">
+        <source>R certifie</source>
+        <target>R certifié</target>
+      </trans-unit>
+      <trans-unit id="8UtdafL" resname="Famille">
+        <source>Famille</source>
+        <target>Famille</target>
+      </trans-unit>
+      <trans-unit id="0nVi9Qy" resname="Mise en oeuvre">
+        <source>Mise en oeuvre</source>
+        <target>Mise en œuvre</target>
+      </trans-unit>
+      <trans-unit id="2FzfJSi" resname="Reaction feu">
+        <source>Reaction feu</source>
+        <target>Réaction au feu</target>
+      </trans-unit>
+      <trans-unit id="oVFKIWO" resname="Cladding or batten">
+        <source>Cladding or batten</source>
+        <target>Lambris ou latte</target>
+      </trans-unit>
+      <trans-unit id="4lLQsFj" resname="Essence">
+        <source>Essence</source>
+        <target>Essence</target>
+      </trans-unit>
+      <trans-unit id="4mfTQ4I" resname="Profil">
+        <source>Profil</source>
+        <target>Profil</target>
+      </trans-unit>
+      <trans-unit id="hBI1yOP" resname="Largeur utile">
+        <source>Largeur utile</source>
+        <target>Largeur utile</target>
+      </trans-unit>
+      <trans-unit id="TMCEorl" resname="Membrane">
+        <source>Membrane</source>
+        <target>Membrane</target>
+      </trans-unit>
+      <trans-unit id="-fZ5AjR" resname="Sd">
+        <source>Sd</source>
+        <target>Sd</target>
+      </trans-unit>
+      <trans-unit id="Zluy1-H" resname="Recouvrement mm">
+        <source>Recouvrement mm</source>
+        <target>Recouvrement (mm)</target>
+      </trans-unit>
+      <trans-unit id="WvIG46Y" resname="Existing wall material">
+        <source>Existing wall material</source>
+        <target>Paroi existante</target>
+      </trans-unit>
+      <trans-unit id="Vymxvu7" resname="R forfaitaire">
+        <source>R forfaitaire</source>
+        <target>R forfaitaire</target>
+      </trans-unit>
+      <trans-unit id="DwRoMSI" resname="Masse volumique">
+        <source>Masse volumique</source>
+        <target>Masse volumique</target>
+      </trans-unit>
+      <trans-unit id="xxzozPO" resname="Nature">
+        <source>Nature</source>
+        <target>Nature</target>
+      </trans-unit>
+      <trans-unit id="dzpwyXr" resname="Plasterboard">
+        <source>Plasterboard</source>
+        <target>Plaque de plâtre</target>
+      </trans-unit>
+      <trans-unit id="n3BXSjk" resname="Bord">
+        <source>Bord</source>
+        <target>Bord</target>
+      </trans-unit>
+      <trans-unit id="22FmGvS" resname="Densite">
+        <source>Densite</source>
+        <target>Densité</target>
+      </trans-unit>
+      <trans-unit id="OlRfMqM" resname="Pose entraxe max">
+        <source>Pose entraxe max</source>
+        <target>Pose : entraxe maximal</target>
+      </trans-unit>
+      <trans-unit id="-dWyZXX" resname="Pose pas vis premiere peau">
+        <source>Pose pas vis premiere peau</source>
+        <target>Pose : pas des vis, première peau</target>
+      </trans-unit>
+      <trans-unit id="On3eg7j" resname="Pose pas vis derniere peau">
+        <source>Pose pas vis derniere peau</source>
+        <target>Pose : pas des vis, dernière peau</target>
+      </trans-unit>
+      <trans-unit id="74cNpTE" resname="Pose pas vis peau unique">
+        <source>Pose pas vis peau unique</source>
+        <target>Pose : pas des vis, peau unique</target>
+      </trans-unit>
+      <trans-unit id="YjBTico" resname="Plumbing fixture">
+        <source>Plumbing fixture</source>
+        <target>Appareil de plomberie</target>
+      </trans-unit>
+      <trans-unit id="HW3AtFT" resname="Matiere">
+        <source>Matiere</source>
+        <target>Matière</target>
+      </trans-unit>
+      <trans-unit id="gTinijr" resname="Plumbing fitting">
+        <source>Plumbing fitting</source>
+        <target>Raccord de plomberie</target>
+      </trans-unit>
+      <trans-unit id="KAIqS7g" resname="Plumbing pipe">
+        <source>Plumbing pipe</source>
+        <target>Tube de plomberie</target>
+      </trans-unit>
+      <trans-unit id="H03W3MA" resname="Framing profile">
+        <source>Framing profile</source>
+        <target>Profilé d'ossature</target>
+      </trans-unit>
+      <trans-unit id="q3dDpK2" resname="Serie">
+        <source>Serie</source>
+        <target>Série</target>
+      </trans-unit>
+      <trans-unit id="eMN1lbH" resname="Pose entraxe defaut">
+        <source>Pose entraxe defaut</source>
+        <target>Pose : entraxe par défaut</target>
+      </trans-unit>
+      <trans-unit id="tlgwEsQ" resname="Pose portees">
+        <source>Pose portees</source>
+        <target>Pose : portées</target>
+      </trans-unit>
+      <trans-unit id="T3oVFPU" resname="Renfort">
+        <source>Renfort</source>
+        <target>Renfort</target>
+      </trans-unit>
+      <trans-unit id="49ESQiA" resname="Orientation">
+        <source>Orientation</source>
+        <target>Orientation</target>
+      </trans-unit>
+      <trans-unit id="w66dki3" resname="Entraxe">
+        <source>Entraxe</source>
+        <target>Entraxe</target>
+      </trans-unit>
+      <trans-unit id="fMOMk7D" resname="Longueur max">
+        <source>Longueur max</source>
+        <target>Longueur maximale</target>
+      </trans-unit>
+      <trans-unit id="liRszvh" resname="Decalage joints min mm">
+        <source>Decalage joints min mm</source>
+        <target>Décalage minimal des joints (mm)</target>
+      </trans-unit>
+      <trans-unit id="EdvUx5K" resname="Pas vis assemblage mm">
+        <source>Pas vis assemblage mm</source>
+        <target>Pas des vis d'assemblage (mm)</target>
+      </trans-unit>
+      <trans-unit id="FIRZ1Oh" resname="Accessoires">
+        <source>Accessoires</source>
+        <target>Accessoires</target>
+      </trans-unit>
+      <trans-unit id="OXMkFg6" resname="Specification">
+        <source>Specification</source>
+        <target>Spécification</target>
+      </trans-unit>
+      <trans-unit id="7C_fMV_" resname="Par joint">
+        <source>Par joint</source>
+        <target>Par joint</target>
+      </trans-unit>
+      <trans-unit id="EQcH44t" resname="Pas mm">
+        <source>Pas mm</source>
+        <target>Pas (mm)</target>
+      </trans-unit>
+      <trans-unit id="REma84K" resname="Hanger">
+        <source>Hanger</source>
+        <target>Suspente</target>
+      </trans-unit>
+      <trans-unit id="8sZJd92" resname="Pas">
+        <source>Pas</source>
+        <target>Pas</target>
+      </trans-unit>
+      <trans-unit id="uGCLZCP" resname="Ventilation vent">
+        <source>Ventilation vent</source>
+        <target>Bouche de ventilation</target>
+      </trans-unit>
+      <trans-unit id="riJKy4f" resname="Debit">
+        <source>Debit</source>
+        <target>Débit</target>
+      </trans-unit>
+      <trans-unit id="U_70U3Q" resname="Ventilation duct">
+        <source>Ventilation duct</source>
+        <target>Gaine de ventilation</target>
+      </trans-unit>
+      <trans-unit id="815_k1m" resname="Ventilation unit">
+        <source>Ventilation unit</source>
+        <target>Groupe de ventilation</target>
+      </trans-unit>
+      <trans-unit id="FVJVu8s" resname="Screws">
+        <source>Screws</source>
+        <target>Visserie</target>
+      </trans-unit>
+      <trans-unit id="6RJJPOU" resname="Longueur">
+        <source>Longueur</source>
+        <target>Longueur</target>
+      </trans-unit>
+      <trans-unit id="Sci_CZ2" resname="Pose epaisseur fixable min">
+        <source>Pose epaisseur fixable min</source>
+        <target>Pose : épaisseur fixable minimale</target>
+      </trans-unit>
+      <trans-unit id="9_-Y0KE" resname="Pose epaisseur fixable max">
+        <source>Pose epaisseur fixable max</source>
+        <target>Pose : épaisseur fixable maximale</target>
+      </trans-unit>
+      <trans-unit id="f2sgMFV" resname="Pose consommation par m2">
+        <source>Pose consommation par m2</source>
+        <target>Pose : consommation par m²</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

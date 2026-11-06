@@ -7,6 +7,7 @@ namespace App\Form\Catalogue;
 use App\Model\Catalogue\BandeAJointArmee;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use App\Form\Type\MetreType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,9 +18,9 @@ class CatalogueBandeAJoinArmeeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('longueur', NumberType::class, [
+            ->add('longueur', MetreType::class, [
                 'label' => 'Longueur (m)',
-                'scale' => 2,
+                'scale' => 3,
             ])
             ->add('prix', NumberType::class, [
                 'label' => 'Prix du lot',

@@ -11,20 +11,20 @@ namespace App\Model\Catalogue;
 
 final class BandeAJointArmee implements ContientPrixInterface, LongueurInterface
 {
-    // en metre
-    private float $longueur;
+    // en millimètres
+    private int $longueur;
 
     private float $prix = 0;
 
     //Nombre de mettre par rouleau
     private int $uniteParLot = 1;
 
-    public function getLongueur(): float
+    public function getLongueur(): int
     {
         return $this->longueur;
     }
 
-    public function setLongueur(float $longueur): void
+    public function setLongueur(int $longueur): void
     {
         $this->longueur = $longueur;
     }

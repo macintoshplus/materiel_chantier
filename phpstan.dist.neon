@@ -11,3 +11,9 @@ parameters:
         - tests/bootstrap.php
     symfony:
         containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
+
+services:
+    -
+        class: App\Tests\PhpStan\DoctrineIdentifiantExtension
+        tags:
+            - phpstan.properties.readWriteExtension

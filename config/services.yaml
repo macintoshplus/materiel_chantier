@@ -21,3 +21,11 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    _instanceof:
+        App\Catalogue\CategorieMateriau:
+            tags: ['app.categorie_materiau']
+
+    App\Catalogue\RegistreCategories:
+        arguments:
+            $categories: !tagged_iterator app.categorie_materiau

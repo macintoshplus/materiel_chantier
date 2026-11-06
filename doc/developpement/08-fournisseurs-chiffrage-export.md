@@ -19,7 +19,7 @@ prixLotTtc, totalTtc, chute, tauxPerte, prixMateriauId (traçabilité).
 Quantités : `nombreLots = ceil(quantiteBesoin × (1 + margePct/100) / unitesParLot)` ; voir
 `04-systemes-et-calcul.md`, « Marge de sécurité et arrondi aux lots ». La marge utilisée est copiée dans la ligne.
 
-**Livraison** : si le fournisseur a un `frais_livraison_ttc`, une ligne « Livraison » (une par fournisseur utilisé dans le chiffrage, montant copié) s'ajoute au total ; elle n'entre pas dans la comparaison de `MeilleurPrix` au premier ordre (option : l'inclure pour départager).
+**Livraison** : si le fournisseur a un `frais_livraison_ttc`, une ligne « Livraison » (une par fournisseur utilisé dans le chiffrage, montant copié) s'ajoute au total ; elle **entre dans la comparaison de `MeilleurPrix`** (voir ci-dessous).
 
 Les lignes **copient** les libellés, dimensions et prix : renommer ou supprimer un article ensuite ne
 modifie pas un chiffrage existant.
@@ -32,9 +32,27 @@ n'ayant pas la même taille d'un fournisseur à l'autre, comparer des prix de lo
 | Stratégie | Règle |
 |---|---|
 | `FournisseurUnique` | Tous les articles chez le même fournisseur ; équivalent chez lui si pas de correspondance exacte, sinon article signalé ; jamais de repli sur un autre fournisseur |
-| `MeilleurPrix` | Coût **total** pour la quantité brute : `ceil(quantiteBrute × (1 + marge) / unitesParLot) × prixLotTtc`, pour chaque fournisseur, le plus bas gagne (peut mélanger les fournisseurs) ; l'optimisation de coupes est refaite par candidat si ses dimensions diffèrent |
+| `MeilleurPrix` | Coût **total** pour la quantité brute : `ceil(quantiteBrute × (1 + marge) / unitesParLot) × prixLotTtc`, pour chaque fournisseur, le plus bas gagne (peut mélanger les fournisseurs) ; l'optimisation de coupes est refaite par candidat si ses dimensions diffèrent ; **la livraison est incluse** : le critère est le coût total du chiffrage = Σ articles + Σ `frais_livraison_ttc` des fournisseurs réellement utilisés (voir « Livraison dans MeilleurPrix ») |
 | `PlusProche` | Fournisseur le plus proche de l'adresse du chantier qui vend l'article, repli sur le suivant |
 | `Manuelle` | Choix par ligne dans l'écran |
+
+#### Livraison dans `MeilleurPrix`
+
+Le forfait de livraison étant payé une fois par fournisseur utilisé, le choix article par article n'est plus
+indépendant : un article légèrement moins cher chez B peut coûter plus cher au total si B ajoute un forfait.
+Cette stratégie ne se réduit donc pas à `choisir()` article par article : l'interface expose aussi `choisirEnsemble(list<Besoin>, DateTimeImmutable, Contexte): list<?PrixMateriau>` (les autres stratégies l'implémentent en itérant sur `choisir()`). `MeilleurPrix` minimise le **coût total du projet** :
+1. calcule pour chaque article le coût chez chaque fournisseur qui le vend (sans livraison) ;
+2. évalue des **ensembles de fournisseurs** : pour chaque ensemble, chaque article va au moins cher de
+   l'ensemble (un article absent de l'ensemble est impossible), puis on ajoute les forfaits de l'ensemble ;
+3. retient l'ensemble de coût total minimal. Recherche exhaustive jusqu'à 8 fournisseurs candidats
+   (2⁸ ensembles) ; au-delà, heuristique gloutonne (ajout du fournisseur qui réduit le plus le coût total) ;
+4. un fournisseur sans `frais_livraison_ttc` a une livraison nulle ; un ensemble n'est retenu que s'il couvre
+   tous les articles (sinon articles « prix manquant »).
+
+Exemple : A vend les articles 1, 2 et 3 pour 100 € au total, livraison 15 € ; B vend les articles 1 et 2 pour
+90 € au total, livraison 20 €, et ne vend pas l'article 3 (30 € chez A). A seul : 115 €. B seul : impossible
+(article 3 absent). A+B : 90 + 30 + 15 + 20 = 155 €. → A seul gagne, alors que B est moins cher sur les articles 1–2. Le détail (articles par
+fournisseur, forfaits) est conservé dans les lignes de chiffrage.
 
 Articles sans prix chez le fournisseur choisi : ligne marquée « prix manquant », jamais un 0 silencieux.
 

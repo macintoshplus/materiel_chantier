@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Projects'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'Projects'|trans }}</h1>
+    <p><a href="{{ path('projet_new') }}">{{ 'New project'|trans }}</a></p>
+    <table>
+        <thead>
+            <tr>
+                <th>{{ 'Name'|trans }}</th>
+                <th>{{ 'Site address'|trans }}</th>
+                <th>{{ 'Created on'|trans }}</th>
+                <th>{{ 'Rooms'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for projet in projets %}
+            <tr>
+                <td><a href="{{ path('projet_show', {id: projet.id}) }}">{{ projet.nom }}</a></td>
+                <td>{{ projet.adresseChantier }}</td>
+                <td>{{ projet.dateCreation|date('d/m/Y') }}</td>
+                <td>{{ projet.pieces|length }}</td>
+            </tr>
+        {% else %}
+            <tr><td colspan="4">{{ 'No project.'|trans }}</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

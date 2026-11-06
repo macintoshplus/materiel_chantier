@@ -12,33 +12,33 @@ final class PlaquePlatre
 
     public function __construct(
         public readonly string $id,
-        public float $x,
-        public float $y,
-        public readonly float $longeur,
-        public readonly float $largeur,
+        public int $x,
+        public int $y,
+        public readonly int $longeur,
+        public readonly int $largeur,
         public readonly string $typeJointGauche,
         public readonly string $typeJointDroit,
         public readonly string $typeJointHaut,
         public readonly string $typeJointBas,
         //Si null = toute la surface est utilisé
-        private readonly ?float $surfaceUtilisee = null,
+        private readonly ?int $surfaceUtilisee = null,
         //liste des points représentant la plaque, origine en bas à gauche
-        /** @var list<array{x: float, y: float}> */
+        /** @var list<array{x: int, y: int}> */
         private readonly array $polygonePoints = [],
     ) {
     }
 
-    public function getSurface(): float
+    public function getSurface(): int
     {
         return $this->largeur * $this->longeur;
     }
 
-    public function getSurfaceUtilisee(): float
+    public function getSurfaceUtilisee(): int
     {
         return $this->surfaceUtilisee ?? $this->getSurface();
     }
 
-    /** @return list<array{x: float, y: float}> */
+    /** @return list<array{x: int, y: int}> */
     public function getPolygonePoints(): array
     {
         if (\count($this->polygonePoints) === 0) {

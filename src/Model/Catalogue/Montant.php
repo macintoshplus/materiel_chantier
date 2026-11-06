@@ -11,46 +11,46 @@ namespace App\Model\Catalogue;
 
 final class Montant implements ContientPrixInterface, LongueurInterface
 {
-    // en metre
-    private float $longueur;
+    // en millimètres
+    private int $longueur;
 
-    // en metre
-    private float $largeur;
+    // en millimètres
+    private int $largeur;
 
-    // en metre
-    private float $entraxe;
+    // en millimètres
+    private int $entraxe;
 
     private float $prix = 0;
 
     //Nombre par lot
     private int $uniteParLot = 1;
 
-    public function getLongueur(): float
+    public function getLongueur(): int
     {
         return $this->longueur;
     }
 
-    public function setLongueur(float $longueur): void
+    public function setLongueur(int $longueur): void
     {
         $this->longueur = $longueur;
     }
 
-    public function getLargeur(): float
+    public function getLargeur(): int
     {
         return $this->largeur;
     }
 
-    public function setLargeur(float $largeur): void
+    public function setLargeur(int $largeur): void
     {
         $this->largeur = $largeur;
     }
 
-    public function getEntraxe(): float
+    public function getEntraxe(): int
     {
         return $this->entraxe;
     }
 
-    public function setEntraxe(float $entraxe): void
+    public function setEntraxe(int $entraxe): void
     {
         $this->entraxe = $entraxe;
     }

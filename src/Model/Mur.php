@@ -18,8 +18,10 @@ use App\Model\Catalogue\PlaquePlatre;
 use App\Model\Catalogue\Rail;
 
 /**
- * @phpstan-type Ouverture array{type: string, largeur: float, hauteur: float, distance_gauche: float, elevation: float, type_pose: string, type_contour: string, refoncement_ouvrant: float}
+ * @phpstan-type Ouverture array{type: string, largeur: int, hauteur: int, distance_gauche: int, elevation: int, type_pose: string, type_contour: string, refoncement_ouvrant: int}
  * @phpstan-type Catalogue array{montant: Montant, rail: Rail, appuisIntermediaire: AppuisIntermediaire, bandeAJoinPlat: BandeAJointPlat, bandeAJoinArmee: BandeAJointArmee, plaquePlatre: PlaquePlatre}
+ *
+ * Toutes les longueurs sont en millimètres entiers (surfaces en mm²).
  */
 #[PositionsIsValid]
 class Mur
@@ -27,8 +29,8 @@ class Mur
     const string TYPE_DOUBLAGE = 'doublage';
     const string TYPE_CLOISON = 'cloison';
 
-    private float $largeur = 0.0;
-    private float $hauteur = 0.0;
+    private int $largeur = 0;
+    private int $hauteur = 0;
     private int $ecartement = 48;
 
     private int $ecartDebut = 48;
@@ -42,22 +44,22 @@ class Mur
     /** @var Catalogue|array{} */
     private array $catalogue = [];
 
-    public function getLargeur(): float
+    public function getLargeur(): int
     {
         return $this->largeur;
     }
 
-    public function setLargeur(float $largeur): void
+    public function setLargeur(int $largeur): void
     {
         $this->largeur = $largeur;
     }
 
-    public function getHauteur(): float
+    public function getHauteur(): int
     {
         return $this->hauteur;
     }
 
-    public function setHauteur(float $hauteur): void
+    public function setHauteur(int $hauteur): void
     {
         $this->hauteur = $hauteur;
     }
@@ -77,11 +79,6 @@ class Mur
         return $this->ecartDebut;
     }
 
-    public function getEcartDebutEnMetre(): float
-    {
-        return $this->ecartDebut /1000;
-    }
-
     public function setEcartDebut(int $ecartDebut): void
     {
         $this->ecartDebut = $ecartDebut;
@@ -91,11 +88,6 @@ class Mur
     {
         return $this->ecartFin;
     }
-    public function getEcartFinEnMetre(): float
-    {
-        return $this->ecartFin / 1000;
-    }
-
     public function setEcartFin(int $ecartFin): void
     {
         $this->ecartFin = $ecartFin;
@@ -142,12 +134,12 @@ class Mur
     }
 
 
-    public function getSurface(): float
+    public function getSurface(): int
     {
         return $this->largeur * $this->hauteur;
     }
 
-    public function getSurfaceOuvertures(): float
+    public function getSurfaceOuvertures(): int
     {
         $surface = 0;
         foreach ($this->ouvertures as $o) {
@@ -156,7 +148,7 @@ class Mur
         return $surface;
     }
 
-    public function getSurfaceNette(): float
+    public function getSurfaceNette(): int
     {
         return $this->getSurface() - $this->getSurfaceOuvertures();
     }

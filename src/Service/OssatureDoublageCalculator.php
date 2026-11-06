@@ -13,23 +13,26 @@ use App\Model\Catalogue\Montant;
 use App\Model\Catalogue\PlaquePlatre;
 use App\Model\Chantier\Appuis;
 use App\Model\Chantier\Montant as MontantChantier;
+use App\Model\Chantier\PlaquePlatre as PlaquePlatreChantier;
+use App\Model\Chantier\Rail;
 use App\Model\Mur;
 
 final class OssatureDoublageCalculator implements OssatureCalculatorInterface
 {
-    const float ELEVATION_APPUIS = 1.2;
+    // en millimètres
+    const int ELEVATION_APPUIS = 1200;
     public function __construct(private readonly OssatureCloisonCalculator $calculator)
     {
     }
 
     /**
-     * @inheritDoc
+     * @return array{rails: list<Rail>, montants: list<MontantChantier>, plaque_platres: list<PlaquePlatreChantier>, appuis: list<Appuis>, rail_appuis: list<MontantChantier>}
      */
     public function calculer(Mur $mur, Montant $montant, PlaquePlatre $plaquePlatre): array
     {
         $result = $this->calculator->calculer($mur, $montant, $plaquePlatre);
 
-        $longeurMax = $mur->getLargeur() - $mur->getEcartDebutEnMetre() - $mur->getEcartFinEnMetre();
+        $longeurMax = $mur->getLargeur() - $mur->getEcartDebut() - $mur->getEcartFin();
 
         $ouvertureTrier =$mur->getOuvertures();
         usort($ouvertureTrier, function ($a, $b) {
@@ -37,7 +40,7 @@ final class OssatureDoublageCalculator implements OssatureCalculatorInterface
         });
 
         //Calculer la longeur ayant besoin d'un rail pour les appuis
-        $departGaucheRail = $mur->getEcartDebutEnMetre();
+        $departGaucheRail = $mur->getEcartDebut();
 
         foreach ($ouvertureTrier as $ouverture) {
             //L'ouverture est présente à 1,2m ?
@@ -60,7 +63,7 @@ final class OssatureDoublageCalculator implements OssatureCalculatorInterface
             id: 'Rail support appuis',
             x: $departGaucheRail,
             y: 0,
-            hauteur: $longeurMax - $departGaucheRail + $mur->getEcartDebutEnMetre(),
+            hauteur: $longeurMax - $departGaucheRail + $mur->getEcartDebut(),
             appuis: false,
         );
 

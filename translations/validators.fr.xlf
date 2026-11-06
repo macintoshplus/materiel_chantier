@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="9AMSpCz" resname="A partition face requires a partition and a side; other surfaces must have neither.">
+        <source>A partition face requires a partition and a side; other surfaces must have neither.</source>
+        <target>Une face de cloison exige une cloison et un côté ; les autres surfaces n'en ont pas.</target>
+      </trans-unit>
+      <trans-unit id="VY1mb9R" resname="An opening belongs to exactly one surface or one partition.">
+        <source>An opening belongs to exactly one surface or one partition.</source>
+        <target>Une ouverture appartient à exactement une surface ou une cloison.</target>
+      </trans-unit>
+      <trans-unit id="8hnLcA1" resname="This reference is already used.">
+        <source>This reference is already used.</source>
+        <target>Cette référence est déjà utilisée.</target>
+      </trans-unit>
+      <trans-unit id="sV5_ATx" resname="Unknown category &quot;{{ category }}&quot;.">
+        <source>Unknown category "{{ category }}".</source>
+        <target>Catégorie « {{ category }} » inconnue.</target>
+      </trans-unit>
+      <trans-unit id="cMgPz90" resname="The characteristic &quot;{{ path }}&quot; is required.">
+        <source>The characteristic "{{ path }}" is required.</source>
+        <target>La caractéristique « {{ path }} » est obligatoire.</target>
+      </trans-unit>
+      <trans-unit id="2zPxp6k" resname="The characteristic &quot;{{ path }}&quot; is not defined for this category.">
+        <source>The characteristic "{{ path }}" is not defined for this category.</source>
+        <target>La caractéristique « {{ path }} » n'existe pas pour cette catégorie.</target>
+      </trans-unit>
+      <trans-unit id="IHcaJm8" resname="The characteristic &quot;{{ path }}&quot; must be of type {{ type }}.">
+        <source>The characteristic "{{ path }}" must be of type {{ type }}.</source>
+        <target>La caractéristique « {{ path }} » doit être de type {{ type }}.</target>
+      </trans-unit>
+      <trans-unit id="ccyzIBi" resname="The characteristic &quot;{{ path }}&quot; must be one of: {{ choices }}.">
+        <source>The characteristic "{{ path }}" must be one of: {{ choices }}.</source>
+        <target>La caractéristique « {{ path }} » doit valoir l'une de : {{ choices }}.</target>
+      </trans-unit>
+      <trans-unit id="ssSwEb0" resname="The characteristic &quot;{{ path }}&quot; is out of range (min {{ min }}, max {{ max }}).">
+        <source>The characteristic "{{ path }}" is out of range (min {{ min }}, max {{ max }}).</source>
+        <target>La caractéristique « {{ path }} » est hors bornes (min {{ min }}, max {{ max }}).</target>
+      </trans-unit>
+      <trans-unit id="opUxe-d" resname="The line &quot;{{ path }}&quot; duplicates another one (same {{ key }}).">
+        <source>The line "{{ path }}" duplicates another one (same {{ key }}).</source>
+        <target>La ligne « {{ path }} » en double une autre (même {{ key }}).</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

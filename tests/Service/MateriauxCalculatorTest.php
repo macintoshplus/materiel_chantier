@@ -16,7 +16,7 @@ final class MateriauxCalculatorTest extends TestCase
     public function testOptimiseLesMontantsDansLesBarres(): void
     {
         $montant = new Montant();
-        $montant->setLongueur(3.0);
+        $montant->setLongueur(3000);
         $montant->setPrix(4.0);
         $montant->setUniteParLot(1);
         $appuis = new AppuisIntermediaire();
@@ -25,13 +25,13 @@ final class MateriauxCalculatorTest extends TestCase
 
         // 2 x 1,5 m tiennent dans une barre de 3 m, 2,5 m en demande une seconde.
         $montants = [
-            new MontantChantier('a', 0, 0, 1.5, true),
-            new MontantChantier('b', 0.6, 0, 1.5, true),
-            new MontantChantier('c', 1.2, 0, 2.5, true),
+            new MontantChantier('a', 0, 0, 1500, true),
+            new MontantChantier('b', 600, 0, 1500, true),
+            new MontantChantier('c', 1200, 0, 2500, true),
         ];
 
         $res = (new MateriauxCalculator())->calculer(
-            appuis: [new Appuis(0.0, 1.2)],
+            appuis: [new Appuis(0, 1200)],
             montants: $montants,
             rails: [],
             plaquePlatres: [],

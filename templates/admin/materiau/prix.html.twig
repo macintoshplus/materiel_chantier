@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Prices'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'Prices'|trans }} : {{ materiau.reference }} - {{ materiau.libelle }}</h1>
+
+    <h2>{{ 'Current prices by supplier'|trans }}</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>{{ 'Supplier'|trans }}</th>
+                <th>{{ 'Lot price (incl. VAT)'|trans }}</th>
+                <th>{{ 'Units per lot'|trans }}</th>
+                <th>{{ 'Since'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for p in courants %}
+            <tr>
+                <td>{{ p.fournisseur.nom }}</td>
+                <td>{{ p.prixLotTtc }}</td>
+                <td>{{ p.unitesParLotEffectif }}</td>
+                <td>{{ p.dateDebut|date('Y-m-d H:i') }}</td>
+            </tr>
+        {% else %}
+            <tr><td colspan="4">{{ 'No price.'|trans }}</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>{{ 'New price'|trans }}</h2>
+    {{ form_start(form, {attr: {'data-turbo': 'false'}}) }}
+        {{ form_widget(form) }}
+        <button type="submit">{{ 'Save'|trans }}</button>
+    {{ form_end(form) }}
+
+    <h2>{{ 'History'|trans }}</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>{{ 'Supplier'|trans }}</th>
+                <th>{{ 'Lot price (incl. VAT)'|trans }}</th>
+                <th>{{ 'Start date'|trans }}</th>
+                <th>{{ 'End date'|trans }}</th>
+                <th>{{ 'Source'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for p in historique %}
+            <tr>
+                <td>{{ p.fournisseur.nom }}</td>
+                <td>{{ p.prixLotTtc }}</td>
+                <td>{{ p.dateDebut|date('Y-m-d H:i') }}</td>
+                <td>{{ p.dateFin ? p.dateFin|date('Y-m-d H:i') : '' }}</td>
+                <td>{{ p.source }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <p><a href="{{ path('materiau_index', {categorie: materiau.categorie}) }}">{{ 'Back to the list'|trans }}</a></p>
+{% endblock %}
