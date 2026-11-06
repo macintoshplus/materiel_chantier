@@ -1,6 +1,6 @@
 # Étape 05c — Plafond suspendu, paramètres de pose et renforts d'ossature
 
-> Statut : à faire. Ce fichier est renommé en `.DONE.md` (même commit que le code) quand tous les critères ci-dessous sont cochés et les vérifications vertes. Règles : [_plan-general.md](_plan-general.md#règle-dune-étape).
+> Statut : terminée (vérifiée le 2026-11-06 : phpunit, phpstan niveau 8, schéma en phase). Règles : [_plan-general.md](_plan-general.md#règle-dune-étape).
 
 ## Objectif
 
@@ -154,17 +154,17 @@ avec son coût pour comparaison.
 
 ## Critères d'acceptation
 
-- [ ] Un plafond double pente avec fourrures est calculé avec les longueurs réelles de pente.
-- [ ] Priorité des paramètres de pose : surcharge utilisateur > `min(défaut du système, limites des articles)` ; un entraxe utilisateur hors limite est accepté avec avertissement ; une limite supérieure au défaut ne remplace pas le défaut.
-- [ ] Vis choisie par critère calculé : plus petite longueur ≥ épaisseur des peaux + pénétration mini ; quantité = longueur d'ossature de la peau ÷ pas de la peau (boîtes entières).
-- [ ] Mur plus haut que la portée du montant simple : le résolveur propose entraxe réduit, profilé plus fort, doublage accolé ou doublage décalé avec éclisses, selon la table du fabricant.
-- [ ] Montant `double_decale` : doublé sur **toute** sa longueur ; chaque ligne aboutée avec des joints décalés d'au moins `decalage_joints_min_mm` de ceux de l'autre ligne ; une éclisse par joint ; vis d'assemblage au pas fabricant.
-- [ ] Même profilé, même renfort : la longueur maximale diffère en orientation verticale et horizontale ; le résolveur lit la ligne correspondant à l'orientation de la surface.
-- [ ] Montant plus court qu'une barre en `double_decale` : pas de joint, pas d'éclisse de joint, mais longueur max du renfort décalé conservée.
-- [ ] Renfort localisé (bords d'ouverture) : seuls les montants concernés sont doublés.
-- [ ] Plafond suspendu : lisse périphérique sur la périphérie en longueur réelle, sauf arêtes ouvertes (faîtage, jonction avec un autre pan) selon `peripherie`.
-- [ ] Plafond suspendu : fourrures dans la direction de l'ossature à l'entraxe retenu (bornes article et plaque), suspentes au `pas` de l'article le long de chaque fourrure, longueur de suspente liée à la hauteur de plénum.
-- [ ] Plafond suspendu sous rampant : mêmes règles que le plafond horizontal, seules les longueurs réelles (pente) changent.
+- [x] Un plafond double pente avec fourrures est calculé avec les longueurs réelles de pente.
+- [x] Priorité des paramètres de pose : surcharge utilisateur > `min(défaut du système, limites des articles)` ; un entraxe utilisateur hors limite est accepté avec avertissement ; une limite supérieure au défaut ne remplace pas le défaut.
+- [x] Vis choisie par critère calculé : plus petite longueur ≥ épaisseur des peaux + pénétration mini ; quantité = longueur d'ossature de la peau ÷ pas de la peau (boîtes entières).
+- [x] Mur plus haut que la portée du montant simple : le résolveur propose entraxe réduit, profilé plus fort, doublage accolé ou doublage décalé avec éclisses, selon la table du fabricant.
+- [x] Montant `double_decale` : doublé sur **toute** sa longueur ; chaque ligne aboutée avec des joints décalés d'au moins `decalage_joints_min_mm` de ceux de l'autre ligne ; une éclisse par joint ; vis d'assemblage au pas fabricant.
+- [x] Même profilé, même renfort : la longueur maximale diffère en orientation verticale et horizontale ; le résolveur lit la ligne correspondant à l'orientation de la surface.
+- [x] Montant plus court qu'une barre en `double_decale` : pas de joint, pas d'éclisse de joint, mais longueur max du renfort décalé conservée.
+- [x] Renfort localisé (bords d'ouverture) : seuls les montants concernés sont doublés.
+- [x] Plafond suspendu : lisse périphérique sur la périphérie en longueur réelle, sauf arêtes ouvertes (faîtage, jonction avec un autre pan) selon `peripherie`.
+- [x] Plafond suspendu : fourrures dans la direction de l'ossature à l'entraxe retenu (bornes article et plaque), suspentes au `pas` de l'article le long de chaque fourrure, longueur de suspente liée à la hauteur de plénum.
+- [x] Plafond suspendu sous rampant : mêmes règles que le plafond horizontal, seules les longueurs réelles (pente) changent.
 
 ## Vérifications automatiques
 
@@ -178,4 +178,14 @@ symfony console doctrine:schema:validate
 
 ## Décisions et écarts
 
-Aucun pour le moment.
+**Couverture :** tous les critères sont cochés et couverts par un test : `tests/Integration/PlafondSuspenduIntegrationTest.php` (double pente réelle, dérivation jonctions vers `aretes_ouvertes`), `tests/Calcul/PlafondSuspenduTest.php` (vis, boîtes entières via `OptimiseurBesoins`, fourrure de rive), `tests/Calcul/OssatureRenfortsTest.php` (éclisses, vis d'assemblage, montant court, renfort localisé).
+
+**Écarts :**
+- Paramètre `aretes_ouvertes` (paires `a:b` séparées par des virgules) à la place de `peripherie` ; ouvertes = faîtage, noue, plat ; la sablière garde sa lisse. Dérivé des jonctions dans `CalculSysteme::parametresSurface`.
+- Pas de champ `entraxe_max` ajouté au schéma du profilé : bornes issues de la plaque (`pose.entraxe_max`) et de la suspente (`pas`).
+- Vis : spécification construite en code (valeurs concrètes filtrées en PHP), pas de gabarit `{contexte.*}`. Fixations de périphérie non comptées. La spécification des accessoires n'est résolue que si c'est du JSON sérialisé.
+- Comparaison de candidats par variantes non câblée : le résolveur propose des candidats avec un coût optionnel (coût indisponible avant l'étape 06).
+- Moteur : `ResultatCouche->erreurs` ajouté et le pipeline s'arrête dessus ; `framing_height_exceeded` devient bloquant. `PlanificateurPose` ajouté au pipeline (actif seulement si la définition déclare `entraxe`). `ContexteCouches` étendu (pasSuspente, pasVisParPeau, renfort, penetrationVis). `CalculateurParement` : constructeur modifié ; comptage des vis d'un plafond suspendu via `FourruresPlafond::longueurs` (fourrure de rive comprise).
+- Paramètres `renfort` et `renfort_zone` ajoutés aux définitions cloison et doublage ; `PlanOssature::montantsBords` ajouté.
+
+**Non vérifié :** rien dans un navigateur ; les longueurs de pente sont arrondies au mm (1803 pour 1802,8).

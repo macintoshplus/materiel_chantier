@@ -46,6 +46,8 @@ final class SystemeCloisonOssature implements DefinitionSysteme
             new ParametreSysteme('montants_raccordement', 'int', 1),
             new ParametreSysteme('extremite_debut', 'string', 'mur'),
             new ParametreSysteme('extremite_fin', 'string', 'mur'),
+            new ParametreSysteme('renfort', 'string', ''),
+            new ParametreSysteme('renfort_zone', 'string', 'toutes_positions'),
         ];
     }
 }

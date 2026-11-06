@@ -313,6 +313,34 @@
         <source>The partition needs its two faces to be calculated.</source>
         <target>La cloison a besoin de ses deux faces pour être calculée.</target>
       </trans-unit>
+      <trans-unit id="mc24" resname="The value {{ value }} imposed for &quot;{{ parameter }}&quot; exceeds the limit of {{ limit }} of an article.">
+        <source>The value {{ value }} imposed for &quot;{{ parameter }}&quot; exceeds the limit of {{ limit }} of an article.</source>
+        <target>La valeur {{ value }} imposée pour « {{ parameter }} » dépasse la limite de {{ limit }} d'un article.</target>
+      </trans-unit>
+      <trans-unit id="mc25" resname="No default and no article limit for the parameter &quot;{{ parameter }}&quot;.">
+        <source>No default and no article limit for the parameter &quot;{{ parameter }}&quot;.</source>
+        <target>Aucun défaut ni limite d'article pour le paramètre « {{ parameter }} ».</target>
+      </trans-unit>
+      <trans-unit id="mc26" resname="The framing orientation is intermediate ({{ orientation }}): the least favourable span is used.">
+        <source>The framing orientation is intermediate ({{ orientation }}): the least favourable span is used.</source>
+        <target>L'orientation de l'ossature est intermédiaire ({{ orientation }}) : la portée la plus défavorable est retenue.</target>
+      </trans-unit>
+      <trans-unit id="mc27" resname="A non-reinforced stud of {{ length }} mm exceeds the simple stud maximum of {{ maximum }} mm.">
+        <source>A non-reinforced stud of {{ length }} mm exceeds the simple stud maximum of {{ maximum }} mm.</source>
+        <target>Un montant non renforcé de {{ length }} mm dépasse le maximum de {{ maximum }} mm du montant simple.</target>
+      </trans-unit>
+      <trans-unit id="mc28" resname="The configuration {{ renfort }} at {{ spacing }} mm is not in the manufacturer table.">
+        <source>The configuration {{ renfort }} at {{ spacing }} mm is not in the manufacturer table.</source>
+        <target>La configuration {{ renfort }} à {{ spacing }} mm n'est pas dans la table du fabricant.</target>
+      </trans-unit>
+      <trans-unit id="mc29" resname="No catalogue screw fits a skin thickness of {{ thickness }} mm with {{ penetration }} mm of penetration.">
+        <source>No catalogue screw fits a skin thickness of {{ thickness }} mm with {{ penetration }} mm of penetration.</source>
+        <target>Aucune vis du catalogue ne convient à une épaisseur de peau de {{ thickness }} mm avec {{ penetration }} mm de pénétration.</target>
+      </trans-unit>
+      <trans-unit id="mc30" resname="No catalogue profile of family &quot;lisse&quot; found for the ceiling perimeter.">
+        <source>No catalogue profile of family &quot;lisse&quot; found for the ceiling perimeter.</source>
+        <target>Aucun profil du catalogue de famille « lisse » pour la périphérie du plafond.</target>
+      </trans-unit>
       <trans-unit id="mc14" resname="A system belongs to exactly one surface or one partition.">
         <source>A system belongs to exactly one surface or one partition.</source>
         <target>Un système appartient à exactement une surface ou une cloison.</target>

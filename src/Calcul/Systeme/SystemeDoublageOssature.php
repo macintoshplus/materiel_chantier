@@ -47,6 +47,8 @@ final class SystemeDoublageOssature implements DefinitionSysteme
             new ParametreSysteme('type_profil_peripherique', 'string', 'rail'),
             new ParametreSysteme('montants_raccordement', 'int', 1),
             new ParametreSysteme('positions_raccordement', 'string', ''),
+            new ParametreSysteme('renfort', 'string', ''),
+            new ParametreSysteme('renfort_zone', 'string', 'toutes_positions'),
         ];
     }
 }

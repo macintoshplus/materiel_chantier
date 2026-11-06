@@ -29,6 +29,13 @@ final class MessagesCalcul
         'framing_height_exceeded' => 'No stud span of the profile ({{ profile }} mm) covers the height of {{ height }} mm.',
         'framing_rail_missing' => 'No catalogue profile of family "{{ family }}" and series {{ series }} found for the perimeter rails.',
         'insulation_deeper_than_framing' => 'The insulation ({{ cavity }} mm) is deeper than the framing profile ({{ profile }} mm).',
+        'pose_override_exceeds_limit' => 'The value {{ value }} imposed for "{{ parameter }}" exceeds the limit of {{ limit }} of an article.',
+        'pose_parameter_unknown' => 'No default and no article limit for the parameter "{{ parameter }}".',
+        'framing_orientation_intermediate' => 'The framing orientation is intermediate ({{ orientation }}): the least favourable span is used.',
+        'framing_unreinforced_stud_too_long' => 'A non-reinforced stud of {{ length }} mm exceeds the simple stud maximum of {{ maximum }} mm.',
+        'framing_configuration_off_table' => 'The configuration {{ renfort }} at {{ spacing }} mm is not in the manufacturer table.',
+        'screw_no_candidate' => 'No catalogue screw fits a skin thickness of {{ thickness }} mm with {{ penetration }} mm of penetration.',
+        'ceiling_perimeter_profile_missing' => 'No catalogue profile of family "lisse" found for the ceiling perimeter.',
     ];
 
     public static function existe(string $code): bool

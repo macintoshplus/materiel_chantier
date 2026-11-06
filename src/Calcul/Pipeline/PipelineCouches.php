@@ -9,6 +9,7 @@ use App\Calcul\Couche\CoucheDecrite;
 use App\Calcul\Couche\ContexteCouches;
 use App\Calcul\Couche\RegistreCalculateurs;
 use App\Calcul\Materiau\ResolveurMateriau;
+use App\Calcul\Pose\PlanificateurPose;
 use App\Calcul\Surface\SurfaceCalculable;
 use App\Calcul\Systeme\DefinitionSysteme;
 use App\Catalogue\MaterielLisible;
@@ -29,6 +30,7 @@ final readonly class PipelineCouches
         private RegistreCalculateurs $calculateurs,
         private ResolveurMateriau $resolveur,
         private ValidateurSysteme $validateur,
+        private PlanificateurPose $pose = new PlanificateurPose(),
     ) {
     }
 
@@ -82,6 +84,12 @@ final readonly class PipelineCouches
             return new ResultatPipeline([], $contexte, $avertissements, $erreurs, $materiaux);
         }
 
+        [$contexte, $avertissementsPose, $erreursPose] = $this->pose->planifier($definition, $couches, $materiaux, $parametres, $contexte);
+        array_push($avertissements, ...$avertissementsPose);
+        if ([] !== $erreursPose) {
+            return new ResultatPipeline([], $contexte, $avertissements, $erreursPose, $materiaux);
+        }
+
         // Calcul.
         $lignes = [];
         foreach ($couches as $couche) {
@@ -91,6 +99,9 @@ final readonly class PipelineCouches
             $resultat = $this->calculateurs->get($emplacement->calculateur)->calculer($contexteCouche, $contexte);
             array_push($lignes, ...$resultat->lignes);
             array_push($avertissements, ...$resultat->avertissements);
+            if ([] !== $resultat->erreurs) {
+                return new ResultatPipeline([], $resultat->contexte, $avertissements, $resultat->erreurs, $materiaux);
+            }
             $contexte = $resultat->contexte->avecEpaisseurCumulee($resultat->contexte->epaisseurCumulee + ($contexteCouche->epaisseur() ?? 0));
         }
 

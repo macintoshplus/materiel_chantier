@@ -24,6 +24,7 @@ use App\Geometrie\Avertissement;
 use App\Entity\Surface;
 use App\Entity\SystemeApplique;
 use App\Enum\CoteCloison;
+use App\Enum\TypeJonction;
 
 /**
  * Calcule un système appliqué : entités vers descriptions pures de couches, puis pipeline. Pour un système posé
@@ -53,7 +54,7 @@ final class CalculSysteme
                 $definition,
                 $this->adaptateur->versCalculable($surface),
                 $this->decrire($systeme, $surface->getCote()),
-                $systeme->getParametres(),
+                $this->parametresSurface($definition, $surface, $systeme->getParametres()),
             );
         }
 
@@ -69,7 +70,7 @@ final class CalculSysteme
         $definition = $this->systemes->get($systeme->getDefinition());
         $surface = $systeme->getSurface();
         if ($surface instanceof Surface) {
-            $resultat = $this->pipeline->executer($definition, $this->adaptateur->versCalculable($surface), $this->decrire($systeme), $systeme->getParametres());
+            $resultat = $this->pipeline->executer($definition, $this->adaptateur->versCalculable($surface), $this->decrire($systeme), $this->parametresSurface($definition, $surface, $systeme->getParametres()));
             if (!$resultat->estValide()) {
                 return new ResultatSysteme([], 0, null, $resultat->avertissements, $resultat->erreurs);
             }
@@ -181,6 +182,36 @@ final class CalculSysteme
         }
 
         return 0;
+    }
+
+    /**
+     * Arêtes ouvertes d'un plafond (sans lisse) déduites des jonctions avec un autre pan (faîtage, noue, jonction
+     * à plat), sauf si elles sont imposées par le paramètre `aretes_ouvertes`. Format `a:b`, séparées par des virgules.
+     *
+     * @param array<string, scalar|null> $parametres
+     *
+     * @return array<string, scalar|null>
+     */
+    private function parametresSurface(DefinitionSysteme $definition, Surface $surface, array $parametres): array
+    {
+        $declares = array_map(static fn (ParametreSysteme $p): string => $p->nom, $definition->parametres());
+        if (!\in_array('aretes_ouvertes', $declares, true) || isset($parametres['aretes_ouvertes'])) {
+            return $parametres;
+        }
+        $ouvertes = [];
+        foreach ($surface->getPiece()->getJonctions() as $jonction) {
+            if (!\in_array($jonction->getType(), [TypeJonction::Faitage, TypeJonction::Noue, TypeJonction::Plat], true)) {
+                continue;
+            }
+            if ($jonction->getSurfaceA() === $surface) {
+                $ouvertes[] = $jonction->getSommetDebutA().':'.$jonction->getSommetFinA();
+            } elseif ($jonction->getSurfaceB() === $surface && null !== $jonction->getSommetDebutB() && null !== $jonction->getSommetFinB()) {
+                $ouvertes[] = $jonction->getSommetDebutB().':'.$jonction->getSommetFinB();
+            }
+        }
+        $parametres['aretes_ouvertes'] = implode(',', $ouvertes);
+
+        return $parametres;
     }
 
     /**

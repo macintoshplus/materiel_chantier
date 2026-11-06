@@ -22,6 +22,7 @@ final readonly class PlanOssature
      * @param list<int>           $raccordements  montants hors grille, un par montant de raccordement
      * @param list<int>           $railsOuvertures
      * @param list<Avertissement> $avertissements
+     * @param list<int>           $montantsBords  pièces de `montants` qui encadrent une ouverture (jambages), sous-ensemble de `montants`
      */
     public function __construct(
         public array $railsBas,
@@ -31,6 +32,7 @@ final readonly class PlanOssature
         public array $railsOuvertures,
         public int $hauteurMax,
         public array $avertissements = [],
+        public array $montantsBords = [],
     ) {
     }
 
@@ -65,15 +67,29 @@ final readonly class PlanOssature
             }
         }
 
+        $xBords = [];
+        foreach ($surface->ouvertures as $ouverture) {
+            $b = $ouverture->forme->boiteEnglobante();
+            foreach ([$b->minX, $b->maxX] as $x) {
+                $xBords[$x] = true;
+            }
+        }
         $montants = [];
+        $bords = [];
         $lignes = [];
         foreach ($surface->coupes(Direction::Verticale, $entraxe) as $segment) {
             $montants[] = $segment->longueur();
+            if (isset($xBords[$segment->debut->x])) {
+                $bords[] = $segment->longueur();
+            }
             $lignes[$segment->debut->x] = true;
         }
         $largeur = $boite->largeur();
         if ($largeur > 0 && 0 !== $largeur % $entraxe) {
             array_push($montants, ...self::piecesAu($surface, $boite->maxX));
+            if (isset($xBords[$boite->maxX])) {
+                array_push($bords, ...self::piecesAu($surface, $boite->maxX));
+            }
             $lignes[$boite->maxX] = true;
         }
         $railsOuvertures = [];
@@ -83,7 +99,9 @@ final readonly class PlanOssature
                 if (isset($lignes[$x]) || $x <= $boite->minX || $x > $boite->maxX) {
                     continue;
                 }
-                array_push($montants, ...self::piecesAu($surface, $x));
+                $pieces = self::piecesAu($surface, $x);
+                array_push($montants, ...$pieces);
+                array_push($bords, ...$pieces);
                 $lignes[$x] = true;
             }
             if ($b->largeur() > 0) {
@@ -116,7 +134,7 @@ final readonly class PlanOssature
             }
         }
 
-        return new self($bas, $haut, $montants, $raccordements, $railsOuvertures, $boite->hauteur(), $avertissements);
+        return new self($bas, $haut, $montants, $raccordements, $railsOuvertures, $boite->hauteur(), $avertissements, $bords);
     }
 
     /**
