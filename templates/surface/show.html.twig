@@ -37,6 +37,17 @@
         {% endembed %}
     {% endif %}
 
+    {% embed 'layout/_groupe.html.twig' with {cle: 'surface-systems', titre: 'Systems'} %}
+        {% block contenu %}
+            {% for s in surface.systemes %}
+                <p class="mb-1">{{ s.variante }} {% if s.actif %}<span class="badge text-bg-success">{{ 'Active'|trans }}</span>{% else %}<span class="badge text-bg-secondary">{{ 'Variant'|trans }}</span>{% endif %}</p>
+            {% else %}
+                <p class="text-muted small">{{ 'No system applied yet.'|trans }}</p>
+            {% endfor %}
+            <a class="btn btn-outline-secondary btn-sm" data-testid="lien-systemes" href="{{ path('systemes_surface', {piece: piece.id, surface: surface.id}) }}">{{ 'Manage the systems'|trans }}</a>
+        {% endblock %}
+    {% endembed %}
+
     {% embed 'layout/_groupe.html.twig' with {cle: 'properties', titre: 'Properties'} %}
         {% block contenu %}
             {{ form_row(form.nom) }}

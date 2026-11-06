@@ -98,6 +98,7 @@ cocher, chacun vérifiable), Vérifications automatiques, Décisions et écarts.
 | [04](04-sources-mesures.DONE.md) | Sources de mesures (DXF, CSV, côtés/angles) |
 | [05a](05a-moteur-couches.DONE.md) → [05e](05e-agregation-substitution.DONE.md) | Systèmes et calcul : moteur, cloisons/doublages, plafond/pose/renforts, finitions/thermique, agrégation/substitution |
 | [06](06-chiffrage-exports.DONE.md) | Chiffrage et exports |
+|  | *Note : l'écran d'application d'un système (choix de la définition, paramètres, couches, variantes) est décrit dans le README racine ; il complète les étapes 05 et 06.* |
 | [07](07-electricite.md) | Électricité |
 | [08](08-plomberie-ventilation.md) | Plomberie et ventilation |
 | [09](09-vue-3d.md) | Vue 3D |

@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% set nomSupport = support.nom %}
+{% block title %}{{ 'Applied systems'|trans }} - {{ nomSupport }}{% endblock %}
+
+{% block body %}
+    <nav class="fil-ariane" aria-label="{{ 'Breadcrumb'|trans }}">
+        <a href="{{ path('projet_index') }}">{{ 'Projects'|trans }}</a> &rsaquo;
+        <a href="{{ path('projet_show', {id: piece.projet.id}) }}">{{ piece.projet.nom }}</a> &rsaquo;
+        <a href="{{ path('piece_show', {id: piece.id}) }}">{{ piece.nom }}</a> &rsaquo;
+        <a href="{{ retour }}">{{ nomSupport }}</a> &rsaquo;
+        <span aria-current="page">{{ 'Applied systems'|trans }}</span>
+    </nav>
+    <h1>{{ 'Applied systems'|trans }}</h1>
+    <p class="text-muted">{{ nomSupport }}</p>
+
+    {% if systemes|length == 0 %}
+        <p data-testid="aucun-systeme">{{ 'No system applied yet.'|trans }}</p>
+    {% else %}
+        <table class="table" data-testid="systemes">
+            <thead>
+                <tr>
+                    <th>{{ 'System'|trans }}</th>
+                    <th>{{ 'Variant'|trans }}</th>
+                    <th>{{ 'Status'|trans }}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for s in systemes %}
+                <tr data-variante="{{ s.variante }}"{% if s.actif %} class="table-active"{% endif %}>
+                    <td>{{ libelle_systeme(s.definition)|trans }}</td>
+                    <td>{{ s.variante }}</td>
+                    <td>
+                        {% if s.actif %}
+                            <span class="badge text-bg-success">{{ 'Active'|trans }}</span>
+                        {% else %}
+                            <span class="badge text-bg-secondary">{{ 'Variant'|trans }}</span>
+                        {% endif %}
+                    </td>
+                    <td class="d-flex gap-2">
+                        <a class="btn btn-outline-secondary btn-sm" href="{{ path('systeme_edit', {systeme: s.id}) }}">{{ 'Edit'|trans }}</a>
+                        {% if not s.actif %}
+                            <form method="post" action="{{ path('variantes_activer', {systeme: s.id}) }}">
+                                <input type="hidden" name="_token" value="{{ csrf_token('activer-variante' ~ s.id) }}">
+                                <input type="hidden" name="_retour" value="{{ app.request.requestUri }}">
+                                <button type="submit" class="btn btn-outline-primary btn-sm">{{ 'Activate'|trans }}</button>
+                            </form>
+                        {% endif %}
+                        <form method="post" action="{{ path('systeme_delete', {systeme: s.id}) }}" data-turbo-confirm="{{ 'Delete this applied system?'|trans }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('supprimer-systeme' ~ s.id) }}">
+                            <button type="submit" class="btn btn-outline-danger btn-sm">{{ 'Delete'|trans }}</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <p><a href="{{ comparaison }}">{{ 'Compare the variants'|trans }}</a></p>
+    {% endif %}
+
+    <h2 class="h4">{{ 'Apply a system'|trans }}</h2>
+    {% if definitions is empty %}
+        <p class="text-muted">{{ 'No system is available for this support.'|trans }}</p>
+    {% else %}
+        <ul data-testid="definitions">
+            {% for d in definitions %}
+                {% set cible = estCloison ? path('systeme_new_cloison', {piece: piece.id, cloison: support.id, definition: d.code}) : path('systeme_new_surface', {piece: piece.id, surface: support.id, definition: d.code}) %}
+                <li><a href="{{ cible }}" data-definition="{{ d.code }}">{{ d.libelle|trans }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <p><a href="{{ retour }}">&larr; {{ 'Back'|trans }}</a></p>
+{% endblock %}

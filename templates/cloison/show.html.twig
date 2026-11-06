@@ -46,6 +46,19 @@
         {% endblock %}
     {% endembed %}
 
+    {% if cloison %}
+        {% embed 'layout/_groupe.html.twig' with {cle: 'partition-systems', titre: 'Systems'} %}
+            {% block contenu %}
+                {% for s in cloison.systemes %}
+                    <p class="mb-1">{{ s.variante }} {% if s.actif %}<span class="badge text-bg-success">{{ 'Active'|trans }}</span>{% else %}<span class="badge text-bg-secondary">{{ 'Variant'|trans }}</span>{% endif %}</p>
+                {% else %}
+                    <p class="text-muted small">{{ 'No system applied yet.'|trans }}</p>
+                {% endfor %}
+                <a class="btn btn-outline-secondary btn-sm" data-testid="lien-systemes" href="{{ path('systemes_cloison', {piece: piece.id, cloison: cloison.id}) }}">{{ 'Manage the systems'|trans }}</a>
+            {% endblock %}
+        {% endembed %}
+    {% endif %}
+
     {% embed 'layout/_groupe.html.twig' with {cle: 'partition-openings', titre: 'Openings'} %}
         {% block contenu %}
             {% include 'layout/_messages.html.twig' with {messages: controles} only %}

@@ -26,9 +26,9 @@
             {% for l in lignes %}
                 <tr{% if l.actif %} class="table-active"{% endif %}>
                     <td>{{ l.support }}</td>
-                    <td>{{ l.definition }}</td>
+                    <td>{{ libelle_systeme(l.definition)|trans }}</td>
                     <td>{{ l.variante }}{% if l.actif %} <span class="badge text-bg-success">{{ 'Active'|trans }}</span>{% endif %}</td>
-                    {% if l.valide %}
+                    {% if l.estValide %}
                         <td>{{ (l.rTotaleMilli / 1000)|number_format(2, ',', ' ') }}</td>
                         <td>{{ (l.uMilli / 1000)|number_format(2, ',', ' ') }}</td>
                         <td>{{ l.epaisseurMm }}</td>

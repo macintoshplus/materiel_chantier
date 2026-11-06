@@ -1,0 +1,67 @@
+{% extends 'layout/editeur.html.twig' %}
+
+{% set titre = systeme ? systeme.variante : 'New applied system'|trans %}
+{% block title %}{{ titre }}{% endblock %}
+
+{% block fil %}
+    <a href="{{ path('projet_index') }}">{{ 'Projects'|trans }}</a> &rsaquo;
+    <a href="{{ path('projet_show', {id: piece.projet.id}) }}">{{ piece.projet.nom }}</a> &rsaquo;
+    <a href="{{ path('piece_show', {id: piece.id}) }}">{{ piece.nom }}</a> &rsaquo;
+    <a href="{{ liste }}">{{ support.nom }}</a> &rsaquo;
+    <span aria-current="page">{{ titre }}</span>
+{% endblock %}
+
+{% block centre %}
+    <h1>{{ definition.libelle|trans }}</h1>
+    <p class="text-muted">{{ support.nom }}{% if systeme and systeme.actif %} - <span class="badge text-bg-success">{{ 'Active'|trans }}</span>{% endif %}</p>
+    {% include 'apercu/_surface.html.twig' with {apercu: apercu} only %}
+    {% if resultat is not null %}
+        {% embed 'layout/_groupe.html.twig' with {cle: 'system-result', titre: 'Result'} %}
+            {% block contenu %}
+                {% if messagesCalcul|length > 0 %}
+                    {% include 'layout/_messages.html.twig' with {messages: messagesCalcul} only %}
+                {% else %}
+                    <p class="text-muted small" data-testid="calcul-ok">{{ 'This system raises no warning.'|trans }}</p>
+                {% endif %}
+                {% if resultat.estValide %}
+                    <p data-testid="resultat">
+                        {{ 'Total thermal resistance R (m2.K/W)'|trans }} : {{ (resultat.rSystemeMilli / 1000)|number_format(2, ',', ' ') }}
+                        - {{ 'Total thickness (mm)'|trans }} : {{ resultat.epaisseurTotale ?? '-' }}
+                    </p>
+                {% endif %}
+            {% endblock %}
+        {% endembed %}
+    {% endif %}
+{% endblock %}
+
+{% block droite %}
+    {% embed 'layout/_groupe.html.twig' with {cle: 'system', titre: 'System'} %}
+        {% block contenu %}
+            {{ form_row(form.variante) }}
+        {% endblock %}
+    {% endembed %}
+
+    {% if form.parametres|length > 0 %}
+        {% embed 'layout/_groupe.html.twig' with {cle: 'system-parameters', titre: 'Parameters'} %}
+            {% block contenu %}
+                {{ form_widget(form.parametres) }}
+            {% endblock %}
+        {% endembed %}
+    {% endif %}
+
+    {% embed 'layout/_groupe.html.twig' with {cle: 'system-layers', titre: 'Layers'} %}
+        {% block contenu %}
+            {% for emplacement in definition.emplacements %}
+                {% set champ = form.couches[emplacement.code] %}
+                <h3 class="h6">{{ ('layer_slot.' ~ emplacement.code)|trans }}</h3>
+                <p class="text-muted small">{{ 'Between {min} and {max} layers.'|trans({'{min}': emplacement.min, '{max}': emplacement.max}) }}</p>
+                {{ form_errors(champ) }}
+                {% include 'layout/_collection.html.twig' with {champ: champ, ajout: 'Add a layer'} only %}
+            {% endfor %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block actions_supplementaires %}
+    <a class="btn btn-outline-secondary" href="{{ liste }}">{{ 'Applied systems'|trans }}</a>
+{% endblock %}

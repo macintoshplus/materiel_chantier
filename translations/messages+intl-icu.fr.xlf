@@ -1027,6 +1027,87 @@
       <trans-unit id="v6042" resname="supplier_strategy.manuelle"><source>supplier_strategy.manuelle</source><target>Manuelle</target></trans-unit>
       <trans-unit id="v6043" resname="supplier_strategy.meilleur_prix"><source>supplier_strategy.meilleur_prix</source><target>Meilleur prix</target></trans-unit>
       <trans-unit id="v6044" resname="supplier_strategy.plus_proche"><source>supplier_strategy.plus_proche</source><target>Fournisseur le plus proche</target></trans-unit>
+      <trans-unit id="v6045" resname="No system applied yet."><source>No system applied yet.</source><target>Aucun système appliqué pour le moment.</target></trans-unit>
+      <trans-unit id="v6046" resname="Manage the systems"><source>Manage the systems</source><target>Gérer les systèmes</target></trans-unit>
+      <trans-unit id="v6047" resname="Applied systems"><source>Applied systems</source><target>Systèmes appliqués</target></trans-unit>
+      <trans-unit id="v6048" resname="Status"><source>Status</source><target>Statut</target></trans-unit>
+      <trans-unit id="v6049" resname="Delete this applied system?"><source>Delete this applied system?</source><target>Supprimer ce système appliqué ?</target></trans-unit>
+      <trans-unit id="v6050" resname="Compare the variants"><source>Compare the variants</source><target>Comparer les variantes</target></trans-unit>
+      <trans-unit id="v6051" resname="Apply a system"><source>Apply a system</source><target>Appliquer un système</target></trans-unit>
+      <trans-unit id="v6052" resname="No system is available for this support."><source>No system is available for this support.</source><target>Aucun système n'est disponible pour ce support.</target></trans-unit>
+      <trans-unit id="v6053" resname="This system raises no warning."><source>This system raises no warning.</source><target>Ce système ne déclenche aucun avertissement.</target></trans-unit>
+      <trans-unit id="v6054" resname="Between {min} and {max} layers."><source>Between {min} and {max} layers.</source><target>Entre {min} et {max} couches.</target></trans-unit>
+      <trans-unit id="v6055" resname="New applied system"><source>New applied system</source><target>Nouveau système appliqué</target></trans-unit>
+      <trans-unit id="v6056" resname="Systems"><source>Systems</source><target>Systèmes</target></trans-unit>
+      <trans-unit id="v6057" resname="Parameters"><source>Parameters</source><target>Paramètres</target></trans-unit>
+      <trans-unit id="v6058" resname="Layers"><source>Layers</source><target>Couches</target></trans-unit>
+      <trans-unit id="v6059" resname="Add a layer"><source>Add a layer</source><target>Ajouter une couche</target></trans-unit>
+      <trans-unit id="v6060" resname="Variant name"><source>Variant name</source><target>Nom de la variante</target></trans-unit>
+      <trans-unit id="v6061" resname="Material"><source>Material</source><target>Article</target></trans-unit>
+      <trans-unit id="v6062" resname="Not pinned (chosen from the specification)"><source>Not pinned (chosen from the specification)</source><target>Non imposé (choisi selon la spécification)</target></trans-unit>
+      <trans-unit id="v6063" resname="Orientation (degrees)"><source>Orientation (degrees)</source><target>Orientation (degrés)</target></trans-unit>
+      <trans-unit id="v6064" resname="Position"><source>Position</source><target>Position</target></trans-unit>
+      <trans-unit id="v6065" resname="Offset along u (mm)"><source>Offset along u (mm)</source><target>Décalage selon u (mm)</target></trans-unit>
+      <trans-unit id="v6066" resname="Face"><source>Face</source><target>Face</target></trans-unit>
+      <trans-unit id="v6067" resname="Both faces (common)"><source>Both faces (common)</source><target>Les deux faces (commun)</target></trans-unit>
+      <trans-unit id="v6068" resname="Thickness override (mm)"><source>Thickness override (mm)</source><target>Épaisseur imposée (mm)</target></trans-unit>
+      <trans-unit id="v6069" resname="Default"><source>Default</source><target>Par défaut</target></trans-unit>
+      <trans-unit id="v6070" resname="Empty: engine default"><source>Empty: engine default</source><target>Vide : valeur par défaut du moteur</target></trans-unit>
+      <trans-unit id="v6071" resname="Empty: default value ({defaut})"><source>Empty: default value ({defaut})</source><target>Vide : valeur par défaut ({defaut})</target></trans-unit>
+      <trans-unit id="v6072" resname="System saved."><source>System saved.</source><target>Système enregistré.</target></trans-unit>
+      <trans-unit id="v6073" resname="System deleted."><source>System deleted.</source><target>Système supprimé.</target></trans-unit>
+      <trans-unit id="v6074" resname="No variant is active any more: activate one of the remaining variants."><source>No variant is active any more: activate one of the remaining variants.</source><target>Plus aucune variante n'est active : activez l'une des variantes restantes.</target></trans-unit>
+      <trans-unit id="v6075" resname="Partition on metal framing"><source>Partition on metal framing</source><target>Cloison sur ossature métallique</target></trans-unit>
+      <trans-unit id="v6076" resname="Lining on framing"><source>Lining on framing</source><target>Doublage sur ossature</target></trans-unit>
+      <trans-unit id="v6077" resname="Suspended plasterboard ceiling"><source>Suspended plasterboard ceiling</source><target>Plafond suspendu en plaques de plâtre</target></trans-unit>
+      <trans-unit id="v6078" resname="Test system: crossed insulations"><source>Test system: crossed insulations</source><target>Système de test : isolants croisés</target></trans-unit>
+      <trans-unit id="v6079" resname="layer_position.entre_ossature"><source>layer_position.entre_ossature</source><target>Entre l'ossature</target></trans-unit>
+      <trans-unit id="v6080" resname="layer_position.continue"><source>layer_position.continue</source><target>Continue</target></trans-unit>
+      <trans-unit id="v6081" resname="layer_position.sur_ossature"><source>layer_position.sur_ossature</source><target>Sur l'ossature</target></trans-unit>
+      <trans-unit id="v6082" resname="system_parameter.retour_profondeur"><source>system_parameter.retour_profondeur</source><target>Profondeur du retour (mm)</target></trans-unit>
+      <trans-unit id="v6083" resname="system_parameter.marge_bande_resiliente_pct"><source>system_parameter.marge_bande_resiliente_pct</source><target>Marge de la bande résiliente (%)</target></trans-unit>
+      <trans-unit id="v6084" resname="system_parameter.type_profil_peripherique"><source>system_parameter.type_profil_peripherique</source><target>Profil périphérique</target></trans-unit>
+      <trans-unit id="v6085" resname="system_parameter.montants_raccordement"><source>system_parameter.montants_raccordement</source><target>Montants de raccordement</target></trans-unit>
+      <trans-unit id="v6086" resname="system_parameter.positions_raccordement"><source>system_parameter.positions_raccordement</source><target>Positions de raccordement</target></trans-unit>
+      <trans-unit id="v6087" resname="system_parameter.renfort"><source>system_parameter.renfort</source><target>Renfort des montants</target></trans-unit>
+      <trans-unit id="v6088" resname="system_parameter.renfort_zone"><source>system_parameter.renfort_zone</source><target>Zone de renfort</target></trans-unit>
+      <trans-unit id="v6089" resname="system_parameter.extremite_debut"><source>system_parameter.extremite_debut</source><target>Extrémité de début</target></trans-unit>
+      <trans-unit id="v6090" resname="system_parameter.extremite_fin"><source>system_parameter.extremite_fin</source><target>Extrémité de fin</target></trans-unit>
+      <trans-unit id="v6091" resname="system_parameter.entraxe"><source>system_parameter.entraxe</source><target>Entraxe (mm)</target></trans-unit>
+      <trans-unit id="v6092" resname="system_parameter.pas_suspente"><source>system_parameter.pas_suspente</source><target>Pas des suspentes (mm)</target></trans-unit>
+      <trans-unit id="v6093" resname="system_parameter.hauteur_plenum"><source>system_parameter.hauteur_plenum</source><target>Hauteur du plénum (mm)</target></trans-unit>
+      <trans-unit id="v6094" resname="system_parameter.penetration_vis"><source>system_parameter.penetration_vis</source><target>Pénétration des vis (mm)</target></trans-unit>
+      <trans-unit id="v6095" resname="system_parameter.aretes_ouvertes"><source>system_parameter.aretes_ouvertes</source><target>Arêtes ouvertes</target></trans-unit>
+      <trans-unit id="v6096" resname="system_parameter.pas_vis_premiere_peau"><source>system_parameter.pas_vis_premiere_peau</source><target>Pas des vis de la première peau (mm)</target></trans-unit>
+      <trans-unit id="v6097" resname="system_parameter.pas_vis_derniere_peau"><source>system_parameter.pas_vis_derniere_peau</source><target>Pas des vis de la dernière peau (mm)</target></trans-unit>
+      <trans-unit id="v6098" resname="system_parameter.pas_vis_peau_unique"><source>system_parameter.pas_vis_peau_unique</source><target>Pas des vis d'une peau unique (mm)</target></trans-unit>
+      <trans-unit id="v6099" resname="system_choice.type_profil_peripherique.rail"><source>system_choice.type_profil_peripherique.rail</source><target>Rail</target></trans-unit>
+      <trans-unit id="v6100" resname="system_choice.type_profil_peripherique.lisse"><source>system_choice.type_profil_peripherique.lisse</source><target>Lisse</target></trans-unit>
+      <trans-unit id="v6101" resname="system_choice.renfort.simple"><source>system_choice.renfort.simple</source><target>Simple</target></trans-unit>
+      <trans-unit id="v6102" resname="system_choice.renfort.double_accole"><source>system_choice.renfort.double_accole</source><target>Double accolé</target></trans-unit>
+      <trans-unit id="v6103" resname="system_choice.renfort.double_decale"><source>system_choice.renfort.double_decale</source><target>Double décalé</target></trans-unit>
+      <trans-unit id="v6104" resname="system_choice.renfort_zone.toutes_positions"><source>system_choice.renfort_zone.toutes_positions</source><target>Toutes les positions</target></trans-unit>
+      <trans-unit id="v6105" resname="system_choice.renfort_zone.bords_ouvertures"><source>system_choice.renfort_zone.bords_ouvertures</source><target>Bords des ouvertures</target></trans-unit>
+      <trans-unit id="v6106" resname="system_choice.renfort_zone.positions_listees"><source>system_choice.renfort_zone.positions_listees</source><target>Positions listées</target></trans-unit>
+      <trans-unit id="v6107" resname="system_choice.extremite_debut.mur"><source>system_choice.extremite_debut.mur</source><target>Mur</target></trans-unit>
+      <trans-unit id="v6108" resname="system_choice.extremite_fin.mur"><source>system_choice.extremite_fin.mur</source><target>Mur</target></trans-unit>
+      <trans-unit id="v6109" resname="system_choice.extremite_debut.cloison"><source>system_choice.extremite_debut.cloison</source><target>Cloison</target></trans-unit>
+      <trans-unit id="v6110" resname="system_choice.extremite_fin.cloison"><source>system_choice.extremite_fin.cloison</source><target>Cloison</target></trans-unit>
+      <trans-unit id="v6111" resname="system_choice.extremite_debut.doublage"><source>system_choice.extremite_debut.doublage</source><target>Doublage</target></trans-unit>
+      <trans-unit id="v6112" resname="system_choice.extremite_fin.doublage"><source>system_choice.extremite_fin.doublage</source><target>Doublage</target></trans-unit>
+      <trans-unit id="v6113" resname="system_choice.extremite_debut.libre"><source>system_choice.extremite_debut.libre</source><target>Libre</target></trans-unit>
+      <trans-unit id="v6114" resname="system_choice.extremite_fin.libre"><source>system_choice.extremite_fin.libre</source><target>Libre</target></trans-unit>
+      <trans-unit id="v6115" resname="layer_slot.ossature"><source>layer_slot.ossature</source><target>Ossature</target></trans-unit>
+      <trans-unit id="v6116" resname="layer_slot.attache"><source>layer_slot.attache</source><target>Attaches</target></trans-unit>
+      <trans-unit id="v6117" resname="layer_slot.isolant"><source>layer_slot.isolant</source><target>Isolant</target></trans-unit>
+      <trans-unit id="v6118" resname="layer_slot.parement"><source>layer_slot.parement</source><target>Parements</target></trans-unit>
+      <trans-unit id="v6119" resname="layer_slot.enduit_joint"><source>layer_slot.enduit_joint</source><target>Enduit de joints</target></trans-unit>
+      <trans-unit id="v6120" resname="layer_slot.enduit_ratissage"><source>layer_slot.enduit_ratissage</source><target>Enduit de ratissage</target></trans-unit>
+      <trans-unit id="v6121" resname="layer_slot.membrane"><source>layer_slot.membrane</source><target>Membrane</target></trans-unit>
+      <trans-unit id="v6122" resname="layer_slot.bande_joint"><source>layer_slot.bande_joint</source><target>Bande à joints</target></trans-unit>
+      <trans-unit id="v6123" resname="layer_slot.fixation_support"><source>layer_slot.fixation_support</source><target>Fixations au support</target></trans-unit>
+      <trans-unit id="v6124" resname="layer_slot.bande_resiliente"><source>layer_slot.bande_resiliente</source><target>Bande résiliente</target></trans-unit>
+      <trans-unit id="v6125" resname="layer_slot.suspente"><source>layer_slot.suspente</source><target>Suspentes</target></trans-unit>
     </body>
   </file>
 </xliff>
