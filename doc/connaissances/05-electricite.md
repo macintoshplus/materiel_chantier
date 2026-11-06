@@ -14,7 +14,7 @@ sont des ordres de grandeur à **valider** avant implémentation.
 | Distribution | tableau, boîte de dérivation, DCL | Points de départ/rattachement des circuits |
 
 Un élément a : un type, une **surface porteuse** (mur, plafond, sol), une position `(u, v)` dans le repère
-de cette surface (comme une ouverture), une hauteur de pose, un circuit.
+de cette surface (comme une ouverture), une hauteur de pose (la coordonnée `v` sur un mur), un circuit. Le tableau est lui-même un élément (type `tableau`).
 
 ## Circuits
 

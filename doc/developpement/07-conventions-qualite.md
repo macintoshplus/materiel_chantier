@@ -58,7 +58,7 @@ fumée de page est toléré tant que la page existe ; aucun test fonctionnel de 
   traduction française est dans `translations/messages.fr.xlf` (ou `+intl-icu`).
 - Clés = texte anglais complet (pas d'identifiants opaques) ; pluriels et variables en ICU.
 - Pas de texte en dur dans le PHP : labels de formulaires, messages de validation, avertissements de
-  calcul passent par `TranslatableMessage` ou le traducteur.
+  calcul passent par `TranslatableMessage` ou le traducteur. Exception : `src/Calcul` et `src/Geometrie` restent sans dépendance Symfony et produisent des `Avertissement` (code + paramètres, objet valeur) ; l'adaptateur côté application les convertit en `TranslatableMessage`.
 - CI : `symfony console translation:extract fr --force --format=xlf` puis `git diff --exit-code translations/`
   doit être vide, et `symfony console lint:xliff translations` doit passer. Le contrôle est à ajuster si
   l'outillage de traduction change.

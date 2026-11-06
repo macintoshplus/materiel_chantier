@@ -39,6 +39,7 @@ en boîte) ; ce sont des **données**, modifiables sans migration. Voir le calcu
 | latitude, longitude | decimal(10,7), nullables mais requis pour le calcul de distance |
 | site_web, telephone | string nullable |
 | actif | bool |
+| frais_livraison_ttc | decimal nullable | forfait de livraison TTC (pas de franco ni de calcul au poids) |
 
 Service `DistanceCalculator` : distance à vol d'oiseau (formule de haversine) entre deux coordonnées GPS ;
 sert à classer les fournisseurs par proximité du chantier (adresse du projet, optionnelle).
@@ -73,10 +74,10 @@ dans le schéma de la catégorie (types et bornes validés comme les autres cham
 | `profil_ossature` (montant) | `portees`: liste de `{renfort, orientation (verticale\|horizontale), entraxe, longueur_max, decalage_joints_min_mm?, pas_vis_assemblage_mm?, accessoires?: [{specification, par_joint? \| pas_mm?}]}` ; `entraxe_defaut` |
 | `plaque_platre` | `entraxe_max`, `pas_vis_premiere_peau`, `pas_vis_derniere_peau`, `pas_vis_peau_unique` |
 | `appui_fixation` | `pas_defaut`, `hauteur_defaut` |
-| `visserie` | `longueur`, `usage`, `epaisseur_fixable_min`, `epaisseur_fixable_max`, `consommation_par_m2?` |
+| `visserie` | `longueur` (information), `usage`, `epaisseur_fixable_min, `epaisseur_fixable_max`, `consommation_par_m2?` |
 | `accessoire_ossature` (éclisse de liaison, clip, vis d'assemblage) | `usage` (`liaison_montants_decales`, `liaison_montants_accoles`), `renfort_compatible` |
 
-Nouvelles catégories : `visserie` et `accessoire_ossature`. La table de portées est de la donnée, pas du
+Nouvelles catégories : `visserie`, `accessoire_ossature`, `fixation_support`, `bande_resiliente`, `enduit` (voir `connaissances/06-catalogue-materiaux.md` pour la liste complète). La table de portées est de la donnée, pas du
 code : un fabricant différent ou un nouveau profilé = une nouvelle ligne de catalogue.
 
 Règle de lecture : `ProfilView::portees()`, `PlaqueView::pose()`, `VisserieView::fixable()` exposent ces

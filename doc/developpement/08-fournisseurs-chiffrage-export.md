@@ -19,6 +19,8 @@ prixLotTtc, totalTtc, chute, tauxPerte, prixMateriauId (traçabilité).
 Quantités : `nombreLots = ceil(quantiteBesoin × (1 + margePct/100) / unitesParLot)` ; voir
 `04-systemes-et-calcul.md`, « Marge de sécurité et arrondi aux lots ». La marge utilisée est copiée dans la ligne.
 
+**Livraison** : si le fournisseur a un `frais_livraison_ttc`, une ligne « Livraison » (une par fournisseur utilisé dans le chiffrage, montant copié) s'ajoute au total ; elle n'entre pas dans la comparaison de `MeilleurPrix` au premier ordre (option : l'inclure pour départager).
+
 Les lignes **copient** les libellés, dimensions et prix : renommer ou supprimer un article ensuite ne
 modifie pas un chiffrage existant.
 

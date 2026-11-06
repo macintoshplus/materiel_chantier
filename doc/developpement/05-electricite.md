@@ -6,12 +6,11 @@ systèmes.
 ## Modèle
 
 - `Equipement` (famille `electrique`, socle commun décrit dans `09-plomberie-ventilation.md`) : pièce,
-  surface porteuse, position `(u, v)` dans la surface, hauteur de pose, type, réseau. Types extensibles via un catalogue de **types d'éléments** (code, libellé, famille,
+  surface porteuse, position `(u, v)` dans la surface (la hauteur de pose est `v` sur un mur), type, réseau. Types extensibles via un catalogue de **types d'éléments** (code, libellé, famille,
   conducteurs requis, matériaux associés : boîte, mécanisme, plaque).
 - `Reseau` (famille `electrique` = circuit) : projet, nom, type (éclairage, prises, chauffage, cuisson, spécialisé), section, protection.
-- `PointDepart` : tableau ou boîte de dérivation (position dans une pièce).
-- Liaisons : un circuit est un **arbre ou une chaîne** d'éléments ; pour les va-et-vient, la liaison
-  entre commandes est un tronçon à 3 conducteurs + terre (`TronconNavette`).
+- Le tableau et les boîtes de dérivation sont des `Equipement` (types `tableau`, `boite_derivation`) ; il n'y a pas d'entité `PointDepart`. Le point de départ d'un `Reseau` est l'équipement désigné dans ses paramètres.
+- Liaisons : un circuit est un **arbre ou une chaîne** d'éléments, stockée dans les `parametres` du `Reseau` (liste ordonnée ou parent de chaque équipement) ; pour les va-et-vient, la liaison entre commandes est un tronçon à 3 conducteurs + terre décrit dans ces données (pas d'entité `TronconNavette`).
 
 ## Calcul de cheminement
 

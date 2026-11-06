@@ -48,8 +48,8 @@ Une pièce et un mur sont **deux pages distinctes** :
 - Même principe pour les pans de plafond (page de pan) quand le plafond est composé de plusieurs pans.
 - Chaque page a sa propre URL (`/rooms/{id}`, `/rooms/{id}/walls/{id}`) : lien partageable, retour
   navigateur fonctionnel, navigation par Turbo Drive (sans rechargement complet).
-- Si des modifications du formulaire en cours ne sont pas enregistrées, la navigation demande
-  confirmation (ou enregistre automatiquement, selon la règle choisie pour tout l'écran : voir « Principes »).
+- Si des modifications du formulaire en cours ne sont pas enregistrées, la navigation propose
+  « Save and continue », « Discard » ou « Cancel » : l'enregistrement est toujours explicite, jamais automatique.
 
 ## Cloisons
 
@@ -76,8 +76,8 @@ Une pièce et un mur sont **deux pages distinctes** :
 Écran « New room » avec **deux entrées**, qui mènent au **même éditeur de pièce** :
 
 1. **Import a DXF file** : assistant d'import (voir `03-geometrie.md`) → éditeur de pièce prérempli.
-2. **Start from scratch** : saisie manuelle. Au choix : rectangle rapide (largeur, longueur, hauteur),
-   côtés et angles, ou tableau de sommets. Les murs sont générés ; l'éditeur s'ouvre.
+2. **Start from scratch** : saisie manuelle. Au choix : rectangle rapide (largeur, longueur, hauteur, disponible dès la phase 3),
+   côtés et angles (phase 4), ou tableau de sommets (phase 3). Les murs sont générés ; l'éditeur s'ouvre.
 
 Les sources de mesures supplémentaires (CSV de relevé) s'ajoutent comme troisième entrée sans changer
 l'éditeur.

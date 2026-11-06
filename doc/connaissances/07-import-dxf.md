@@ -17,7 +17,7 @@ l'unité du dessin (`$INSUNITS` : 1 pouce, 4 mm, 5 cm, 6 m ; `0` = non spécifi�
 | `LWPOLYLINE` | Contour de pièce (le plus fréquent), fermée si le drapeau 70 bit 1 est posé ; sommets avec « bulge » pour les arcs (courbe : non pris en charge) |
 | `POLYLINE` / `VERTEX` | Ancienne forme du précédent, parfois 3D |
 | `LINE` | Murs dessinés segment par segment : à **chaîner** pour reconstituer un contour |
-| `ARC`, `CIRCLE` | Murs courbes, colonnes : **non pris en charge** pour le moment (avertissement, import refusé pour le contour concerné) |
+| `ARC`, `CIRCLE` | Murs courbes, colonnes : **non pris en charge** pour le moment (contour concerné rejeté « murs courbes non pris en charge » ; arc hors contour ignoré avec avertissement) |
 | `INSERT` (+ `BLOCKS`) | Symboles insérés : portes, fenêtres, appareillage électrique, avec position, rotation, échelle |
 | `TEXT` / `MTEXT` | Libellés de pièces, cotes : aide au nommage, sans valeur géométrique |
 | `DIMENSION` | Cotes : à ignorer pour la géométrie |

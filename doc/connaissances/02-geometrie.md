@@ -36,8 +36,11 @@ Cette relation sert à :
 3. dessiner la pièce dépliée ou en vue 3D ;
 4. propager les cotes (la hauteur d'un mur est contrainte par le plafond qui le coiffe).
 
-Modèle conceptuel : `Arete { surface, indexSommetDebut, indexSommetFin }` et
-`Jonction { areteA, areteB, type }`. Deux arêtes jointes ont la même longueur 3D (tolérance de quelques mm).
+Modèle conceptuel : chaque sommet d'un polygone a un identifiant stable ; une
+`Jonction { surfaceA, portionA, surfaceB, portionB, type }` référence des portions d'arêtes par ces identifiants
+(pas d'entité `Arete`). Entre surfaces de même contour (angles, faîtage, noue, plat), les arêtes jointes ont la
+même longueur 3D (tolérance de quelques mm) ; pour une cloison posée sur un mur, un sol ou un plafond, seule une
+portion de l'arête est concernée, sans contrainte d'égalité.
 
 ## Murs non rectangulaires
 

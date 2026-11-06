@@ -17,6 +17,7 @@
 - Couche : `R = e / λ`. Si le fabricant donne directement `R` pour une épaisseur, on le stocke tel quel
   (le R certifié prime sur le calcul).
 - Paroi : `RT = Rsi + Σ R(couches) + Rse` (+ lames d'air si présentes).
+- Cloison (deux faces intérieures) : `Rsi + Σ R + Rsi`, sans Rse ; sert à l'acoustique/confort, pas à l'objectif d'isolation de paroi extérieure.
 - Valeurs usuelles de Rsi/Rse : mur `0,13 / 0,04`, plafond/toiture (flux ascendant) `0,10 / 0,04`,
   plancher bas `0,17 / 0,04`. Pour un doublage intérieur, la paroi existante (mur porteur) compte comme
   une couche de plus : `R = e / λ` du matériau existant, ou valeur forfaitaire connue (parpaing, brique,

@@ -7,35 +7,50 @@ prix sont détaillés dans [02-catalogue.md](02-catalogue.md) ; chiffrage et exp
 
 ## Entités
 
+```mermaid
+erDiagram
+    Projet ||--o{ Piece : contient
+    Projet ||--o{ Reseau : possede
+    Projet ||--o{ Chiffrage : possede
+    Piece ||--o{ Surface : contient
+    Piece ||--o{ Cloison : contient
+    Piece ||--o{ Equipement : contient
+    Cloison ||--|{ Surface : "2 faces (cloison_face)"
+    Surface ||--o{ Ouverture : porte
+    Cloison ||--o{ Ouverture : "porte (partagees par les 2 faces)"
+    Surface ||--o| ParoiExistante : "repose sur"
+    ParoiExistante ||--o{ CoucheExistante : composee
+    CoucheExistante }o--|| Materiau : "categorie paroi_existante"
+    Surface ||--o{ SystemeApplique : "variantes, une active"
+    Cloison ||--o{ SystemeApplique : "variantes, une active"
+    SystemeApplique ||--o{ CoucheAppliquee : composee
+    CoucheAppliquee }o--o| Materiau : "article epingle"
+    Surface ||--o{ Jonction : "cote A (surface, sommet)"
+    Surface ||--o{ Jonction : "cote B (surface, sommet)"
+    Equipement }o--o| Reseau : appartient
+    Equipement }o--|| Surface : "pose sur"
+    Chiffrage ||--o{ LigneChiffrage : contient
+    LigneChiffrage }o--|| Materiau : concerne
+    LigneChiffrage }o--o| Fournisseur : "achete chez"
 ```
-Projet 1──n Piece 1──n Surface 1──n Ouverture
-               │
-               ├─ Cloison 1──n Face (Surface type cloison_face)
-               │      └─ Ouverture (partagées par les 2 faces), SystemeApplique, Ancrages
-  │            │          │
-  │            │          ├─ ParoiExistante 1──n CoucheExistante ──> Materiau (catégorie paroi_existante)
-  │            │          ├─ SystemeApplique (variantes, une active) 1──n CoucheAppliquee ──> Materiau
-  │            │          └─ Arete ── Jonction ── Arete
-  │            └─ Equipement n──1 Reseau
-  │            └─ formeSol (JSON de sommets)
-  └─ Chiffrage 1──n LigneChiffrage ──> Materiau, Fournisseur
-```
+
+Une `Piece` porte aussi `formeSol` (JSON de sommets). `Surface` est une table unique : les faces de cloison
+sont des lignes `type = cloison_face` avec `cloison_id` et `cote` renseignés.
 
 | Entité | Champs principaux |
 |---|---|
 | `Projet` | id, nom, description, dateCreation, adresseChantier + latitude/longitude (optionnels), parametres JSON (marges de sécurité par catégorie ou matériau, options) |
 | `Piece` | id, projet, nom, hauteurSousPlafond (mm, valeur par défaut pour créer des murs rectangulaires, pas une source de vérité), formeSol JSON `[{x,y}]` mm anti-horaire, sourceMesures (saisie, dxf, csv) |
-| `Surface` | id, piece, type (`mur`, `plafond_pan`, `sol`, `cloison_face`), nom, origine3D, vecteurU, vecteurV (JSON), polygone JSON `[{u,v}]` résolu, contraintes JSON (sommets placés par distance depuis un sommet ou par angle) ; mur, pan incliné et plafond horizontal sont le même objet, `type` est indicatif |
-| `Arete` | surface, indexDebut, indexFin (dérivable du polygone) |
-| `Jonction` | areteA, areteB, type (`angle_saillant`, `angle_rentrant`, `faitage`, `noue`, `plat`, `cloison_sur_mur`, `cloison_sur_cloison`, `cloison_sur_doublage`, `cloison_sur_sol`, `cloison_sous_plafond`…) |
+| `Surface` | id, piece, type (`mur`, `plafond_pan`, `sol`, `cloison_face`), cloison (nullable, renseigné pour `cloison_face`), cote (`A` \| `B`, nullable), nom, origine3D, vecteurU, vecteurV (JSON d'**entiers non normalisés**, par exemple en millièmes ; la normalisation se fait à la lecture, aucun flottant persisté), polygone JSON `[{id,u,v}]` résolu (chaque sommet a un identifiant stable),  contraintes JSON (sommets placés par distance depuis un sommet ou par angle) ; mur, pan incliné et plafond horizontal sont le même objet, `type` est indicatif |
+| `Jonction` | surfaceA, sommetDebutA, sommetFinA (portion de l'arête, identifiants de sommets stables), surfaceB, sommetDebutB, sommetFinB (ou portions en mm le long de l'arête pour les cloisons), type (`angle_saillant`, `angle_rentrant`, `faitage`, `noue`, `plat`, `cloison_sur_mur`, `cloison_sur_cloison`, `cloison_sur_doublage`, `cloison_sur_sol`, `cloison_sous_plafond`…) |
 | `Cloison` | id, piece, nom, debut `{x,y}` mm, fin `{x,y}` mm (axe, modifiables), epaisseur mm (**dérivée** du système actif, jamais saisie), ancrageDebut, ancrageFin (type `mur` \| `cloison` \| `doublage` \| `libre`, cible, position le long de la cible), parametres JSON |
-| `Face` | id, cloison, cote (`A` \| `B`), nom, polygone JSON `[{u,v}]` (repère de la face, dérivé du tracé et du plafond) ; est une `Surface` de type `cloison_face` |
+| Face de cloison | pas d'entité propre : ligne de `Surface` de type `cloison_face` (colonnes `cloison` et `cote`), polygone dérivé du tracé et du plafond |
 | `Ouverture` | id, surface **ou** cloison, nom (optionnel), type, polygone JSON `[{u,v}]` (ou rectangle u,v,largeur,hauteur), typePose (`applique` \| `tunnel`), typeContour, refoncement (mm, profondeur du dormant en retrait du nu du mur ; ≥ 0), parametres JSON |
 | `ParoiExistante` | surface (1–1), couches (matériau existant + épaisseur, ou R forfaitaire) |
-| `SystemeApplique` | id, surface, variante (libellé), actif (bool), definitionSysteme (code), parametres JSON ; plusieurs par surface, **un seul actif** |
+| `SystemeApplique` | id, surface **ou** cloison (deux clés étrangères nullables, exactement une renseignée), variante (libellé), actif (bool), definitionSysteme (code), parametres JSON ; plusieurs par surface, **un seul actif** |
 | `CoucheAppliquee` | systemeApplique, ordre, face (`null` = couche commune ; `A` \| `B` pour le parement d'une face de cloison), role (`attache`, `isolant`, `ossature`, `membrane`, `parement`…), emplacement (code dans la définition), specification JSON (catégorie + critères), materiau (nullable : article épinglé), orientation (degrés, nullable), position (`entre_ossature`, `continue`, `sur_ossature`), decalage JSON (calepinage), epaisseurOverride |
 | `Materiau`, `Fournisseur`, `PrixMateriau` | voir `02-catalogue.md` |
-| `Equipement` | id, piece, surface, famille (`electrique`, `plomberie`, `ventilation`), type, u, v, hauteurPose, reseau, parametres JSON |
+| `Equipement` | id, piece, surface, famille (`electrique`, `plomberie`, `ventilation`), type, u, v (la hauteur sur un mur est `v`, pas de champ `hauteurPose`), reseau, parametres JSON |
 | `Reseau` | id, projet, nom, famille, type, parametres JSON (section, protection, diamètre…) |
 | `Chiffrage`, `LigneChiffrage` | voir `08-fournisseurs-chiffrage-export.md` |
 
@@ -79,9 +94,11 @@ enregistrés par tag (voir `04-systemes-et-calcul.md`).
 
 ## Règles de cohérence
 
+- Le sol est une surface dérivée du polygone au sol, créée avec la pièce par `GenerateurSol` ; il porte jonctions et système comme les autres surfaces.
 - Supprimer un projet supprime ses pièces, surfaces, ouvertures, équipements, chiffrages (cascade).
 - Une ouverture reste dans sa surface (validation Symfony, voir `03-geometrie.md`).
-- Une jonction relie exactement deux arêtes de longueur égale (± 1 mm).
+- Une jonction relie deux arêtes (ou portions d'arêtes). Pour les jonctions entre surfaces de même contour (`angle_saillant`, `angle_rentrant`, `faitage`, `noue`, `plat`), les longueurs sont égales (± 1 mm). Les jonctions de cloison (`cloison_sur_*`) ne contraignent pas l'égalité des longueurs : la cloison s'appuie sur une portion de l'arête.
+- Ajouter ou supprimer un sommet ne décale rien : les jonctions référencent des identifiants de sommets stables, pas des index.
 - Une surface (ou une cloison, qui porte son propre système) a au plus un `SystemeApplique` actif.
 - Le nombre de couches d'un emplacement respecte la cardinalité de la définition (`min`..`max`).
 - `SystemeApplique.parametres` conserve les choix utilisateur de pose (entraxe imposé, renfort, zone) ;
@@ -92,8 +109,10 @@ enregistrés par tag (voir `04-systemes-et-calcul.md`).
 
 ## Propriétaire (plus tard)
 
-L'ajout de l'utilisateur ne touchera que `Projet` (clé étrangère `proprietaire`) ; tout le reste y est
-rattaché par cascade. Aucune préparation dans les phases actuelles.
+L'ajout de l'utilisateur ajoutera une clé étrangère `proprietaire` sur `Projet` ; pièces, surfaces et chiffrages y
+sont rattachés par cascade. Le catalogue, les fournisseurs et les prix sont globaux, hors cascade : le
+multi-utilisateur imposera alors de décider s'ils sont partagés ou propres à chaque compte (travail à prévoir à ce
+moment-là). Aucune préparation dans les phases actuelles.
 
 ## Tests
 

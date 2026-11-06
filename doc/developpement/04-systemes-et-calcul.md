@@ -58,12 +58,12 @@ Une définition de système peut autoriser **plusieurs couches du même rôle** 
 | Emplacement | Rôle | Cardinalité | Remarques |
 |---|---|---|---|
 | attache | fixation | 0..1 | Appuis, pattes, suspentes ; dépend de l'épaisseur isolée |
-| isolant | isolant | 1..2 | 2ᵉ couche optionnelle, orientation `0` ou `90` (croisée) |
+| isolant | isolant | 1..2 | 2ᵉ couche optionnelle, orientation `0` ou `90` (croisée) ; une couche croisée est obligatoirement de position `continue` (incompatible avec `entre_ossature`, validation bloquante) |
 | ossature | ossature | 1 | Cloison ou doublage ; sa profondeur dépend des isolants « entre ossature » |
 | parement | parement | 1..2 | 1 ou 2 peaux ; types hydro, phonique, feu, haute dureté…, tous des articles de la catégorie `plaque_platre` |
 
 Chaque couche posée porte :
-- **`orientation`** (degrés, relative à la direction de référence de la surface) : détermine la direction des
+- **`orientation`** (degrés, **relative à la direction de l'ossature de la surface** : `0` = parallèle, `90` = perpendiculaire ; direction définie par `Surface::coupes()`) : détermine la direction des
   coupes de la couche (voir `Surface::coupes()` dans `03-geometrie.md`). Une 2ᵉ couche d'isolant à 90° est
   croisée ; à 0° elle est simplement doublée.
 - **`position`** par rapport à l'ossature : `entre_ossature` (l'isolant remplit la cavité, surface isolée
@@ -81,7 +81,7 @@ le calculateur lit et enrichit un `ContexteCouches` (objet valeur immuable, remp
 |---|---|---|
 | épaisseur cumulée | attache, ossature, vis | Longueur de l'appui d'isolant = épaisseur isolée |
 | profondeur de cavité | ossature | Montant M70 si isolant 70 mm entre ossature |
-| direction de l'ossature | isolant croisé, lattes | La 2ᵉ couche d'isolant croisée est perpendiculaire à la 1ʳᵉ |
+| direction de l'ossature | isolant croisé, lattes | La 2ᵉ couche d'isolant croisée est à 90° de l'ossature (donc de la 1ʳᵉ couche, qui est à 0°) |
 | calepinage de la couche précédente | parement suivant | Joints de la 2ᵉ peau décalés |
 | épaisseur de parement totale | visserie | Longueur de vis = épaisseur des peaux + pénétration dans l'ossature |
 | R cumulé | thermique | Contrôle de l'objectif |
@@ -208,11 +208,11 @@ quantités (« 14 montants car entraxe 400 mm imposé par la plaque »).
 
 ### Vis et visserie
 
-- Catégorie `visserie` : `longueur`, `usage` (`plaque_sur_metal`, `plaque_sur_bois`…), `epaisseur_fixable_min`
-  et `max`.
+- Catégorie `visserie` : `longueur` (information), `usage` (`plaque_sur_metal`, `plaque_sur_bois`…), `epaisseur_fixable_min`
+  et `max` (**critère de sélection unique** : plage d'épaisseur de plaques que la vis traverse, pénétration dans l'ossature incluse selon la fiche).
 - **Spécification à critère calculé** : `MaterielSpecification` accepte des valeurs tirées du contexte :
-  `usage = plaque_sur_metal` et `longueur >= {contexte.epaisseurParementsPeau + contexte.penetrationVis}`.
-  `ResolveurMateriau` retient la plus petite vis compatible. Une vis par peau si les peaux n'ont pas la même
+  `usage = plaque_sur_metal` et `epaisseur_fixable_min <= {contexte.epaisseurParementsPeau} <= epaisseur_fixable_max`.
+  `ResolveurMateriau` retient la plus petite vis compatible (longueur la plus courte). Une vis par peau si les peaux n'ont pas la même
   épaisseur cumulée (la 1ʳᵉ peau passe sa vis dans une seule plaque, la 2ᵉ dans deux).
 - **Quantité** : nombre de points de fixation = longueur d'ossature de la peau ÷ pas de la peau (large pour
   la 1ʳᵉ peau, serré pour la dernière), plus les fixations de périphérie ; si le fabricant ne donne qu'une
@@ -261,7 +261,8 @@ les montants qui encadrent une porte).
    et dont l'entraxe respecte la priorité ci-dessus ;
 2. applique une **stratégie** de choix (`StrategieConfiguration`) : la plus économe en matériel,
    la plus économe en coût (avec le fournisseur choisi), ou imposée par l'utilisateur ;
-3. écrit la configuration retenue dans `ContexteCouches` ; si aucune ne convient, avertissement bloquant
+3. **vérifie chaque position** contre la ligne de la table qui lui correspond (renforcée ou non) : un montant non renforcé dont la longueur dépasse la `longueur_max` du montant simple est une erreur bloquante, sauf si le renfort localisé couvre cette position ;
+4. écrit la configuration retenue dans `ContexteCouches` ; si aucune ne convient, avertissement bloquant
    (« hauteur 3,2 m : aucun profil M48 ne convient, essayer M70 ou un renfort décalé »).
 
 L'utilisateur peut aussi proposer une configuration qui n'est pas dans la table : acceptée avec
@@ -378,7 +379,7 @@ un autre (option : calcul par surface ou par projet).
 
 - `IsolantView` : λ, épaisseur, R certifié (prioritaire sur `e/λ`).
 - `ThermiqueCalculator::resistanceTotale(Surface, ParoiExistante, list<Couche>, Rsi, Rse)` ; Rsi/Rse selon
-  le type de surface, constantes documentées.
+  le type de surface, constantes documentées. **Cloison / `cloison_face`** : Rsi des **deux côtés** (pas de Rse, deux ambiances intérieures) ; le résultat sert à l'acoustique et au confort, pas à l'objectif d'isolation de paroi extérieure.
 - Option v2 : pont thermique d'ossature (fractions de surface).
 - Affichage : R par couche, RT, U, objectif saisi, delta.
 
@@ -409,7 +410,7 @@ adhésif en ml selon jonctions de lés et périphérie ; R = 0.
 - Deux variantes sur une surface se comparent sans changer la variante active.
 - Système « 2 isolants croisés + ossature + 2 parements » : les couches s'enchaînent, l'épaisseur
   cumulée pilote profondeur d'ossature, attaches et vis ; le R total additionne les deux isolants.
-- Une 2ᵉ couche d'isolant à 90° est coupée perpendiculairement à la 1ʳᵉ ; à 0° elle est parallèle.
+- Une 2ᵉ couche d'isolant à 90° est coupée perpendiculairement à l'ossature (donc à la 1ʳᵉ couche posée à 0°) ; à 0° elle est parallèle.
 - Les joints de la 2ᵉ peau de plaques sont décalés de ≥ 0,40 m de ceux de la 1ʳᵉ.
 - Ouverture en tunnel : des bandes de retour (linteau, côtés, appui pour une fenêtre) de largeur
   `profondeurRetour` s'ajoutent aux plaques, joints et vis ; en applique, rien n'est ajouté.

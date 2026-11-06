@@ -25,7 +25,7 @@ du fournisseur.
 | `plaque_platre` | `type` (std, hydro, feu…), `bord` (BA, AB…), `densite`, `pose.entraxe_max`, `pose.pas_vis_*` |
 | `profil_ossature` | `famille` (rail, lisse, montant, fourrure, cornière), `serie` (48, 70), `pose.entraxe_defaut`, `pose.portees` (table fabricant : renfort, orientation, entraxe, longueur max, décalage des joints, accessoires) |
 | `appui_fixation` | `usage`, `pose.pas_defaut`, `pose.hauteur_defaut` |
-| `visserie` | `longueur`, `usage` (plaque sur métal/bois…), `pose.epaisseur_fixable_min/max`, `pose.consommation_par_m2` |
+| `visserie` | `longueur` (information), `usage` (plaque sur métal/bois…), `pose.epaisseur_fixable_min/max` (critère de sélection), `pose.consommation_par_m2` |
 | `accessoire_ossature` | `usage` (liaison de montants décalés ou accolés), `renfort_compatible` |
 | `bande_joint` | `type` (papier, armee, plat), `longueur_rouleau` |
 | `isolant` | `lambda`, `r_certifie`, `famille` (verre, roche, bois…), `mise_en_oeuvre` (entre/sous ossature), `reaction_feu` |
@@ -35,6 +35,14 @@ du fournisseur.
 | `electrique_cable` | `section`, `nb_conducteurs`, `usage` |
 | `electrique_appareillage` | `fonction` (interrupteur, prise, va-et-vient…), `type_boite` |
 | `electrique_gaine` | `diametre` |
+| `electrique_boite` | `type_boite` (encastrement, cloison creuse, saillie), `profondeur`, `diametre` |
+| `electrique_connecteur` | `type` (domino, wago…), `nb_entrees` |
+| `plomberie_tube`, `plomberie_raccord`, `plomberie_appareil` | `diametre`, `matiere`, `usage` (eau froide, chaude, évacuation) |
+| `ventilation_gaine`, `ventilation_bouche`, `ventilation_groupe` | `diametre`, `debit` |
+| `paroi_existante` | `lambda`, `r_forfaitaire`, `masse_volumique` (parpaing, brique, pierre, béton, plâtre, bois…) |
+| `fixation_support` | `type` (cheville, vis à béton…), `support` (béton, parpaing, brique), `charge_max`, règle de quantité (pas ou nombre par m) |
+| `bande_resiliente` | `epaisseur`, `largeur`, `longueur_rouleau` ; quantité = longueur de rail/lisse au contact du support |
+| `enduit` | `usage` (joint, finition), `consommation_kg_par_m2` ; quantité = surface de plaques × consommation |
 
 Les clés sont décrites par un **schéma** par catégorie (liste des champs, type, obligatoire) : sert à
 valider l'import, générer le formulaire d'ajout et documenter ce que lit chaque calculateur.

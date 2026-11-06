@@ -17,8 +17,9 @@ Classes pures, sans Doctrine, entièrement testées.
 | `Plan` | origine 3D + vecteurs `u`, `v` ; `versPiece(Point2D): Point3D`, longueur réelle d'un segment 3D, angle de pente |
 | `ConstructeurSurface` | contraintes de sommets (distance depuis un sommet, angle) → polygone `(u, v)` en mm ; voir « Surfaces construites par contraintes » |
 | `GenerateurMurs` | **raccourci de création** : `Polygone` au sol + hauteur → surfaces murs rectangulaires (une par arête) avec leurs contraintes, jonctions angulaires |
+| `GenerateurSol` | **raccourci de création** : `Polygone` au sol → surface sol (type `sol`), créée avec la pièce |
 | `GenerateurPlafond` | **raccourci de création** : plat ou double pente → pans (surfaces avec contraintes) et jonctions (faîtage, noue, sablière) |
-| `ServiceJonctions` | relie deux arêtes, vérifie la longueur égale, calcule le type d'angle |
+| `ServiceJonctions` | relie deux arêtes ou portions d'arêtes (par identifiants de sommets stables), vérifie la longueur égale sauf pour les jonctions de cloison, calcule le type d'angle |
 | `PlacementSurSurface` | positionne un rectangle/polygone dans une surface et vérifie l'inclusion/chevauchement (remplace `OuvertureOverlapChecker` et `PositionsIsValid`) |
 
 Tolérance géométrique : constante unique (1 mm). Aucun `float` pour les positions persistées.
@@ -133,8 +134,9 @@ et `PieceImportService` ne changent pas selon la source.
    `LINE` chaînées avec tolérance, blocs `INSERT` résolus (position, rotation, échelle, nom, attributs),
    conversion d'unités via `$INSUNITS` + choix manuel.
 3. Entités prises en charge : `LWPOLYLINE`, `POLYLINE`/`VERTEX` 2D, `LINE`, `INSERT`/`BLOCK`, `TEXT`/`MTEXT`.
-   `ARC`, `CIRCLE` et les bulges (**courbes**) : le contour est refusé ou signalé en avertissement,
-   aucune approximation. Le reste est listé comme « ignoré » dans le rapport.
+   `ARC`, `CIRCLE` et les bulges (**courbes**) : tout contour qui en contient un est **rejeté** avec le message
+   « murs courbes non pris en charge », sans approximation ; un arc ou cercle hors contour (mobilier, colonne
+   isolée) est ignoré avec un avertissement. Le reste est listé comme « ignoré » dans le rapport.
 
 ### CSV de relevé laser
 

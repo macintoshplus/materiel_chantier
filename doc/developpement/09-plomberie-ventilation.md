@@ -1,14 +1,14 @@
 # Plomberie et ventilation (code)
 
 Connaissance : [08-plomberie-ventilation.md](../connaissances/08-plomberie-ventilation.md). S'appuie
-sur le même socle que l'électricité ([05-electricite.md](05-electricite.md)) : **le socle est écrit
-pour l'électricité en phase 7 puis généralisé ici**, sans réécriture.
+sur le même socle que l'électricité ([05-electricite.md](05-electricite.md)) : **le socle (`Equipement`, `Reseau`, `TypeEquipement`, `CheminementCalculator`) est créé générique dès la phase 7**
+(famille `electrique`) ; cette phase ajoute seulement des familles, types et règles, sans réécriture.
 
 ## Socle commun `src/Reseaux`
 
 | Élément | Rôle |
 |---|---|
-| `Equipement` (entité) | `famille` (`electrique`, `plomberie`, `ventilation`), type, surface porteuse, `u`, `v`, hauteur, paramètres JSON |
+| `Equipement` (entité) | `famille` (`electrique`, `plomberie`, `ventilation`), type, surface porteuse, `u`, `v` (la hauteur sur un mur est `v`), paramètres JSON |
 | `Reseau` (entité) | Groupe d'équipements reliés : circuit électrique, alimentation eau (froide, chaude), évacuation, ventilation |
 | `TypeEquipement` (tag de service) | Code, famille, libellé, matériaux associés (rôle → catégorie catalogue), paramètres |
 | `CheminementCalculator` | Cheminement le long des surfaces entre équipements et point de départ, selon des règles propres à la famille |
@@ -34,7 +34,7 @@ pour l'électricité en phase 7 puis généralisé ici**, sans réécriture.
 
 ## Entités et catalogue
 
-`Equipement` et `Reseau` remplacent `ElementElectrique`/`Circuit` (voir `01-modele-domaine.md`). Nouvelles
+`Equipement` et `Reseau` sont définis dans `01-modele-domaine.md` (il n'existe pas d'entités `ElementElectrique` ni `Circuit`). Nouvelles
 catégories de catalogue : `plomberie_tube`, `plomberie_raccord`, `plomberie_appareil`, `ventilation_gaine`,
 `ventilation_bouche`, `ventilation_groupe`.
 
