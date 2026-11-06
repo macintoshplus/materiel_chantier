@@ -18,6 +18,21 @@ final readonly class PlaqueView
         $this->lecteur = new Lecteur($materiel);
     }
 
+    public function epaisseur(): int
+    {
+        return $this->lecteur->entier('epaisseur');
+    }
+
+    public function largeur(): int
+    {
+        return $this->lecteur->entier('largeur');
+    }
+
+    public function longueur(): int
+    {
+        return $this->lecteur->entier('longueur');
+    }
+
     public function pose(): PoseePlaque
     {
         return new PoseePlaque(

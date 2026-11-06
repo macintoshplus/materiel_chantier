@@ -1,6 +1,6 @@
 # Étape 05a — Moteur de couches et pipeline
 
-> Statut : à faire. Ce fichier est renommé en `.DONE.md` (même commit que le code) quand tous les critères ci-dessous sont cochés et les vérifications vertes. Règles : [_plan-general.md](_plan-general.md#règle-dune-étape).
+> Statut : terminée (vérifiée le 2026-11-06 : phpunit, phpstan niveau 8, schéma en phase). Règles : [_plan-general.md](_plan-general.md#règle-dune-étape).
 
 ## Objectif
 
@@ -147,13 +147,13 @@ profondeur d'ossature et la longueur des vis ; le R total additionne les deux is
 
 ## Critères d'acceptation
 
-- [ ] Les résultats de cloison/doublage restent identiques aux tests de caractérisation de la phase 0 (tolérance sur les arrondis mm).
-- [ ] Ajouter un nouveau système n'exige aucune modification du moteur ni des entités.
-- [ ] Système « 2 isolants croisés + ossature + 2 parements » : les couches s'enchaînent, l'épaisseur cumulée pilote profondeur d'ossature, attaches et vis ; le R total additionne les deux isolants.
-- [ ] Une 2ᵉ couche d'isolant à 90° est coupée perpendiculairement à l'ossature (donc à la 1ʳᵉ couche posée à 0°) ; à 0° elle est parallèle.
-- [ ] Les joints de la 2ᵉ peau de plaques sont décalés de ≥ 0,40 m de ceux de la 1ʳᵉ.
-- [ ] Une couche non épinglée est résolue par spécification ; un article épinglé qui ne la satisfait pas déclenche un avertissement.
-- [ ] L'écran actuel `/doublage/mur` reste accessible jusqu'à ce que l'écran de mur le remplace.
+- [x] Les résultats de cloison/doublage restent identiques aux tests de caractérisation de la phase 0 (tolérance sur les arrondis mm).
+- [x] Ajouter un nouveau système n'exige aucune modification du moteur ni des entités.
+- [x] Système « 2 isolants croisés + ossature + 2 parements » : les couches s'enchaînent, l'épaisseur cumulée pilote profondeur d'ossature, attaches et vis ; le R total additionne les deux isolants.
+- [x] Une 2ᵉ couche d'isolant à 90° est coupée perpendiculairement à l'ossature (donc à la 1ʳᵉ couche posée à 0°) ; à 0° elle est parallèle.
+- [x] Les joints de la 2ᵉ peau de plaques sont décalés de ≥ 0,40 m de ceux de la 1ʳᵉ.
+- [x] Une couche non épinglée est résolue par spécification ; un article épinglé qui ne la satisfait pas déclenche un avertissement.
+- [x] L'écran actuel `/doublage/mur` reste accessible jusqu'à ce que l'écran de mur le remplace.
 
 ## Vérifications automatiques
 
@@ -167,4 +167,12 @@ symfony console doctrine:schema:validate
 
 ## Décisions et écarts
 
-Aucun pour le moment.
+- `IsolantView` est dans `src/Catalogue/Vue` (avec `PlaqueView` et `ProfilView`) et non dans `src/Calcul`.
+- Les calculateurs historiques (cloison, doublage, matériaux) restent sur `Model\Mur`, atteint via `AdaptateurSurface::versMur` ; ils ne sont pas portés sur `SurfaceCalculable`. `MateriauxCalculator` et `OssatureCloisonCalculator` s'appuient désormais sur `OptimiseurCoupes` et `CalepinagePlaques` partagés (caractérisation inchangée).
+- Optimiseur : pas de marge ni de prix à ce stade.
+- Joints : décalage fixe d'une demi-plaque et minimum de 400 mm (v1). Code d'avertissement `layer_joints_too_close`.
+- Le moteur planifie les épaisseurs par catégorie (`isolant` pour la cavité isolée, `plaque_platre` pour les parements). Rôles et emplacements sont des chaînes libres.
+- Les systèmes et calculateurs fournis sont uniquement ceux de test (`tests/Calcul/Systemes`, enregistrés dans `when@test` ; le bloc `when@test` redéclare les `_instanceof`). Aucun système concret de 05b/05c. Plaque de 13 mm dans les tests ; chaque plaque calepinée compte pour une plaque.
+- Pour un système porté par une cloison, le pipeline s'exécute par face. La direction de l'ossature est un paramètre du pipeline (Verticale par défaut).
+- Aucune interface utilisateur n'est ajoutée ; l'écran `/doublage/mur` n'est pas modifié (critère 7 couvert par `DoublageControllerTest`).
+- Non vérifié : le comportement sur une base MySQL/PostgreSQL de production (seule la base de test/dev a été migrée) ; le cas d'une liste vide de longueurs n'est pas comparé à l'ancien calculateur.

@@ -71,6 +71,10 @@ final class Surface
     #[ORM\OneToMany(targetEntity: Ouverture::class, mappedBy: 'surface', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $ouvertures;
 
+    /** @var Collection<int, SystemeApplique> */
+    #[ORM\OneToMany(targetEntity: SystemeApplique::class, mappedBy: 'surface', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $systemes;
+
     public function __construct(
         #[ORM\ManyToOne(targetEntity: Piece::class, inversedBy: 'surfaces')]
         #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
@@ -79,6 +83,7 @@ final class Surface
         private TypeSurface $type,
     ) {
         $this->ouvertures = new ArrayCollection();
+        $this->systemes = new ArrayCollection();
         $piece->ajouterSurface($this);
     }
 
@@ -243,6 +248,21 @@ final class Surface
     public function getOuvertures(): Collection
     {
         return $this->ouvertures;
+    }
+
+    /**
+     * @return Collection<int, SystemeApplique>
+     */
+    public function getSystemes(): Collection
+    {
+        return $this->systemes;
+    }
+
+    public function ajouterSysteme(SystemeApplique $systeme): void
+    {
+        if (!$this->systemes->contains($systeme)) {
+            $this->systemes->add($systeme);
+        }
     }
 
     public function ajouterOuverture(Ouverture $ouverture): void

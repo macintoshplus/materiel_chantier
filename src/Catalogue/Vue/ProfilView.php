@@ -18,6 +18,12 @@ final readonly class ProfilView
         $this->lecteur = new Lecteur($materiel);
     }
 
+    /** Profondeur nominale du profil (mm), portée par sa série. */
+    public function profondeur(): int
+    {
+        return $this->lecteur->entier('serie');
+    }
+
     public function entraxeDefaut(): int
     {
         return $this->lecteur->entier('pose.entraxe_defaut');

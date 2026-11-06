@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Calcul\MessagesCalcul;
 use App\Geometrie\Avertissement;
 use App\Geometrie\MessagesGeometrie;
 use App\Import\MessagesImport;
@@ -22,8 +23,14 @@ final class MessageAvertissement
             $parametres['{{ '.$nom.' }}'] = (string) $valeur;
         }
 
+        $message = match (true) {
+            MessagesImport::existe($avertissement->code) => MessagesImport::message($avertissement->code),
+            MessagesCalcul::existe($avertissement->code) => MessagesCalcul::message($avertissement->code),
+            default => MessagesGeometrie::message($avertissement->code),
+        };
+
         return new TranslatableMessage(
-            MessagesImport::existe($avertissement->code) ? MessagesImport::message($avertissement->code) : MessagesGeometrie::message($avertissement->code),
+            $message,
             $parametres,
             'validators',
         );

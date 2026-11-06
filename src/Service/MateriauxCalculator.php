@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Calcul\Optimisation\OptimiseurCoupes;
 use App\Model\Catalogue\ContientPrixInterface;
 use App\Model\Catalogue\LongueurInterface;
 use App\Model\Chantier\Appuis;
@@ -124,7 +125,7 @@ final class MateriauxCalculator
 
             $longueurTotale = array_sum($groupe['longueurs']);
 
-            $barres = $this->optimiserBarres(
+            $barres = OptimiseurCoupes::barres(
                 $groupe['longueurs'],
                 $materiel->getLongueur()
             );
@@ -168,51 +169,5 @@ final class MateriauxCalculator
     ): void {
 
         $groupes[$categorie]['longueurs'][] = $longueur;
-    }
-
-    /**
-     * Algorithme simple :
-     * - on trie par longueur décroissante
-     * - on remplit chaque barre séquentiellement
-     */
-    /**
-     * @param list<int> $longueurs
-     */
-    private function optimiserBarres(array $longueurs, int $barreStandard): int
-    {
-        rsort($longueurs);
-
-        $barres = [];
-
-        foreach ($longueurs as $longueur) {
-            $placee = false;
-
-            foreach ($barres as &$reste) {
-                if ($longueur <= $reste) {
-                    $reste -= $longueur;
-                    $placee = true;
-                    break;
-                }
-            }
-
-            if (!$placee) {
-                if ($longueur > $barreStandard) {
-                    $nbBarres = intdiv($longueur, $barreStandard);
-                    $reste = $longueur - ($nbBarres * $barreStandard);
-                    for ($i = 0; $i < $nbBarres; $i++) {
-                        $barres[] = 0;
-                    }
-                    if ($reste > 0) {
-                        $longueur = $reste;
-                    } else {
-                        continue;
-                    }
-                }
-
-                $barres[] = $barreStandard - $longueur;
-            }
-        }
-
-        return count($barres);
     }
 }

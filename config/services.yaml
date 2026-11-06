@@ -25,7 +25,44 @@ services:
     _instanceof:
         App\Catalogue\CategorieMateriau:
             tags: ['app.categorie_materiau']
+        App\Calcul\Systeme\DefinitionSysteme:
+            tags: ['app.definition_systeme']
+        App\Calcul\Couche\CalculateurCouche:
+            tags: ['app.calculateur_couche']
 
     App\Catalogue\RegistreCategories:
         arguments:
             $categories: !tagged_iterator app.categorie_materiau
+
+    App\Calcul\Systeme\RegistreSystemes:
+        public: true
+        arguments:
+            $definitions: !tagged_iterator app.definition_systeme
+
+    App\Calcul\Couche\RegistreCalculateurs:
+        public: true
+        arguments:
+            $calculateurs: !tagged_iterator app.calculateur_couche
+
+    App\Calcul\Materiau\SpecificationSerialiseur:
+        public: true
+
+    App\Service\CalculSysteme:
+        public: true
+
+    App\Calcul\Materiau\SourceCandidats: '@App\Repository\MateriauRepository'
+
+when@test:
+    services:
+        # Le bloc when@ est chargé à part : les _instanceof ci-dessus ne s'y appliquent pas.
+        _instanceof:
+            App\Calcul\Systeme\DefinitionSysteme:
+                tags: ['app.definition_systeme']
+            App\Calcul\Couche\CalculateurCouche:
+                tags: ['app.calculateur_couche']
+
+        # Systèmes et calculateurs de test (aucun système concret de 05b/05c) : seul le tag les enregistre.
+        App\Tests\Calcul\Systemes\:
+            resource: '../tests/Calcul/Systemes/'
+            autowire: true
+            autoconfigure: true

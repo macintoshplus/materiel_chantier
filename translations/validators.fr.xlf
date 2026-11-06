@@ -241,6 +241,70 @@
       <trans-unit id="i4d6f09a" resname="The closure gap of {{ gap }} mm was spread over the sides."><source>The closure gap of {{ gap }} mm was spread over the sides.</source><target>L'écart de fermeture de {{ gap }} mm a été réparti sur les côtés.</target></trans-unit>
       <trans-unit id="i4a057e6" resname="Row {{ number }}: the side must be positive and the angle between 1 and 359 degrees."><source>Row {{ number }}: the side must be positive and the angle between 1 and 359 degrees.</source><target>Ligne {{ number }} : le côté doit être positif et l'angle compris entre 1 et 359 degrés.</target></trans-unit>
       <trans-unit id="i4f17acd" resname="The import session has expired: upload the file again."><source>The import session has expired: upload the file again.</source><target>La session d'import a expiré : envoyez à nouveau le fichier.</target></trans-unit>
+      <trans-unit id="mc0" resname="The system &quot;{{ system }}&quot; cannot be applied to a surface of type &quot;{{ type }}&quot;.">
+        <source>The system "{{ system }}" cannot be applied to a surface of type "{{ type }}".</source>
+        <target>Le système « {{ system }} » ne peut pas être appliqué à une surface de type « {{ type }} ».</target>
+      </trans-unit>
+      <trans-unit id="mc1" resname="The parameter &quot;{{ parameter }}&quot; is unknown or has an invalid value.">
+        <source>The parameter "{{ parameter }}" is unknown or has an invalid value.</source>
+        <target>Le paramètre « {{ parameter }} » est inconnu ou sa valeur est invalide.</target>
+      </trans-unit>
+      <trans-unit id="mc2" resname="The layer {{ order }} uses the unknown slot &quot;{{ slot }}&quot;.">
+        <source>The layer {{ order }} uses the unknown slot "{{ slot }}".</source>
+        <target>La couche {{ order }} utilise l'emplacement inconnu « {{ slot }} ».</target>
+      </trans-unit>
+      <trans-unit id="mc3" resname="The layer {{ order }} has the role &quot;{{ role }}&quot; but its slot expects &quot;{{ expected }}&quot;.">
+        <source>The layer {{ order }} has the role "{{ role }}" but its slot expects "{{ expected }}".</source>
+        <target>La couche {{ order }} a le rôle « {{ role }} » mais son emplacement attend « {{ expected }} ».</target>
+      </trans-unit>
+      <trans-unit id="mc4" resname="The position of the layer {{ order }} is not allowed in the slot &quot;{{ slot }}&quot;.">
+        <source>The position of the layer {{ order }} is not allowed in the slot "{{ slot }}".</source>
+        <target>La position de la couche {{ order }} n'est pas autorisée dans l'emplacement « {{ slot }} ».</target>
+      </trans-unit>
+      <trans-unit id="mc5" resname="The orientation {{ orientation }} of the layer {{ order }} is not allowed.">
+        <source>The orientation {{ orientation }} of the layer {{ order }} is not allowed.</source>
+        <target>L'orientation {{ orientation }} de la couche {{ order }} n'est pas autorisée.</target>
+      </trans-unit>
+      <trans-unit id="mc6" resname="The layer {{ order }} is crossed (90 degrees) and cannot be placed between the framing.">
+        <source>The layer {{ order }} is crossed (90 degrees) and cannot be placed between the framing.</source>
+        <target>La couche {{ order }} est croisée (90 degrés) et ne peut pas être placée entre l'ossature.</target>
+      </trans-unit>
+      <trans-unit id="mc7" resname="The layer {{ order }} needs the unknown calculator &quot;{{ calculator }}&quot;.">
+        <source>The layer {{ order }} needs the unknown calculator "{{ calculator }}".</source>
+        <target>La couche {{ order }} demande le calculateur inconnu « {{ calculator }} ».</target>
+      </trans-unit>
+      <trans-unit id="mc8" resname="The layer {{ order }} has neither a material nor a specification.">
+        <source>The layer {{ order }} has neither a material nor a specification.</source>
+        <target>La couche {{ order }} n'a ni matériau ni spécification.</target>
+      </trans-unit>
+      <trans-unit id="mc9" resname="The slot &quot;{{ slot }}&quot; has {{ count }} layer(s), expected between {{ min }} and {{ max }}.">
+        <source>The slot "{{ slot }}" has {{ count }} layer(s), expected between {{ min }} and {{ max }}.</source>
+        <target>L'emplacement « {{ slot }} » contient {{ count }} couche(s), entre {{ min }} et {{ max }} attendues.</target>
+      </trans-unit>
+      <trans-unit id="mc10" resname="No catalogue material satisfies the specification of the layer {{ order }} ({{ role }}).">
+        <source>No catalogue material satisfies the specification of the layer {{ order }} ({{ role }}).</source>
+        <target>Aucun matériau du catalogue ne satisfait la spécification de la couche {{ order }} ({{ role }}).</target>
+      </trans-unit>
+      <trans-unit id="mc11" resname="The pinned material of the layer {{ order }} ({{ role }}) does not satisfy its specification.">
+        <source>The pinned material of the layer {{ order }} ({{ role }}) does not satisfy its specification.</source>
+        <target>Le matériau épinglé de la couche {{ order }} ({{ role }}) ne satisfait pas sa spécification.</target>
+      </trans-unit>
+      <trans-unit id="mc12" resname="The joints of this skin are {{ actual }} mm from those of the previous one (minimum {{ minimum }} mm).">
+        <source>The joints of this skin are {{ actual }} mm from those of the previous one (minimum {{ minimum }} mm).</source>
+        <target>Les joints de cette peau sont à {{ actual }} mm de ceux de la précédente (minimum {{ minimum }} mm).</target>
+      </trans-unit>
+      <trans-unit id="mc13" resname="The insulation ({{ cavity }} mm) is deeper than the framing profile ({{ profile }} mm).">
+        <source>The insulation ({{ cavity }} mm) is deeper than the framing profile ({{ profile }} mm).</source>
+        <target>L'isolant ({{ cavity }} mm) est plus épais que le profil d'ossature ({{ profile }} mm).</target>
+      </trans-unit>
+      <trans-unit id="mc14" resname="A system belongs to exactly one surface or one partition.">
+        <source>A system belongs to exactly one surface or one partition.</source>
+        <target>Un système appartient à exactement une surface ou une cloison.</target>
+      </trans-unit>
+      <trans-unit id="mc15" resname="Only one system can be active per support.">
+        <source>Only one system can be active per support.</source>
+        <target>Un seul système peut être actif par support.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

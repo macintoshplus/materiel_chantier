@@ -13,4 +13,9 @@ enum Direction: string
 {
     case Verticale = 'verticale';
     case Horizontale = 'horizontale';
+
+    public function perpendiculaire(): self
+    {
+        return self::Verticale === $this ? self::Horizontale : self::Verticale;
+    }
 }

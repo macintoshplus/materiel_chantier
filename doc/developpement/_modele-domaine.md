@@ -82,7 +82,7 @@ cavité, direction de l'ossature, calepinage précédent, entraxe retenu, pas de
 de vis), `ConfigurationOssature` (profilé, entraxe, renfort, zone d'application). Immuables, `readonly`.
 
 `DefinitionSysteme` et `EmplacementCouche` ne sont pas des entités : ce sont des services/objets de code
-enregistrés par tag (voir `05a-moteur-couches.md`).
+enregistrés par tag (voir `05a-moteur-couches.DONE.md`).
 
 ## Migration depuis l'existant
 

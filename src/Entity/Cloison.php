@@ -58,6 +58,10 @@ final class Cloison
     #[ORM\OneToMany(targetEntity: Ouverture::class, mappedBy: 'cloison', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $ouvertures;
 
+    /** @var Collection<int, SystemeApplique> */
+    #[ORM\OneToMany(targetEntity: SystemeApplique::class, mappedBy: 'cloison', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $systemes;
+
     public function __construct(
         #[ORM\ManyToOne(targetEntity: Piece::class, inversedBy: 'cloisons')]
         #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
@@ -65,6 +69,7 @@ final class Cloison
     ) {
         $this->faces = new ArrayCollection();
         $this->ouvertures = new ArrayCollection();
+        $this->systemes = new ArrayCollection();
         $piece->ajouterCloison($this);
     }
 
@@ -198,6 +203,21 @@ final class Cloison
     {
         if (!$this->faces->contains($face)) {
             $this->faces->add($face);
+        }
+    }
+
+    /**
+     * @return Collection<int, SystemeApplique>
+     */
+    public function getSystemes(): Collection
+    {
+        return $this->systemes;
+    }
+
+    public function ajouterSysteme(SystemeApplique $systeme): void
+    {
+        if (!$this->systemes->contains($systeme)) {
+            $this->systemes->add($systeme);
         }
     }
 

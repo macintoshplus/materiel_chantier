@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Calcul\Materiau\SourceCandidats;
 use App\Catalogue\MaterielSpecification;
 use App\Entity\Materiau;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -12,7 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @extends ServiceEntityRepository<Materiau>
  */
-final class MateriauRepository extends ServiceEntityRepository
+final class MateriauRepository extends ServiceEntityRepository implements SourceCandidats
 {
     public function __construct(ManagerRegistry $registry)
     {

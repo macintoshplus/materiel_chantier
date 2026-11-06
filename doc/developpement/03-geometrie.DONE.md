@@ -102,7 +102,7 @@ d'ancrage, conservation des ouvertures, projection sur les faces A (inversée) e
 
 #### Épaisseur d'une cloison
 `Cloison.epaisseur` est **dérivée** du système actif, jamais saisie : parement A + ossature + parement B,
-calculée en phase de planification **sans polygone** (voir `05a-moteur-couches.md`). Le profilé est choisi
+calculée en phase de planification **sans polygone** (voir `05a-moteur-couches.DONE.md`). Le profilé est choisi
 sur la **hauteur maximale** de la cloison à l'axe. L'épaisseur est stockée, puis `GenerateurFacesCloison`
 génère les faces. Changer de système, de variante active ou de profilé recalcule l'épaisseur et régénère les
 faces, avec `PlanModification` quand des ouvertures ou des ancrages sont touchés.
@@ -205,7 +205,7 @@ Dans l'éditeur d'un mur :
 - choisir le **mode de pose** de chaque ouverture : *Surface-mounted* (« applique ») ou *Tunnel*. En tunnel, le
   parement fait un **retour vers l'ouverture** : l'aperçu l'affiche (bandes de retour sur les côtés et le haut,
   et en bas pour une fenêtre), et le calcul ajoute les quantités correspondantes (voir
-  `05a-moteur-couches.md`, « Retour de parement »). Un champ « Recess depth » complète la profondeur du
+  `05a-moteur-couches.DONE.md`, « Retour de parement »). Un champ « Recess depth » complète la profondeur du
   retour quand le dormant est en retrait du nu du mur.
 - Après enregistrement, les contrôles signalent chevauchement, sortie de la surface ou distance insuffisante à
   une arête ; ce sont des avertissements, ils n'empêchent pas de poursuivre.

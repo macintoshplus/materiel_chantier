@@ -47,7 +47,7 @@ Priorité de la marge appliquée à un matériau : **chiffrage** (surcharge ponc
 **catégorie** (défaut déclaré dans le schéma de la catégorie) > **défaut global** (0 % tant qu'il n'est pas
 configuré). Les catégories fixent des défauts raisonnables (ex. plaques et isolant plus élevés que la visserie
 en boîte) ; ce sont des **données**, modifiables sans migration. Voir le calcul dans
-`05a-moteur-couches.md`, « Marge de sécurité et arrondi aux lots ».
+`05a-moteur-couches.DONE.md`, « Marge de sécurité et arrondi aux lots ».
 
 ### Entité `Fournisseur`
 
@@ -106,7 +106,7 @@ explicite (pas de valeur par défaut silencieuse).
 
 ### Spécifications
 
-`MaterielSpecification` (objet valeur, voir `05a-moteur-couches.md`) filtre le catalogue :
+`MaterielSpecification` (objet valeur, voir `05a-moteur-couches.DONE.md`) filtre le catalogue :
 `CatalogueRepository::candidats(MaterielSpecification): list<Materiau>`. Les critères portent sur les
 colonnes (dimensions) et sur les clés JSON déclarées dans le schéma de la catégorie (y compris `pose`) ;
 un critère peut référencer le **contexte de calcul** (`{contexte.epaisseurParementsPeau}`), résolu avant

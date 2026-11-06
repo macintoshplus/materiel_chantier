@@ -21,7 +21,7 @@ Entités et migration, `StrategieFournisseur` et implémentations, service de ch
 ## Spécification
 
 Dépend de [01-catalogue.DONE.md](01-catalogue.DONE.md) (fournisseurs, prix) et de
-[05a-moteur-couches.md](05a-moteur-couches.md) (besoins).
+[05a-moteur-couches.DONE.md](05a-moteur-couches.DONE.md) (besoins).
 
 ### Chiffrage
 
@@ -37,7 +37,7 @@ libellé, dimensions copiés), fournisseur, referenceFournisseur, quantiteBesoin
 prixLotTtc, totalTtc, chute, tauxPerte, prixMateriauId (traçabilité).
 
 Quantités : `nombreLots = ceil(quantiteBesoin × (1 + margePct/100) / unitesParLot)` ; voir
-`05a-moteur-couches.md`, « Marge de sécurité et arrondi aux lots ». La marge utilisée est copiée dans la ligne.
+`05a-moteur-couches.DONE.md`, « Marge de sécurité et arrondi aux lots ». La marge utilisée est copiée dans la ligne.
 
 **Livraison** : si le fournisseur a un `frais_livraison_ttc`, une ligne « Livraison » (une par fournisseur utilisé dans le chiffrage, montant copié) s'ajoute au total ; elle **entre dans la comparaison de `MeilleurPrix`** (voir ci-dessous).
 

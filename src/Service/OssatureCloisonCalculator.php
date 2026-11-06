@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Calcul\Calepinage\CalepinagePlaques;
 use App\Model\Catalogue\Montant;
 use App\Model\Chantier\Montant as MontantChantier;
 use App\Model\Catalogue\PlaquePlatre;
@@ -200,39 +201,22 @@ class OssatureCloisonCalculator implements OssatureCalculatorInterface
 
         $plaquePlatres = $contourOuvrant;
 
-        $cols = (int) ceil($largeurMurADoubler / $plaquePlatre->getLargeur());
-        $rows = (int) ceil($mur->getHauteur() / $plaquePlatre->getLongueur());
-
         $id = 1;
+        $calepinage = (new CalepinagePlaques())->calepiner($largeurMurADoubler, $mur->getHauteur(), $plaquePlatre->getLargeur(), $plaquePlatre->getLongueur());
 
-
-        for ($r = 0; $r < $rows; $r++) {
-            for ($c = 0; $c < $cols; $c++) {
-
-                // Position globale plaque
-                $x1 = $c * $plaquePlatre->getLargeur();
-                $y1 = $r * $plaquePlatre->getLongueur();
-
-                $x2 = min($x1 + $plaquePlatre->getLargeur(), $largeurMurADoubler);
-                $y2 = min($y1 + $plaquePlatre->getLongueur(), $mur->getHauteur());
-
-                $width = $x2 - $x1;
-                $height = $y2 - $y1;
-
-                $plaquePlatres[] = new PlaquePlatreChantier(
-                    id: 'plaque ' . $id++ . ' ligne ' . ($r + 1) . ' colonne ' . ($c + 1),
-                    x: $x1,
-                    y: $y1,
-                    longeur: $height,
-                    largeur: $width,
-                    typeJointGauche: $r > 0 ? PlaquePlatreChantier::TYPE_JOINT_ENTRANT : PlaquePlatreChantier::TYPE_JOINT_AUCUN,
-                    typeJointDroit: $width < $plaquePlatre->getLargeur() ? PlaquePlatreChantier::TYPE_JOINT_AUCUN : PlaquePlatreChantier::TYPE_JOINT_ENTRANT,
-                    typeJointHaut: $height < $plaquePlatre->getLongueur() ? PlaquePlatreChantier::TYPE_JOINT_AUCUN : PlaquePlatreChantier::TYPE_JOINT_ENTRANT,
-                    typeJointBas: $c > 0 ? PlaquePlatreChantier::TYPE_JOINT_ENTRANT : PlaquePlatreChantier::TYPE_JOINT_AUCUN,
-                );
-            }
+        foreach ($calepinage->plaques as $p) {
+            $plaquePlatres[] = new PlaquePlatreChantier(
+                id: 'plaque ' . $id++ . ' ligne ' . ($p->ligne + 1) . ' colonne ' . ($p->colonne + 1),
+                x: $p->x,
+                y: $p->y,
+                longeur: $p->hauteur,
+                largeur: $p->largeur,
+                typeJointGauche: $p->ligne > 0 ? PlaquePlatreChantier::TYPE_JOINT_ENTRANT : PlaquePlatreChantier::TYPE_JOINT_AUCUN,
+                typeJointDroit: $p->largeur < $plaquePlatre->getLargeur() ? PlaquePlatreChantier::TYPE_JOINT_AUCUN : PlaquePlatreChantier::TYPE_JOINT_ENTRANT,
+                typeJointHaut: $p->hauteur < $plaquePlatre->getLongueur() ? PlaquePlatreChantier::TYPE_JOINT_AUCUN : PlaquePlatreChantier::TYPE_JOINT_ENTRANT,
+                typeJointBas: $p->colonne > 0 ? PlaquePlatreChantier::TYPE_JOINT_ENTRANT : PlaquePlatreChantier::TYPE_JOINT_AUCUN,
+            );
         }
-
 
         return [
             'rails' => $rails,
